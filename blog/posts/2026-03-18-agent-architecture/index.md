@@ -1,10 +1,11 @@
 ---
 title: Agent 架构解析：ReAct、Plan-and-Execute 与 Multi-Agent
 date: 2026-03-18
+category: Agent随笔
+featured: true
 tags: [Architecture, Planning]
 excerpt: 目前主流的 Agent 架构有三种范式：ReAct 的思考-行动循环、Plan-and-Execute 的先规划后执行、以及最近火热的 Multi-Agent 协作。本文通过流程图与代码示例，对比三种架构的优劣与适用场景。
 readTime: 12 min
-cover: assets/img/post-cover-arch.jpg
 ---
 
 在上一篇文章中，我们定义了 Agent 的基本概念：一个由 LLM 驱动的感知-规划-执行-反思循环。但具体如何组织这个循环，存在多条技术路径。本文将深入分析目前最主流的三种架构。

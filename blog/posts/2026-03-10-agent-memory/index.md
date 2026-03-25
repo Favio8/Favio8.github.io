@@ -1,10 +1,11 @@
 ---
 title: Agent 的记忆系统：从短期到长期的全链路设计
 date: 2026-03-10
+category: Agent随笔
+featured: false
 tags: [Memory, Architecture]
 excerpt: 记忆是 Agent 智能的核心。一个好的记忆系统需要同时处理即时上下文、历史摘要与长期知识持久化。本文探讨如何在资源受限的条件下，设计一个高效、可插拔的记忆存储与检索架构。
 readTime: 10 min
-cover: assets/img/post-cover-memory.jpg
 ---
 
 如果说推理是 Agent 的"大脑"，那么记忆就是 Agent 的"硬盘"。没有记忆的 Agent，每次交互都是从零开始；有了记忆，Agent 才能在多次会话中积累经验、保持一致性，完成真正有意义的长程任务。

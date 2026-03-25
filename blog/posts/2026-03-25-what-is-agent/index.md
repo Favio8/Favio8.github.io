@@ -1,10 +1,11 @@
 ---
 title: 什么是 Agent？为什么大模型需要它？
 date: 2026-03-25
+category: Agent随笔
+featured: true
 tags: [Architecture]
 excerpt: 从 ChatGPT 到 AutoGPT，我们看到了大模型能力的飞跃，但单纯的语言理解已经无法满足复杂任务的需求。本文从零开始，梳理 Agent 的定义、它解决的核心问题，以及为什么 Agent 是 LLM 发展的下一场革命。
 readTime: 8 min
-cover: assets/img/post-cover-what-is-agent.jpg
 ---
 
 ## 一、Agent 的定义

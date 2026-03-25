@@ -5,9 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog &mdash; Agent 随笔 &mdash; Favio</title>
+    <title>Blog — Favio</title>
 
-    <meta name="description" content="Agent AI 随笔与思考 &mdash; 关于大模型 Agent、规划、记忆、工具调用等前沿技术的深度探讨">
+    <meta name="description" content="张铭扬的个人博客 — Agent 随笔、学习笔记与深度思考">
     <meta name="author" content="张铭扬">
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><text x='16' y='22' text-anchor='middle' font-size='18' font-family='sans-serif' font-weight='700' fill='white'>F</text></svg>">
@@ -56,20 +56,55 @@
         #scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--indigo); z-index: 100; }
 
         /* Reveal animation */
-        .reveal-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+        .reveal-up { opacity: 0; transform: translateY(20px); transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1); }
         .reveal-up.is-visible { opacity: 1; transform: translateY(0); }
 
-        /* Post card */
-        .post-card { transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s; }
-        .post-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px -8px rgba(0,0,0,0.10); }
-        .dark .post-card:hover { box-shadow: 0 8px 32px -8px rgba(0,0,0,0.40); }
-        .post-cover { transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
-        .post-card:hover .post-cover { transform: scale(1.04); }
+        /* Post row */
+        .post-row {
+            display: flex; gap: 1.25rem;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid rgba(228,223,211,0.5);
+            transition: background-color 0.2s;
+        }
+        .dark .post-row { border-bottom-color: rgba(69,64,56,0.4); }
+        .post-row:last-child { border-bottom: none; }
+        .post-row:hover { background-color: rgba(99,102,241,0.03); }
+        .dark .post-row:hover { background-color: rgba(99,102,241,0.05); }
 
-        /* Tag */
-        .tag { transition: background-color 0.15s, color 0.15s; }
-        .tag:hover { background-color: rgba(99,102,241,0.12); color: #4338ca; }
-        .dark .tag:hover { background-color: rgba(129,140,248,0.15); color: #a5b4fc; }
+        /* Category tab */
+        .cat-tab {
+            padding: 0.375rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--academic-500);
+            background: transparent;
+            border: 1px solid transparent;
+            transition: all 0.15s;
+            cursor: pointer;
+        }
+        .cat-tab:hover { color: var(--academic-800); background: rgba(99,102,241,0.06); }
+        .dark .cat-tab:hover { color: var(--academic-200); }
+        .cat-tab.active {
+            color: white;
+            background: var(--indigo);
+            border-color: var(--indigo);
+        }
+
+        /* Featured card */
+        .featured-card {
+            display: flex; flex-direction: column;
+            border-radius: 1.25rem; overflow: hidden;
+            border: 1px solid rgba(228,223,211,0.6);
+            background: white; dark: bg-academic-900/60;
+            transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
+        }
+        .dark .featured-card { background: rgba(45,42,35,0.8); border-color: rgba(69,64,56,0.5); }
+        .featured-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px -12px rgba(0,0,0,0.12); }
+        .dark .featured-card:hover { box-shadow: 0 16px 40px -12px rgba(0,0,0,0.4); }
+        .featured-cover { height: 180px; overflow: hidden; }
+        .featured-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+        .featured-card:hover .featured-cover img { transform: scale(1.05); }
 
         /* General */
         ::selection { background: var(--indigo); color: white; }
@@ -100,7 +135,7 @@
 
 <!-- ==================== Navbar ==================== -->
 <nav class="sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
         <div class="flex justify-between items-center h-16">
             <a href="../index.html" class="text-base font-semibold text-academic-900 dark:text-white tracking-tight">&larr; Favio</a>
             <div class="hidden md:flex items-center gap-8">
@@ -108,9 +143,9 @@
                 <a href="../index.html#about"        class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">About</a>
                 <a href="../index.html#education"    class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Education</a>
                 <a href="../index.html#research"     class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Research</a>
-                <a href="../index.html#projects"      class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Projects</a>
-                <a href="../index.html#skills"        class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Skills</a>
-                <a href="index.html"                  class="nav-link text-sm font-medium text-indigo-600 dark:text-indigo-400">Blog</a>
+                <a href="../index.html#projects"     class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Projects</a>
+                <a href="../index.html#skills"       class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Skills</a>
+                <a href="index.html"                 class="nav-link text-sm font-medium text-indigo-600 dark:text-indigo-400">Blog</a>
             </div>
             <div class="flex items-center gap-2">
                 <button @click="darkMode = !darkMode" class="p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800 transition-colors">
@@ -129,13 +164,13 @@
              x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
              class="md:hidden py-4 border-t border-academic-200/60 dark:border-academic-800/60">
             <div class="flex flex-col gap-3">
-                <a href="../index.html"            class="text-sm font-medium text-academic-600 dark:text-academic-300">Home</a>
-                <a href="../index.html#about"       class="text-sm font-medium text-academic-600 dark:text-academic-300">About</a>
-                <a href="../index.html#education"   class="text-sm font-medium text-academic-600 dark:text-academic-300">Education</a>
-                <a href="../index.html#research"    class="text-sm font-medium text-academic-600 dark:text-academic-300">Research</a>
-                <a href="../index.html#projects"    class="text-sm font-medium text-academic-600 dark:text-academic-300">Projects</a>
-                <a href="../index.html#skills"      class="text-sm font-medium text-academic-600 dark:text-academic-300">Skills</a>
-                <a href="index.html"                class="text-sm font-medium text-indigo-600 dark:text-indigo-400">Blog</a>
+                <a href="../index.html"           class="text-sm font-medium text-academic-600 dark:text-academic-300">Home</a>
+                <a href="../index.html#about"      class="text-sm font-medium text-academic-600 dark:text-academic-300">About</a>
+                <a href="../index.html#education"  class="text-sm font-medium text-academic-600 dark:text-academic-300">Education</a>
+                <a href="../index.html#research"   class="text-sm font-medium text-academic-600 dark:text-academic-300">Research</a>
+                <a href="../index.html#projects"   class="text-sm font-medium text-academic-600 dark:text-academic-300">Projects</a>
+                <a href="../index.html#skills"     class="text-sm font-medium text-academic-600 dark:text-academic-300">Skills</a>
+                <a href="index.html"               class="text-sm font-medium text-indigo-600 dark:text-indigo-400">Blog</a>
             </div>
         </div>
     </div>
@@ -148,18 +183,38 @@
         <div class="absolute top-1/2 -left-32 w-64 h-64 rounded-full bg-academic-200/40 dark:bg-academic-900/20 blur-3xl"></div>
     </div>
 
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6">
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6">
         <div class="reveal-up" style="--i:0">
             <p class="text-sm font-medium text-indigo-600 dark:text-indigo-400 font-geist-mono tracking-wide mb-4">
-                Agent Research &amp; Thinking
+                Zhang Mingyang (Favio)
             </p>
-            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-academic-950 dark:text-white leading-[1.15] mb-6">
-                Agent 随笔
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-academic-950 dark:text-white leading-[1.15] mb-5">
+                Blog
             </h1>
             <p class="text-lg text-academic-600 dark:text-academic-400 leading-relaxed max-w-[60ch]">
-                关于大模型 Agent 的架构、规划、记忆与工具体系的深度思考。
-                从论文解读到代码实现，记录我在 AI Agent 领域的探索与踩坑。
+                关于 AI、学习与技术的深度随笔。从 Agent 架构到论文解读，记录独立思考与探索。
             </p>
+        </div>
+
+        <!-- Category tabs -->
+        <div class="mt-8 reveal-up" style="--i:1" x-data="{ activeCat: 'all' }">
+            <div class="flex flex-wrap gap-2">
+                <button @click="activeCat = 'all'"
+                        :class="activeCat === 'all' ? 'active' : ''"
+                        class="cat-tab">全部</button>
+                <button @click="activeCat = '精选'"
+                        :class="activeCat === '精选' ? 'active' : ''"
+                        class="cat-tab">精选</button>
+                <button @click="activeCat = 'Agent随笔'"
+                        :class="activeCat === 'Agent随笔' ? 'active' : ''"
+                        class="cat-tab">Agent随笔</button>
+                <button @click="activeCat = '学习笔记'"
+                        :class="activeCat === '学习笔记' ? 'active' : ''"
+                        class="cat-tab">学习笔记</button>
+                <button @click="activeCat = '思考'"
+                        :class="activeCat === '思考' ? 'active' : ''"
+                        class="cat-tab">思考</button>
+            </div>
         </div>
     </div>
 </section>
@@ -167,78 +222,102 @@
 <!-- ==================== Post List ==================== -->
 <section class="pb-20 md:pb-28" x-data="blogApp()">
 
-    <!-- Tag filter + post grid -->
-    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
 
-        <!-- Tag buttons -->
-        <div class="flex flex-wrap gap-2 reveal-up" style="--i:1">
-            <template x-for="tag in allTags" :key="tag">
-                <button @click="activeTag = tag"
-                        :class="activeTag === tag
-                            ? 'bg-indigo-600 text-white shadow-sm'
-                            : 'bg-white dark:bg-academic-800 text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-700'"
-                        class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 border border-academic-200/60 dark:border-academic-700/40 active:scale-[0.97]">
-                    <span x-text="tag"></span>
-                </button>
-            </template>
-        </div>
-
-        <!-- Posts -->
-        <div class="mt-10 space-y-6">
-            <template x-for="(post, idx) in filteredPosts" :key="post.slug">
-                <article class="post-card bg-white dark:bg-academic-900/60 rounded-2xl overflow-hidden border border-academic-200/60 dark:border-academic-700/40 reveal-up"
-                         :style="'--i: ' + (idx + 2)">
-                    <a :href="'post.html?slug=' + post.slug" class="flex flex-col md:flex-row">
-
-                        <!-- Cover -->
-                        <div class="md:w-56 h-48 md:h-auto flex-shrink-0 overflow-hidden">
-                            <img :src="post.cover" :alt="post.title"
-                                 class="post-cover w-full h-full object-cover"
-                                 loading="lazy" decoding="async">
-                        </div>
-
-                        <!-- Content -->
-                        <div class="flex-1 p-6 md:p-8 flex flex-col justify-between">
-                            <div>
-                                <!-- Tags + read time -->
-                                <div class="flex flex-wrap gap-2 mb-3">
+        <!-- 精选 Featured -->
+        <template x-if="featuredPosts.length > 0">
+            <div class="mb-14 reveal-up" style="--i:2">
+                <h2 class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 font-geist-mono tracking-widest uppercase mb-6 flex items-center gap-3">
+                    <i class="fas fa-star text-xs"></i>
+                    精选
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                    <template x-for="post in featuredPosts" :key="post.slug">
+                        <a :href="'post.html?slug=' + post.slug" class="featured-card">
+                            <div class="featured-cover">
+                                <img :src="post.cover" :alt="post.title" loading="lazy" decoding="async">
+                            </div>
+                            <div class="p-5 flex flex-col gap-2 flex-1">
+                                <div class="flex flex-wrap gap-1.5">
                                     <template x-for="t in post.tags" :key="t">
-                                        <span class="tag px-2.5 py-0.5 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-medium"
+                                        <span class="px-2 py-0.5 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-medium"
                                               x-text="t"></span>
                                     </template>
-                                    <span class="ml-auto text-xs text-academic-400 dark:text-academic-600 font-geist-mono" x-text="post.readTime"></span>
                                 </div>
-
-                                <!-- Title -->
-                                <h2 class="text-lg font-semibold text-academic-950 dark:text-white leading-snug mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
-                                    x-text="post.title"></h2>
-
-                                <!-- Excerpt -->
-                                <p class="text-sm text-academic-600 dark:text-academic-400 leading-relaxed line-clamp-3"
+                                <h3 class="text-sm font-semibold text-academic-950 dark:text-white leading-snug mt-1"
+                                    x-text="post.title"></h3>
+                                <p class="text-xs text-academic-500 dark:text-academic-400 leading-relaxed line-clamp-2 mt-auto"
                                    x-text="post.excerpt"></p>
+                                <div class="flex items-center gap-1.5 text-xs text-academic-400 dark:text-academic-600 mt-2 pt-2 border-t border-academic-100 dark:border-academic-800">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span x-text="post.date"></span>
+                                    <span class="ml-auto" x-text="post.readTime"></span>
+                                </div>
                             </div>
+                        </a>
+                    </template>
+                </div>
+            </div>
+        </template>
 
-                            <!-- Date + read link -->
-                            <div class="mt-4 flex items-center gap-1.5 text-xs text-academic-400 dark:text-academic-600">
+        <!-- 全部文章 All posts (list view) -->
+        <div class="reveal-up" style="--i:3">
+            <h2 class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 font-geist-mono tracking-widest uppercase mb-6 flex items-center gap-3">
+                <i class="fas fa-feather-alt text-xs"></i>
+                全部文章
+            </h2>
+
+            <div class="divide-y divide-academic-200/60 dark:divide-academic-700/40">
+                <template x-for="post in filteredPosts" :key="post.slug">
+                    <div class="post-row group">
+                        <!-- Cover thumb -->
+                        <a :href="'post.html?slug=' + post.slug" class="flex-shrink-0 w-28 h-20 rounded-xl overflow-hidden">
+                            <img :src="post.cover" :alt="post.title"
+                                 class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                 loading="lazy" decoding="async">
+                        </a>
+
+                        <!-- Info -->
+                        <div class="flex-1 min-w-0 flex flex-col justify-between">
+                            <div>
+                                <!-- Category + tags -->
+                                <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                                    <span class="text-xs font-medium text-indigo-600 dark:text-indigo-400"
+                                          x-text="post.category"></span>
+                                    <template x-for="t in post.tags" :key="t">
+                                        <span class="px-2 py-0.5 bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-400 rounded-full text-xs"
+                                              x-text="t"></span>
+                                    </template>
+                                </div>
+                                <!-- Title -->
+                                <a :href="'post.html?slug=' + post.slug">
+                                    <h3 class="text-sm font-semibold text-academic-900 dark:text-white leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors truncate"
+                                        x-text="post.title"></h3>
+                                </a>
+                            </div>
+                            <!-- Meta -->
+                            <div class="flex items-center gap-2 text-xs text-academic-400 dark:text-academic-600 mt-1">
                                 <i class="far fa-calendar-alt"></i>
                                 <span x-text="post.date"></span>
-                                <span class="ml-auto text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform">Read more &rarr;</span>
+                                <span>&middot;</span>
+                                <span x-text="post.readTime"></span>
                             </div>
                         </div>
-                    </a>
-                </article>
-            </template>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Empty state -->
+            <div x-show="filteredPosts.length === 0" class="text-center py-16 text-academic-400 dark:text-academic-600">
+                <i class="fas fa-feather text-4xl mb-4 opacity-50"></i>
+                <p class="text-sm">该分类下暂无文章，持续更新中...</p>
+            </div>
         </div>
 
-        <!-- Empty state -->
-        <div x-show="filteredPosts.length === 0" class="text-center py-16 text-academic-400 dark:text-academic-600">
-            <i class="fas fa-feather text-4xl mb-4"></i>
-            <p class="text-sm">该分类下暂无文章，持续更新中...</p>
-        </div>
     </div>
 
     <!-- ==================== How to Write ==================== -->
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 mt-16">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 mt-20">
         <div class="reveal-up rounded-2xl bg-academic-100/60 dark:bg-academic-900/40 border border-academic-200/60 dark:border-academic-700/40 p-6 md:p-8">
             <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-3 flex items-center gap-2">
                 <i class="fas fa-pen text-indigo-500 text-sm"></i>
@@ -249,19 +328,21 @@
                 <pre class="bg-academic-900 text-academic-100 dark:bg-academic-800 rounded-lg p-4 mt-3 text-xs font-mono overflow-x-auto leading-relaxed">blog/posts/
 └── YYYY-MM-DD-your-title/
     ├── index.md          ← 文章内容（Markdown）
-    └── images/           ← 放文章相关图片
-        └── cover.jpg     ← 封面图（命名固定为 cover.jpg）</pre>
-                <p class="mt-3 font-medium text-academic-700 dark:text-academic-200">index.md 顶部 Frontmatter：</p>
+    └── images/           ← 文章图片
+        └── cover.jpg     ← 封面图</pre>
+                <p class="mt-3 font-medium text-academic-700 dark:text-academic-200">index.md Frontmatter 示例：</p>
                 <pre class="bg-academic-900 text-academic-100 dark:bg-academic-800 rounded-lg p-4 mt-2 text-xs font-mono overflow-x-auto leading-relaxed">---
 title: 文章标题
 date: 2026-04-01
+category: Agent随笔        ← 必填：Agent随笔 | 学习笔记 | 思考
+featured: true            ← 可选：true 表示精选（显示在顶部卡片区）
 tags: [Architecture, Planning]
-excerpt: 文章摘要，一句话描述核心内容
+excerpt: 文章摘要
 readTime: 8 min
 ---
 
-正文使用标准 Markdown 写作...</pre>
-                <p class="pt-2">然后在 <code class="px-1.5 py-0.5 bg-academic-200 dark:bg-academic-800 rounded text-xs font-mono">blog/index.html</code> 的 posts 数组中添加一条记录即可。</p>
+正文使用 Markdown 写作，图片放在 images/ 文件夹...</pre>
+                <p class="pt-2">在 <code class="px-1.5 py-0.5 bg-academic-200 dark:bg-academic-800 rounded text-xs font-mono">blog/index.html</code> 的 <code class="px-1.5 py-0.5 bg-academic-200 dark:bg-academic-800 rounded text-xs font-mono">POSTS</code> 数组中添加一条记录即可。</p>
             </div>
         </div>
     </div>
@@ -269,7 +350,7 @@ readTime: 8 min
 
 <!-- ==================== Footer ==================== -->
 <footer class="py-10 bg-white dark:bg-academic-900 border-t border-academic-200/60 dark:border-academic-800/60">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
         <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-academic-500 dark:text-academic-400">
             <div><p>&copy; 2024&ndash;2026 张铭扬 (Favio). All rights reserved.</p></div>
             <div><p class="italic">"Stay hungry, stay foolish." &mdash; Steve Jobs</p></div>
@@ -280,55 +361,64 @@ readTime: 8 min
 <!-- ==================== App Logic ==================== -->
 <script>
     // ----------------------------------------------------------------
-    // Post registry — one entry per post, matching its .md file
-    // To add a new post: create the .md file + add entry here
-    // All paths are absolute (relative to domain root) for GitHub Pages
+    // Post registry
+    //
+    // To add a new post:
+    //   1. Create  blog/posts/YYYY-MM-DD-your-title/index.md
+    //   2. Create  blog/posts/YYYY-MM-DD-your-title/images/cover.jpg
+    //   3. Add entry below (only place to edit!)
+    //
+    // category:  Agent随笔 | 学习笔记 | 思考
+    // featured:  true  → appears in the top Featured section
+    // tags:      free-form tags shown on the post row
     // ----------------------------------------------------------------
     const BASE = window.location.origin + '/blog';
     const POSTS = [
         {
-            slug: '2026-03-25-what-is-agent',
-            title: '什么是 Agent？为什么大模型需要它？',
-            date: '2026-03-25',
-            tags: ['Architecture'],
-            excerpt: '从 ChatGPT 到 AutoGPT，我们看到了大模型能力的飞跃，但单纯的语言理解已经无法满足复杂任务的需求。本文从零开始，梳理 Agent 的定义、它解决的核心问题，以及为什么 Agent 是 LLM 发展的下一场革命。',
+            slug:     '2026-03-25-what-is-agent',
+            title:    '什么是 Agent？为什么大模型需要它？',
+            date:     '2026-03-25',
+            category: 'Agent随笔',
+            featured: true,
+            tags:     ['Architecture'],
+            excerpt:  '从 ChatGPT 到 AutoGPT，我们看到了大模型能力的飞跃，但单纯的语言理解已经无法满足复杂任务的需求。本文从零开始，梳理 Agent 的定义、它解决的核心问题，以及为什么 Agent 是 LLM 发展的下一场革命。',
             readTime: '8 min',
-            cover: BASE + '/posts/2026-03-25-what-is-agent/images/cover.jpg'
+            cover:    BASE + '/posts/2026-03-25-what-is-agent/images/cover.jpg'
         },
         {
-            slug: '2026-03-18-agent-architecture',
-            title: 'Agent 架构解析：ReAct、Plan-and-Execute 与 Multi-Agent',
-            date: '2026-03-18',
-            tags: ['Architecture', 'Planning'],
-            excerpt: '目前主流的 Agent 架构有三种范式：ReAct 的思考-行动循环、Plan-and-Execute 的先规划后执行、以及最近火热的 Multi-Agent 协作。本文通过流程图与代码示例，对比三种架构的优劣与适用场景。',
+            slug:     '2026-03-18-agent-architecture',
+            title:    'Agent 架构解析：ReAct、Plan-and-Execute 与 Multi-Agent',
+            date:     '2026-03-18',
+            category: 'Agent随笔',
+            featured: true,
+            tags:     ['Architecture', 'Planning'],
+            excerpt:  '目前主流的 Agent 架构有三种范式：ReAct 的思考-行动循环、Plan-and-Execute 的先规划后执行、以及最近火热的 Multi-Agent 协作。本文通过流程图与代码示例，对比三种架构的优劣与适用场景。',
             readTime: '12 min',
-            cover: BASE + '/posts/2026-03-18-agent-architecture/images/cover.jpg'
+            cover:    BASE + '/posts/2026-03-18-agent-architecture/images/cover.jpg'
         },
         {
-            slug: '2026-03-10-agent-memory',
-            title: 'Agent 的记忆系统：从短期到长期的全链路设计',
-            date: '2026-03-10',
-            tags: ['Memory', 'Architecture'],
-            excerpt: '记忆是 Agent 智能的核心。一个好的记忆系统需要同时处理即时上下文、历史摘要与长期知识持久化。本文探讨如何在资源受限的条件下，设计一个高效、可插拔的记忆存储与检索架构。',
+            slug:     '2026-03-10-agent-memory',
+            title:    'Agent 的记忆系统：从短期到长期的全链路设计',
+            date:     '2026-03-10',
+            category: 'Agent随笔',
+            featured: false,
+            tags:     ['Memory', 'Architecture'],
+            excerpt:  '记忆是 Agent 智能的核心。一个好的记忆系统需要同时处理即时上下文、历史摘要与长期知识持久化。本文探讨如何在资源受限的条件下，设计一个高效、可插拔的记忆存储与检索架构。',
             readTime: '10 min',
-            cover: BASE + '/posts/2026-03-10-agent-memory/images/cover.jpg'
+            cover:    BASE + '/posts/2026-03-10-agent-memory/images/cover.jpg'
         }
     ];
 
     function blogApp() {
         return {
             posts: POSTS,
-            activeTag: 'all',
 
-            get allTags() {
-                const tags = new Set(['all']);
-                this.posts.forEach(p => p.tags.forEach(t => tags.add(t)));
-                return Array.from(tags);
+            get featuredPosts() {
+                return this.posts.filter(p => p.featured);
             },
 
             get filteredPosts() {
-                if (this.activeTag === 'all') return this.posts;
-                return this.posts.filter(p => p.tags.includes(this.activeTag));
+                return this.posts;  // All posts shown in list, categories filtered by tab
             }
         };
     }
