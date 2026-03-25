@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }"
+      x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))"
+      :class="{ 'dark': darkMode }">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" x-bind:content="post.excerpt || 'Favio Blog'">
+    <title x-text="post.title + ' — Favio Blog'">Blog Post — Favio</title>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><text x='16' y='22' text-anchor='middle' font-size='18' font-family='sans-serif' font-weight='700' fill='white'>F</text></svg>">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --academic-50: #faf9f7; --academic-100: #f2efe9; --academic-200: #e4dfd3;
+            --academic-300: #cfc7b5; --academic-400: #b5aa90; --academic-500: #9c8e72;
+            --academic-600: #7d7260; --academic-700: #5f574a; --academic-800: #454038;
+            --academic-900: #2d2a23; --academic-950: #1a1814; --indigo: #6366f1;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Geist', system-ui, sans-serif;
+            background-color: var(--academic-50);
+            color: var(--academic-900);
+            -webkit-font-smoothing: antialiased;
+        }
+        .dark { background-color: var(--academic-950); color: var(--academic-100); }
+
+        nav {
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            background: rgba(250,249,247,0.82);
+            border-bottom: 1px solid rgba(228,223,211,0.6);
+        }
+        .dark nav { background: rgba(26,24,20,0.82); border-bottom-color: rgba(69,64,56,0.6); }
+        .nav-link { position: relative; }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+            height: 1.5px; background: currentColor;
+            transform: scaleX(0); transition: transform 0.2s cubic-bezier(0.16,1,0.3,1);
+            transform-origin: left;
+        }
+        .nav-link:hover::after { transform: scaleX(1); }
+
+        #scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--indigo); z-index: 100; }
+
+        /* Reading progress */
+        .reading-progress { height: 3px; background: var(--indigo); width: 0%; transition: width 0.1s linear; }
+
+        /* Markdown content styles */
+        .prose-blog h1 { font-size: 2rem; font-weight: 700; margin-top: 0; margin-bottom: 1.5rem; color: var(--academic-950); line-height: 1.2; }
+        .dark .prose-blog h1 { color: var(--academic-50); }
+
+        .prose-blog h2 {
+            font-size: 1.35rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.875rem;
+            color: var(--academic-950); padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--academic-200);
+        }
+        .dark .prose-blog h2 { color: var(--academic-50); border-bottom-color: var(--academic-800); }
+
+        .prose-blog h3 {
+            font-size: 1.1rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.625rem;
+            color: var(--academic-800);
+        }
+        .dark .prose-blog h3 { color: var(--academic-200); }
+
+        .prose-blog p { margin-bottom: 1.25rem; line-height: 1.85; color: var(--academic-700); }
+        .dark .prose-blog p { color: var(--academic-300); }
+
+        .prose-blog ul, .prose-blog ol { margin-bottom: 1.25rem; padding-left: 1.5rem; }
+        .prose-blog li { margin-bottom: 0.5rem; color: var(--academic-700); line-height: 1.75; }
+        .dark .prose-blog li { color: var(--academic-300); }
+
+        .prose-blog code {
+            font-family: 'Geist Mono', monospace; font-size: 0.875em;
+            background: var(--academic-100); padding: 0.15em 0.4em; border-radius: 4px;
+            color: var(--academic-900);
+        }
+        .dark .prose-blog code { background: var(--academic-800); color: var(--academic-200); }
+
+        .prose-blog pre {
+            background: var(--academic-900); color: var(--academic-100);
+            padding: 1.25rem; border-radius: 12px; overflow-x: auto;
+            margin-bottom: 1.5rem; font-size: 0.875rem; line-height: 1.7;
+        }
+        .dark .prose-blog pre { background: var(--academic-800); }
+
+        .prose-blog blockquote {
+            border-left: 3px solid var(--indigo); padding-left: 1.25rem;
+            margin: 1.5rem 0; color: var(--academic-600); font-style: italic;
+        }
+        .dark .prose-blog blockquote { color: var(--academic-400); }
+
+        .prose-blog a { color: var(--indigo); text-decoration: underline; text-underline-offset: 3px; }
+        .prose-blog strong { font-weight: 600; color: var(--academic-900); }
+        .dark .prose-blog strong { color: var(--academic-50); }
+        .prose-blog em { font-style: italic; }
+        .prose-blog hr { border: none; border-top: 1px solid var(--academic-200); margin: 2rem 0; }
+        .dark .prose-blog hr { border-top-color: var(--academic-800); }
+
+        .prose-blog table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .prose-blog th { background: var(--academic-100); padding: 0.625rem 1rem; text-align: left; font-weight: 600; border: 1px solid var(--academic-200); }
+        .prose-blog td { padding: 0.625rem 1rem; border: 1px solid var(--academic-200); }
+        .dark .prose-blog th { background: var(--academic-800); border-color: var(--academic-700); }
+        .dark .prose-blog td { border-color: var(--academic-700); }
+
+        ::selection { background: var(--indigo); color: white; }
+        a:focus-visible, button:focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; border-radius: 4px; }
+        ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--academic-300); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--academic-500); }
+        .dark ::-webkit-scrollbar-thumb { background: var(--academic-700); }
+        .dark ::-webkit-scrollbar-thumb:hover { background: var(--academic-600); }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { fontFamily: { geist: ['Geist','system-ui','sans-serif'], 'geist-mono': ['Geist Mono','monospace'] } } }
+        }
+    </script>
+</head>
+
+<body x-data="postPage()" x-init="init()">
+
+<div id="scroll-progress" style="width:0%"></div>
+
+<!-- Navbar -->
+<nav class="sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="flex justify-between items-center h-16">
+            <a href="index.html" class="text-base font-semibold text-academic-900 dark:text-white tracking-tight">
+                &larr; Blog
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="../index.html"              class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Home</a>
+                <a href="../index.html#about"       class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">About</a>
+                <a href="../index.html#research"    class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Research</a>
+                <a href="../index.html#projects"     class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Projects</a>
+                <a href="index.html"                 class="nav-link text-sm font-medium text-indigo-600 dark:text-indigo-400">Blog</a>
+            </div>
+            <div class="flex items-center gap-2">
+                <button @click="darkMode = !darkMode" class="p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800 transition-colors">
+                    <i x-show="darkMode"  class="fas fa-sun text-base"></i>
+                    <i x-show="!darkMode" class="fas fa-moon text-base"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Loading state -->
+<template x-if="loading">
+    <div class="flex justify-center items-center min-h-[60vh]">
+        <div class="flex flex-col items-center gap-4 text-academic-400">
+            <i class="fas fa-circle-notch fa-spin text-2xl text-indigo-500"></i>
+            <p class="text-sm">加载文章中...</p>
+        </div>
+    </div>
+</template>
+
+<!-- Error state -->
+<template x-if="!loading && error">
+    <div class="flex flex-col items-center justify-center min-h-[60vh] gap-4 text-center px-4">
+        <i class="fas fa-triangle-exclamation text-3xl text-academic-400"></i>
+        <h2 class="text-xl font-semibold text-academic-800 dark:text-white">文章加载失败</h2>
+        <p class="text-sm text-academic-500" x-text="error"></p>
+        <a href="index.html" class="mt-2 inline-flex items-center gap-2 text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
+            <i class="fas fa-arrow-left text-xs"></i> 返回博客列表
+        </a>
+    </div>
+</template>
+
+<!-- Article -->
+<template x-if="!loading && !error">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+
+        <!-- Sticky reading progress -->
+        <div class="reading-progress sticky top-16 z-40 mb-10" :style="'width:' + scrollProgress + '%'"></div>
+
+        <!-- Header -->
+        <header class="mb-10">
+            <!-- Tags + read time -->
+            <div class="flex flex-wrap gap-2 mb-5">
+                <template x-for="tag in post.tags" :key="tag">
+                    <span class="px-2.5 py-0.5 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-medium"
+                          x-text="tag"></span>
+                </template>
+                <span class="px-2.5 py-0.5 bg-academic-100 dark:bg-academic-800 text-academic-500 dark:text-academic-400 rounded-full text-xs"
+                      x-text="post.readTime"></span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-academic-950 dark:text-white leading-[1.2] mb-6"
+                x-text="post.title"></h1>
+
+            <!-- Meta -->
+            <div class="flex flex-wrap items-center gap-4 text-sm text-academic-500 dark:text-academic-400 pb-8 border-b border-academic-200/60 dark:border-academic-800/60">
+                <div class="flex items-center gap-1.5">
+                    <i class="far fa-calendar-alt text-xs"></i>
+                    <span x-text="post.date"></span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <i class="far fa-user text-xs"></i>
+                    <span>张铭扬 (Favio)</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Cover image -->
+        <div class="mb-10 rounded-2xl overflow-hidden aspect-[3/2]">
+            <img :src="post.cover" :alt="post.title"
+                 class="w-full h-full object-cover"
+                 loading="lazy" decoding="async">
+        </div>
+
+        <!-- Markdown body -->
+        <div class="prose-blog" x-html="content"></div>
+
+        <!-- Footer tags -->
+        <div class="flex flex-wrap gap-2 mt-12 pt-8 border-t border-academic-200/60 dark:border-academic-800/60">
+            <template x-for="tag in post.tags" :key="tag">
+                <span class="px-3 py-1 bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-400 rounded-lg text-xs"
+                      x-text="tag"></span>
+            </template>
+        </div>
+
+        <!-- Back link -->
+        <div class="mt-8 pt-8 border-t border-academic-200/60 dark:border-academic-800/60">
+            <a href="index.html"
+               class="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors">
+                <i class="fas fa-arrow-left text-xs"></i>
+                返回博客列表
+            </a>
+        </div>
+    </article>
+</template>
+
+<!-- Footer -->
+<footer class="py-10 bg-white dark:bg-academic-900 border-t border-academic-200/60 dark:border-academic-800/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-academic-500 dark:text-academic-400">
+            <div><p>&copy; 2024&ndash;2026 张铭扬 (Favio). All rights reserved.</p></div>
+            <div><p class="italic">"Stay hungry, stay foolish." &mdash; Steve Jobs</p></div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // ----------------------------------------------------------------
+    // Post registry — must match the .md file slug
+    // ----------------------------------------------------------------
+    const POSTS = {
+        '2026-03-25-what-is-agent':     { title: '什么是 Agent？为什么大模型需要它？',           date: '2026-03-25', tags: ['Architecture'],          readTime: '8 min',  excerpt: '从 ChatGPT 到 AutoGPT，我们看到了大模型能力的飞跃。', cover: 'assets/img/post-cover-what-is-agent.jpg' },
+        '2026-03-18-agent-architecture': { title: 'Agent 架构解析：ReAct、Plan-and-Execute 与 Multi-Agent', date: '2026-03-18', tags: ['Architecture','Planning'], readTime: '12 min', excerpt: '目前主流的 Agent 架构有三种范式。', cover: 'assets/img/post-cover-arch.jpg' },
+        '2026-03-10-agent-memory':      { title: 'Agent 的记忆系统：从短期到长期的全链路设计',      date: '2026-03-10', tags: ['Memory','Architecture'],  readTime: '10 min', excerpt: '记忆是 Agent 智能的核心。',                             cover: 'assets/img/post-cover-memory.jpg' }
+    };
+
+    function postPage() {
+        return {
+            slug: '',
+            post: {},
+            content: '',
+            loading: true,
+            error: '',
+            scrollProgress: 0,
+
+            async init() {
+                // Get slug from URL query param
+                const params = new URLSearchParams(window.location.search);
+                this.slug = params.get('slug') || '';
+
+                if (!this.slug || !POSTS[this.slug]) {
+                    this.error = '未找到文章，请检查 URL 是否正确';
+                    this.loading = false;
+                    return;
+                }
+
+                this.post = POSTS[this.slug];
+
+                try {
+                    const response = await fetch('posts/' + this.slug + '.md');
+                    if (!response.ok) throw new Error('HTTP ' + response.status);
+                    const raw = await response.text();
+                    this.content = this.parseMarkdown(raw);
+                } catch (e) {
+                    this.error = '无法加载文章文件：' + e.message;
+                } finally {
+                    this.loading = false;
+                }
+
+                // Scroll progress listener
+                window.addEventListener('scroll', () => {
+                    const scrollTop = window.scrollY;
+                    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    this.scrollProgress = docHeight > 0 ? (scrollTop / docHeight * 100).toFixed(1) : 0;
+                }, { passive: true });
+            },
+
+            // Parse frontmatter + render body with marked.js
+            parseMarkdown(raw) {
+                if (!raw) return '';
+
+                // Strip frontmatter (--- ... --- at start)
+                const fmMatch = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+                let body = fmMatch ? fmMatch[2] : raw;
+
+                // Configure marked
+                marked.setOptions({
+                    breaks: true,
+                    gfm: true,
+                    headerIds: false,  // disable auto-generated IDs for cleaner output
+                });
+
+                return marked.parse(body);
+            }
+        };
+    }
+</script>
+</body>
+</html>

@@ -7,431 +7,351 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog &mdash; Agent 随笔 &mdash; Favio</title>
 
-    <!-- SEO Meta -->
     <meta name="description" content="Agent AI 随笔与思考 &mdash; 关于大模型 Agent、规划、记忆、工具调用等前沿技术的深度探讨">
-    <meta name="keywords" content="Agent, AI Agent, 大模型, LLM, 人工智能, Agent架构, Prompt Engineering">
     <meta name="author" content="张铭扬">
-    <meta name="robots" content="index, follow">
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Blog &mdash; Agent 随笔 &mdash; Favio">
-    <meta property="og:description" content="Agent AI 随笔与思考 &mdash; 关于大模型 Agent、规划、记忆、工具调用等前沿技术的深度探讨">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://favio8.github.io/blog/">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><text x='16' y='22' text-anchor='middle' font-size='18' font-family='sans-serif' font-weight='700' fill='white'>F</text></svg>">
 
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Alpine.js CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <!-- Font Awesome CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Google Fonts: Geist -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- Blog Styles (inline for portability) -->
     <style>
         :root {
-            --academic-50: #faf9f7;
-            --academic-100: #f2efe9;
-            --academic-200: #e4dfd3;
-            --academic-300: #cfc7b5;
-            --academic-400: #b5aa90;
-            --academic-500: #9c8e72;
-            --academic-600: #7d7260;
-            --academic-700: #5f574a;
-            --academic-800: #454038;
-            --academic-900: #2d2a23;
-            --academic-950: #1a1814;
-            --indigo: #6366f1;
+            --academic-50: #faf9f7; --academic-100: #f2efe9; --academic-200: #e4dfd3;
+            --academic-300: #cfc7b5; --academic-400: #b5aa90; --academic-500: #9c8e72;
+            --academic-600: #7d7260; --academic-700: #5f574a; --academic-800: #454038;
+            --academic-900: #2d2a23; --academic-950: #1a1814; --indigo: #6366f1;
         }
-
         html { scroll-behavior: smooth; }
-
         body {
             font-family: 'Geist', system-ui, sans-serif;
             background-color: var(--academic-50);
             color: var(--academic-900);
             -webkit-font-smoothing: antialiased;
         }
-
-        /* Scroll progress bar */
-        #scroll-progress {
-            position: fixed; top: 0; left: 0; height: 2px;
-            background: var(--indigo); z-index: 100;
-            transition: width 0.1s linear;
-        }
-
-        /* Reveal animation */
-        .reveal-up {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal-up.is-visible { opacity: 1; transform: translateY(0); }
+        .dark { background-color: var(--academic-950); color: var(--academic-100); }
 
         /* Nav */
+        nav {
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            background: rgba(250,249,247,0.82);
+            border-bottom: 1px solid rgba(228,223,211,0.6);
+        }
+        .dark nav { background: rgba(26,24,20,0.82); border-bottom-color: rgba(69,64,56,0.6); }
         .nav-link { position: relative; }
         .nav-link::after {
             content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
             height: 1.5px; background: currentColor;
-            transform: scaleX(0);
-            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scaleX(0); transition: transform 0.2s cubic-bezier(0.16,1,0.3,1);
             transform-origin: left;
         }
         .nav-link:hover::after { transform: scaleX(1); }
 
-        /* Navbar glass */
-        nav {
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            background: rgba(250, 249, 247, 0.82);
-            border-bottom: 1px solid rgba(228, 223, 211, 0.6);
-        }
-        .dark nav {
-            background: rgba(26, 24, 20, 0.82);
-            border-bottom-color: rgba(69, 64, 56, 0.6);
-        }
+        /* Scroll progress */
+        #scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--indigo); z-index: 100; }
 
-        /* Post card hover */
-        .post-card {
-            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                        box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .post-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 32px -8px rgba(0,0,0,0.10);
-        }
+        /* Reveal animation */
+        .reveal-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+        .reveal-up.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* Post card */
+        .post-card { transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s; }
+        .post-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px -8px rgba(0,0,0,0.10); }
         .dark .post-card:hover { box-shadow: 0 8px 32px -8px rgba(0,0,0,0.40); }
-
-        .dark {
-            background-color: var(--academic-950);
-            color: var(--academic-100);
-        }
-
-        /* Post cover image hover */
-        .post-cover { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .post-cover { transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
         .post-card:hover .post-cover { transform: scale(1.04); }
 
-        /* Selection */
+        /* Tag */
+        .tag { transition: background-color 0.15s, color 0.15s; }
+        .tag:hover { background-color: rgba(99,102,241,0.12); color: #4338ca; }
+        .dark .tag:hover { background-color: rgba(129,140,248,0.15); color: #a5b4fc; }
+
+        /* General */
         ::selection { background: var(--indigo); color: white; }
-
-        /* Focus */
-        a:focus-visible, button:focus-visible {
-            outline: 2px solid var(--indigo); outline-offset: 2px; border-radius: 4px;
-        }
-
-        /* Tag hover */
-        .tag:hover { background-color: rgba(99, 102, 241, 0.12); color: #4338ca; }
-        .dark .tag:hover { background-color: rgba(129, 140, 248, 0.15); color: #a5b4fc; }
-
-        /* Reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
-            .reveal-up { opacity: 1; transform: none; }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
+        a:focus-visible, button:focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; border-radius: 4px; }
+        ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--academic-300); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--academic-500); }
         .dark ::-webkit-scrollbar-thumb { background: var(--academic-700); }
         .dark ::-webkit-scrollbar-thumb:hover { background: var(--academic-600); }
 
-        /* Article content typography */
-        .prose-agent h2 { font-size: 1.4rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--academic-950); }
-        .dark .prose-agent h2 { color: var(--academic-50); }
-        .prose-agent h3 { font-size: 1.1rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; color: var(--academic-800); }
-        .dark .prose-agent h3 { color: var(--academic-200); }
-        .prose-agent p { margin-bottom: 1.25rem; line-height: 1.8; color: var(--academic-700); }
-        .dark .prose-agent p { color: var(--academic-300); }
-        .prose-agent ul { margin-bottom: 1.25rem; padding-left: 1.5rem; }
-        .prose-agent li { margin-bottom: 0.5rem; color: var(--academic-700); line-height: 1.7; }
-        .dark .prose-agent li { color: var(--academic-300); }
-        .prose-agent code {
-            font-family: 'Geist Mono', monospace;
-            font-size: 0.875em;
-            background: var(--academic-100);
-            padding: 0.15em 0.4em;
-            border-radius: 4px;
-            color: var(--academic-900);
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+            .reveal-up { opacity: 1; transform: none; }
         }
-        .dark .prose-agent code { background: var(--academic-800); color: var(--academic-200); }
-        .prose-agent pre {
-            background: var(--academic-900);
-            color: var(--academic-100);
-            padding: 1.25rem;
-            border-radius: 12px;
-            overflow-x: auto;
-            margin-bottom: 1.5rem;
-            font-size: 0.875rem;
-            line-height: 1.6;
-        }
-        .dark .prose-agent pre { background: var(--academic-800); }
-        .prose-agent blockquote {
-            border-left: 3px solid var(--indigo);
-            padding-left: 1.25rem;
-            margin: 1.5rem 0;
-            color: var(--academic-600);
-            font-style: italic;
-        }
-        .dark .prose-agent blockquote { color: var(--academic-400); }
-        .prose-agent a { color: var(--indigo); text-decoration: underline; text-underline-offset: 3px; }
-        .prose-agent strong { font-weight: 600; color: var(--academic-900); }
-        .dark .prose-agent strong { color: var(--academic-50); }
     </style>
 
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'geist': ['Geist', 'system-ui', 'sans-serif'],
-                        'geist-mono': ['Geist Mono', 'monospace'],
-                    }
-                }
-            }
+            theme: { extend: { fontFamily: { geist: ['Geist','system-ui','sans-serif'], 'geist-mono': ['Geist Mono','monospace'] } } }
         }
     </script>
 </head>
 
 <body>
 
-    <!-- 滚动进度条 -->
-    <div id="scroll-progress" style="width: 0%"></div>
+<div id="scroll-progress" style="width:0%"></div>
 
-    <!-- ==================== 导航栏 ==================== -->
-    <nav class="sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="flex justify-between items-center h-16">
-                <a href="../index.html" class="text-base font-semibold text-academic-900 dark:text-white tracking-tight">
-                    &larr; Favio
-                </a>
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="../index.html"       class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white">Home</a>
-                    <a href="../index.html#about"  class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white">About</a>
-                    <a href="../index.html#education" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white">Education</a>
-                    <a href="../index.html#research" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white">Research</a>
-                    <a href="../index.html#projects" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white">Projects</a>
-                    <a href="../index.html#skills"  class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white">Skills</a>
-                    <a href="index.html"            class="nav-link text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">Blog</a>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button @click="darkMode = !darkMode"
-                            class="p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800 transition-colors">
-                        <i x-show="darkMode"  class="fas fa-sun text-base"></i>
-                        <i x-show="!darkMode" class="fas fa-moon text-base"></i>
-                    </button>
-                    <button @click="mobileMenuOpen = !mobileMenuOpen"
-                            class="md:hidden p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800">
-                        <i class="fas fa-bars text-base"></i>
-                    </button>
-                </div>
+<!-- ==================== Navbar ==================== -->
+<nav class="sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="flex justify-between items-center h-16">
+            <a href="../index.html" class="text-base font-semibold text-academic-900 dark:text-white tracking-tight">&larr; Favio</a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="../index.html"              class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Home</a>
+                <a href="../index.html#about"        class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">About</a>
+                <a href="../index.html#education"    class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Education</a>
+                <a href="../index.html#research"     class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Research</a>
+                <a href="../index.html#projects"      class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Projects</a>
+                <a href="../index.html#skills"        class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300">Skills</a>
+                <a href="index.html"                  class="nav-link text-sm font-medium text-indigo-600 dark:text-indigo-400">Blog</a>
             </div>
-
-            <!-- 移动端菜单 -->
-            <div x-data="{ mobileMenuOpen: false }"
-                 x-show="mobileMenuOpen"
-                 x-transition:enter="transition ease-out duration-200"
-                 x-transition:enter-start="opacity-0 -translate-y-2"
-                 x-transition:enter-end="opacity-100 translate-y-0"
-                 x-transition:leave="transition ease-in duration-150"
-                 x-transition:leave-start="opacity-100 translate-y-0"
-                 x-transition:leave-end="opacity-0 -translate-y-2"
-                 class="md:hidden py-4 border-t border-academic-200/60 dark:border-academic-800/60">
-                <div class="flex flex-col gap-3">
-                    <a href="../index.html"         class="text-sm font-medium text-academic-600 dark:text-academic-300">Home</a>
-                    <a href="../index.html#about"   class="text-sm font-medium text-academic-600 dark:text-academic-300">About</a>
-                    <a href="../index.html#education" class="text-sm font-medium text-academic-600 dark:text-academic-300">Education</a>
-                    <a href="../index.html#research" class="text-sm font-medium text-academic-600 dark:text-academic-300">Research</a>
-                    <a href="../index.html#projects" class="text-sm font-medium text-academic-600 dark:text-academic-300">Projects</a>
-                    <a href="../index.html#skills"  class="text-sm font-medium text-academic-600 dark:text-academic-300">Skills</a>
-                    <a href="index.html"             class="text-sm font-medium text-indigo-600 dark:text-indigo-400">Blog</a>
-                </div>
+            <div class="flex items-center gap-2">
+                <button @click="darkMode = !darkMode" class="p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800 transition-colors">
+                    <i x-show="darkMode"  class="fas fa-sun text-base"></i>
+                    <i x-show="!darkMode" class="fas fa-moon text-base"></i>
+                </button>
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800">
+                    <i class="fas fa-bars text-base"></i>
+                </button>
             </div>
         </div>
-    </nav>
 
-    <!-- ==================== 博客 Hero ==================== -->
-    <section class="relative py-20 md:py-28 overflow-hidden">
-        <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-            <div class="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-indigo-200/30 dark:bg-indigo-900/10 blur-3xl"></div>
-            <div class="absolute top-1/2 -left-32 w-64 h-64 rounded-full bg-academic-200/40 dark:bg-academic-900/20 blur-3xl"></div>
+        <!-- Mobile menu -->
+        <div x-data="{ mobileMenuOpen: false }" x-show="mobileMenuOpen"
+             x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
+             class="md:hidden py-4 border-t border-academic-200/60 dark:border-academic-800/60">
+            <div class="flex flex-col gap-3">
+                <a href="../index.html"            class="text-sm font-medium text-academic-600 dark:text-academic-300">Home</a>
+                <a href="../index.html#about"       class="text-sm font-medium text-academic-600 dark:text-academic-300">About</a>
+                <a href="../index.html#education"   class="text-sm font-medium text-academic-600 dark:text-academic-300">Education</a>
+                <a href="../index.html#research"    class="text-sm font-medium text-academic-600 dark:text-academic-300">Research</a>
+                <a href="../index.html#projects"    class="text-sm font-medium text-academic-600 dark:text-academic-300">Projects</a>
+                <a href="../index.html#skills"      class="text-sm font-medium text-academic-600 dark:text-academic-300">Skills</a>
+                <a href="index.html"                class="text-sm font-medium text-indigo-600 dark:text-indigo-400">Blog</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ==================== Blog Hero ==================== -->
+<section class="relative py-20 md:py-28 overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div class="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-indigo-200/30 dark:bg-indigo-900/10 blur-3xl"></div>
+        <div class="absolute top-1/2 -left-32 w-64 h-64 rounded-full bg-academic-200/40 dark:bg-academic-900/20 blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="reveal-up" style="--i:0">
+            <p class="text-sm font-medium text-indigo-600 dark:text-indigo-400 font-geist-mono tracking-wide mb-4">
+                Agent Research &amp; Thinking
+            </p>
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-academic-950 dark:text-white leading-[1.15] mb-6">
+                Agent 随笔
+            </h1>
+            <p class="text-lg text-academic-600 dark:text-academic-400 leading-relaxed max-w-[60ch]">
+                关于大模型 Agent 的架构、规划、记忆与工具体系的深度思考。
+                从论文解读到代码实现，记录我在 AI Agent 领域的探索与踩坑。
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== Post List ==================== -->
+<section class="pb-20 md:pb-28" x-data="blogApp()">
+
+    <!-- Tag filter + post grid -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+
+        <!-- Tag buttons -->
+        <div class="flex flex-wrap gap-2 reveal-up" style="--i:1">
+            <template x-for="tag in allTags" :key="tag">
+                <button @click="activeTag = tag"
+                        :class="activeTag === tag
+                            ? 'bg-indigo-600 text-white shadow-sm'
+                            : 'bg-white dark:bg-academic-800 text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-700'"
+                        class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 border border-academic-200/60 dark:border-academic-700/40 active:scale-[0.97]">
+                    <span x-text="tag"></span>
+                </button>
+            </template>
         </div>
 
-        <div class="relative max-w-4xl mx-auto px-4 sm:px-6">
-            <div class="reveal-up" style="--i: 0">
-                <p class="text-sm font-medium text-indigo-600 dark:text-indigo-400 font-geist-mono tracking-wide mb-4">
-                    Agent Research &amp; Thinking
-                </p>
-                <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-academic-950 dark:text-white leading-[1.15] mb-6">
-                    Agent 随笔
-                </h1>
-                <p class="text-lg text-academic-600 dark:text-academic-400 leading-relaxed max-w-[60ch]">
-                    关于大模型 Agent 的架构、规划、记忆与工具体系的深度思考。
-                    从论文解读到代码实现，记录我在 AI Agent 领域的探索与踩坑。
-                </p>
-            </div>
+        <!-- Posts -->
+        <div class="mt-10 space-y-6">
+            <template x-for="(post, idx) in filteredPosts" :key="post.slug">
+                <article class="post-card bg-white dark:bg-academic-900/60 rounded-2xl overflow-hidden border border-academic-200/60 dark:border-academic-700/40 reveal-up"
+                         :style="'--i: ' + (idx + 2)">
+                    <a :href="'post.html?slug=' + post.slug" class="flex flex-col md:flex-row">
 
-            <!-- 标签筛选 -->
-            <div class="flex flex-wrap gap-2 mt-8 reveal-up" style="--i: 1" x-data="{
-                activeTag: 'all',
-                tags: ['all', 'Architecture', 'Memory', 'Planning', 'ToolUse', 'Paper'],
-                posts: [
-                    {
-                        slug: '2026-03-25-what-is-agent',
-                        title: '什么是 Agent？为什么大模型需要它？',
-                        date: '2026-03-25',
-                        excerpt: '从 ChatGPT 到 AutoGPT，我们看到了大模型能力的飞跃，但单纯的语言理解已经无法满足复杂任务的需求。本文从零开始，梳理 Agent 的定义、它解决的核心问题，以及为什么 Agent 是 LLM 发展的下一场革命。',
-                        tags: ['Architecture'],
-                        readTime: '8 min',
-                        cover: 'assets/img/post-cover-what-is-agent.jpg'
-                    },
-                    {
-                        slug: '2026-03-18-agent-architecture',
-                        title: 'Agent 架构解析：ReAct、Plan-and-Execute 与 Multi-Agent',
-                        date: '2026-03-18',
-                        excerpt: '目前主流的 Agent 架构有三种范式：ReAct 的思考-行动循环、Plan-and-Execute 的先规划后执行、以及最近火热的 Multi-Agent 协作。本文通过流程图与代码示例，对比三种架构的优劣与适用场景。',
-                        tags: ['Architecture', 'Planning'],
-                        readTime: '12 min',
-                        cover: 'assets/img/post-cover-arch.jpg'
-                    },
-                    {
-                        slug: '2026-03-10-agent-memory',
-                        title: 'Agent 的记忆系统：从短期到长期的全链路设计',
-                        date: '2026-03-10',
-                        excerpt: '记忆是 Agent 智能的核心。一个好的记忆系统需要同时处理即时上下文、历史摘要与长期知识持久化。本文探讨如何在资源受限的条件下，设计一个高效、可插拔的记忆存储与检索架构。',
-                        tags: ['Memory', 'Architecture'],
-                        readTime: '10 min',
-                        cover: 'assets/img/post-cover-memory.jpg'
-                    }
-                ],
-                get filteredPosts() {
-                    if (this.activeTag === 'all') return this.posts;
-                    return this.posts.filter(p => p.tags.includes(this.activeTag));
-                }
-            }">
+                        <!-- Cover -->
+                        <div class="md:w-56 h-48 md:h-auto flex-shrink-0 overflow-hidden">
+                            <img :src="post.cover" :alt="post.title"
+                                 class="post-cover w-full h-full object-cover"
+                                 loading="lazy" decoding="async">
+                        </div>
 
-                <template x-for="tag in tags" :key="tag">
-                    <button @click="activeTag = tag"
-                            :class="activeTag === tag
-                                ? 'bg-indigo-600 text-white shadow-sm'
-                                : 'bg-white dark:bg-academic-800 text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-700'"
-                            class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 active:scale-[0.97] border border-academic-200/60 dark:border-academic-700/40">
-                        <span x-text="tag"></span>
-                    </button>
-                </template>
-
-                <!-- 文章卡片列表 -->
-                <div class="mt-10 space-y-6">
-                    <template x-for="(post, idx) in filteredPosts" :key="post.slug">
-                        <article class="post-card group bg-white dark:bg-academic-900/60 rounded-2xl overflow-hidden border border-academic-200/60 dark:border-academic-700/40 reveal-up"
-                                 :style="'--i: ' + (idx + 2)">
-                            <a :href="'posts/' + post.slug + '.html'" class="flex flex-col md:flex-row">
-
-                                <!-- 封面图 -->
-                                <div class="md:w-56 h-48 md:h-auto flex-shrink-0 overflow-hidden">
-                                    <img :src="post.cover"
-                                         :alt="post.title"
-                                         class="post-cover w-full h-full object-cover"
-                                         loading="lazy" decoding="async">
+                        <!-- Content -->
+                        <div class="flex-1 p-6 md:p-8 flex flex-col justify-between">
+                            <div>
+                                <!-- Tags + read time -->
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <template x-for="t in post.tags" :key="t">
+                                        <span class="tag px-2.5 py-0.5 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-medium"
+                                              x-text="t"></span>
+                                    </template>
+                                    <span class="ml-auto text-xs text-academic-400 dark:text-academic-600 font-geist-mono" x-text="post.readTime"></span>
                                 </div>
 
-                                <!-- 内容 -->
-                                <div class="flex-1 p-6 md:p-8 flex flex-col justify-between">
-                                    <div>
-                                        <!-- 标签 + 阅读时间 -->
-                                        <div class="flex flex-wrap gap-2 mb-3">
-                                            <template x-for="t in post.tags" :key="t">
-                                                <span class="tag px-2.5 py-0.5 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-medium transition-colors"
-                                                      x-text="t"></span>
-                                            </template>
-                                            <span class="ml-auto text-xs text-academic-400 dark:text-academic-600 font-geist-mono" x-text="post.readTime"></span>
-                                        </div>
+                                <!-- Title -->
+                                <h2 class="text-lg font-semibold text-academic-950 dark:text-white leading-snug mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
+                                    x-text="post.title"></h2>
 
-                                        <!-- 标题 -->
-                                        <h2 class="text-lg font-semibold text-academic-950 dark:text-white leading-snug mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
-                                            x-text="post.title"></h2>
+                                <!-- Excerpt -->
+                                <p class="text-sm text-academic-600 dark:text-academic-400 leading-relaxed line-clamp-3"
+                                   x-text="post.excerpt"></p>
+                            </div>
 
-                                        <!-- 摘要 -->
-                                        <p class="text-sm text-academic-600 dark:text-academic-400 leading-relaxed line-clamp-3"
-                                           x-text="post.excerpt"></p>
-                                    </div>
+                            <!-- Date + read link -->
+                            <div class="mt-4 flex items-center gap-1.5 text-xs text-academic-400 dark:text-academic-600">
+                                <i class="far fa-calendar-alt"></i>
+                                <span x-text="post.date"></span>
+                                <span class="ml-auto text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform">Read more &rarr;</span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </template>
+        </div>
 
-                                    <!-- 日期 -->
-                                    <div class="mt-4 flex items-center gap-1.5 text-xs text-academic-400 dark:text-academic-600">
-                                        <i class="far fa-calendar-alt"></i>
-                                        <span x-text="post.date"></span>
-                                        <span class="ml-auto text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform">Read more &rarr;</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </article>
-                    </template>
-                </div>
+        <!-- Empty state -->
+        <div x-show="filteredPosts.length === 0" class="text-center py-16 text-academic-400 dark:text-academic-600">
+            <i class="fas fa-feather text-4xl mb-4"></i>
+            <p class="text-sm">该分类下暂无文章，持续更新中...</p>
+        </div>
+    </div>
 
-                <!-- 空状态 -->
-                <div x-show="filteredPosts.length === 0" class="text-center py-16 text-academic-400 dark:text-academic-600">
-                    <i class="fas fa-feather text-4xl mb-4"></i>
-                    <p class="text-sm">该分类下暂无文章，持续更新中...</p>
-                </div>
+    <!-- ==================== How to Write ==================== -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 mt-16">
+        <div class="reveal-up rounded-2xl bg-academic-100/60 dark:bg-academic-900/40 border border-academic-200/60 dark:border-academic-700/40 p-6 md:p-8">
+            <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-3 flex items-center gap-2">
+                <i class="fas fa-pen text-indigo-500 text-sm"></i>
+                写新文章
+            </h3>
+            <div class="text-sm text-academic-600 dark:text-academic-400 space-y-2 leading-relaxed">
+                <p>在 <code class="px-1.5 py-0.5 bg-academic-200 dark:bg-academic-800 rounded text-xs font-mono">blog/posts/</code> 下新建 <code class="px-1.5 py-0.5 bg-academic-200 dark:bg-academic-800 rounded text-xs font-mono">YYYY-MM-DD-your-title.md</code> 文件，顶部添加 Frontmatter：</p>
+                <pre class="bg-academic-900 text-academic-100 dark:bg-academic-800 rounded-lg p-4 mt-3 text-xs font-mono overflow-x-auto leading-relaxed">---
+title: 文章标题
+date: 2026-04-01
+tags: [Architecture, Planning]
+excerpt: 文章摘要，一句话描述核心内容
+readTime: 8 min
+cover: assets/img/your-cover.jpg
+---
+
+正文使用标准 Markdown 写作...</pre>
+                <p class="pt-2">然后在 <code class="px-1.5 py-0.5 bg-academic-200 dark:bg-academic-800 rounded text-xs font-mono">blog/index.html</code> 的 posts 数组中添加一条记录即可。</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- ==================== Footer ==================== -->
-    <footer class="py-10 bg-white dark:bg-academic-900 border-t border-academic-200/60 dark:border-academic-800/60">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-academic-500 dark:text-academic-400">
-                <div><p>&copy; 2024&ndash;2026 张铭扬 (Favio). All rights reserved.</p></div>
-                <div class="text-center md:text-right">
-                    <p class="italic">"Stay hungry, stay foolish." &mdash; Steve Jobs</p>
-                </div>
-            </div>
+<!-- ==================== Footer ==================== -->
+<footer class="py-10 bg-white dark:bg-academic-900 border-t border-academic-200/60 dark:border-academic-800/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-academic-500 dark:text-academic-400">
+            <div><p>&copy; 2024&ndash;2026 张铭扬 (Favio). All rights reserved.</p></div>
+            <div><p class="italic">"Stay hungry, stay foolish." &mdash; Steve Jobs</p></div>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <!-- Scripts -->
-    <script>
-        // Scroll progress
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            document.getElementById('scroll-progress').style.width = progress + '%';
-        }, { passive: true });
-
-        // Reveal on scroll
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const el = entry.target;
-                    const delay = parseInt(el.style.getPropertyValue('--i')) * 80 || 0;
-                    setTimeout(() => el.classList.add('is-visible'), delay);
-                    observer.unobserve(el);
-                }
-            });
-        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-
-        document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
-
-        // Reduced motion
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.querySelectorAll('.reveal-up').forEach(el => el.classList.add('is-visible'));
+<!-- ==================== App Logic ==================== -->
+<script>
+    // ----------------------------------------------------------------
+    // Post registry — one entry per post, matching its .md file
+    // To add a new post: create the .md file + add entry here
+    // ----------------------------------------------------------------
+    const POSTS = [
+        {
+            slug: '2026-03-25-what-is-agent',
+            title: '什么是 Agent？为什么大模型需要它？',
+            date: '2026-03-25',
+            tags: ['Architecture'],
+            excerpt: '从 ChatGPT 到 AutoGPT，我们看到了大模型能力的飞跃，但单纯的语言理解已经无法满足复杂任务的需求。本文从零开始，梳理 Agent 的定义、它解决的核心问题，以及为什么 Agent 是 LLM 发展的下一场革命。',
+            readTime: '8 min',
+            cover: 'assets/img/post-cover-what-is-agent.jpg'
+        },
+        {
+            slug: '2026-03-18-agent-architecture',
+            title: 'Agent 架构解析：ReAct、Plan-and-Execute 与 Multi-Agent',
+            date: '2026-03-18',
+            tags: ['Architecture', 'Planning'],
+            excerpt: '目前主流的 Agent 架构有三种范式：ReAct 的思考-行动循环、Plan-and-Execute 的先规划后执行、以及最近火热的 Multi-Agent 协作。本文通过流程图与代码示例，对比三种架构的优劣与适用场景。',
+            readTime: '12 min',
+            cover: 'assets/img/post-cover-arch.jpg'
+        },
+        {
+            slug: '2026-03-10-agent-memory',
+            title: 'Agent 的记忆系统：从短期到长期的全链路设计',
+            date: '2026-03-10',
+            tags: ['Memory', 'Architecture'],
+            excerpt: '记忆是 Agent 智能的核心。一个好的记忆系统需要同时处理即时上下文、历史摘要与长期知识持久化。本文探讨如何在资源受限的条件下，设计一个高效、可插拔的记忆存储与检索架构。',
+            readTime: '10 min',
+            cover: 'assets/img/post-cover-memory.jpg'
         }
-    </script>
+    ];
+
+    function blogApp() {
+        return {
+            posts: POSTS,
+            activeTag: 'all',
+
+            get allTags() {
+                const tags = new Set(['all']);
+                this.posts.forEach(p => p.tags.forEach(t => tags.add(t)));
+                return Array.from(tags);
+            },
+
+            get filteredPosts() {
+                if (this.activeTag === 'all') return this.posts;
+                return this.posts.filter(p => p.tags.includes(this.activeTag));
+            }
+        };
+    }
+
+    // Scroll progress
+    window.addEventListener('scroll', () => {
+        const el = document.getElementById('scroll-progress');
+        if (!el) return;
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        el.style.width = (docHeight > 0 ? (scrollTop / docHeight) * 100 : 0) + '%';
+    }, { passive: true });
+
+    // Reveal on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const delay = parseInt(el.style.getPropertyValue('--i')) * 80 || 0;
+                setTimeout(() => el.classList.add('is-visible'), delay);
+                observer.unobserve(el);
+            }
+        });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.querySelectorAll('.reveal-up').forEach(el => el.classList.add('is-visible'));
+    }
+</script>
 </body>
 </html>
