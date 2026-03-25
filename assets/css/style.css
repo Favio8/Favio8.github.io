@@ -1,0 +1,206 @@
+/* ================================================================
+   学术个人主页 - 升级版样式
+   Favio.github.io
+   ================================================================ */
+
+/* ================================================================
+   1. 基础全局
+   ================================================================ */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* ================================================================
+   2. 入场动画系统 (reveal-up)
+   ================================================================ */
+.reveal-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+        opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ================================================================
+   3. 技能进度条
+   ================================================================ */
+.skill-progress {
+    height: 4px;
+    background-color: rgba(0, 0, 0, 0.06);
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.dark .skill-progress {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.skill-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #6366f1, #818cf8);
+    border-radius: 9999px;
+    transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .skill-progress-bar {
+    background: linear-gradient(90deg, #818cf8, #a5b4fc);
+}
+
+/* ================================================================
+   4. 滚动条
+   ================================================================ */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cfc7b5;
+    border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #454038;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #9c8e72;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #5f574a;
+}
+
+/* ================================================================
+   5. 选中文字颜色
+   ================================================================ */
+::selection {
+    background-color: #6366f1;
+    color: white;
+}
+
+.dark ::selection {
+    background-color: #818cf8;
+    color: white;
+}
+
+/* ================================================================
+   6. 焦点样式
+   ================================================================ */
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ================================================================
+   7. 按钮点击反馈
+   ================================================================ */
+a:active,
+button:active {
+    transform: scale(0.98);
+}
+
+/* ================================================================
+   8. 移动端安全区域
+   ================================================================ */
+@supports (padding: max(0px)) {
+    .safe-area-bottom {
+        padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+}
+
+/* ================================================================
+   9. 打印样式
+   ================================================================ */
+@media print {
+    nav,
+    .backdrop-blur-xl,
+    #scroll-progress {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    .reveal-up {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* ================================================================
+   10. 减少动画偏好
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .reveal-up {
+        opacity: 1;
+        transform: none;
+    }
+
+    .skill-progress-bar {
+        transition: none !important;
+    }
+}
+
+/* ================================================================
+   11. 项目卡片 hover 图片放大
+   ================================================================ */
+.project-card img {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card:hover img {
+    transform: scale(1.05);
+}
+
+/* ================================================================
+   12. Nav link 活跃态
+   ================================================================ */
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: left;
+}
+
+.nav-link:hover::after {
+    transform: scaleX(1);
+}
