@@ -177,7 +177,7 @@
 </nav>
 
 <!-- ==================== Blog Hero ==================== -->
-<section class="relative py-20 md:py-28 overflow-hidden">
+<section class="relative pt-16 pb-10 md:pt-20 md:pb-14 overflow-hidden">
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div class="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-indigo-200/30 dark:bg-indigo-900/10 blur-3xl"></div>
         <div class="absolute top-1/2 -left-32 w-64 h-64 rounded-full bg-academic-200/40 dark:bg-academic-900/20 blur-3xl"></div>
@@ -197,7 +197,8 @@
         </div>
 
         <!-- Category tabs (shares blogApp() scope from parent) -->
-        <div class="mt-8 reveal-up" style="--i:1">
+        <!-- No reveal animation here to avoid gap; Alpine x-show below handles show/hide -->
+        <div class="mt-6">
             <div class="flex flex-wrap gap-2">
                 <button @click="activeCat = 'all'"
                         :class="activeCat === 'all' ? 'active' : ''"
@@ -221,7 +222,7 @@
 
 <!-- ==================== Post List ==================== -->
 <!-- x-data is now on <body> so tabs + posts share the same Alpine scope -->
-<section class="pb-20 md:pb-28">
+<section class="pt-4 pb-20 md:pt-8 md:pb-28">
 
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
 
@@ -262,7 +263,7 @@
         </template>
 
         <!-- 全部文章 All posts (list view) -->
-        <div class="reveal-up" style="--i:3">
+        <div class="reveal-up is-visible" style="--i:3">
             <h2 class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 font-geist-mono tracking-widest uppercase mb-6 flex items-center gap-3">
                 <i class="fas fa-feather-alt text-xs"></i>
                 全部文章
@@ -271,37 +272,30 @@
             <div class="divide-y divide-academic-200/60 dark:divide-academic-700/40">
                 <template x-for="post in filteredPosts" :key="post.slug">
                     <div class="post-row group">
-                        <!-- Cover thumb -->
-                        <a :href="'post.html?slug=' + post.slug" class="flex-shrink-0 w-28 h-20 rounded-xl overflow-hidden">
+                        <!-- Cover thumb (anchor covers only the 80px image, not the full row) -->
+                        <a :href="'post.html?slug=' + post.slug"
+                           class="flex-shrink-0 w-28 h-20 rounded-xl overflow-hidden relative z-10">
                             <img :src="post.cover" :alt="post.title"
                                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                  loading="lazy" decoding="async">
                         </a>
 
-                        <!-- Info -->
-                        <div class="flex-1 min-w-0 flex flex-col justify-between">
-                            <div>
-                                <!-- Category + tags -->
-                                <div class="flex flex-wrap items-center gap-2 mb-1.5">
-                                    <span class="text-xs font-medium text-indigo-600 dark:text-indigo-400"
-                                          x-text="post.category"></span>
-                                    <template x-for="t in post.tags" :key="t">
-                                        <span class="px-2 py-0.5 bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-400 rounded-full text-xs"
-                                              x-text="t"></span>
-                                    </template>
-                                </div>
-                                <!-- Title -->
-                                <a :href="'post.html?slug=' + post.slug">
-                                    <h3 class="text-sm font-semibold text-academic-900 dark:text-white leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors truncate"
-                                        x-text="post.title"></h3>
-                                </a>
-                            </div>
-                            <!-- Meta -->
-                            <div class="flex items-center gap-2 text-xs text-academic-400 dark:text-academic-600 mt-1">
-                                <i class="far fa-calendar-alt"></i>
-                                <span x-text="post.date"></span>
-                                <span>&middot;</span>
-                                <span x-text="post.readTime"></span>
+                        <!-- Info (clickable title + meta row) -->
+                        <div class="flex-1 min-w-0 flex flex-col justify-center py-1">
+                            <!-- Title row -->
+                            <a :href="'post.html?slug=' + post.slug" class="block">
+                                <h3 class="text-sm font-semibold text-academic-900 dark:text-white leading-snug group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-1"
+                                    x-text="post.title"></h3>
+                            </a>
+                            <!-- Meta + tags -->
+                            <div class="flex flex-wrap items-center gap-2 mt-1.5">
+                                <span class="text-xs font-medium text-indigo-600 dark:text-indigo-400"
+                                      x-text="post.category"></span>
+                                <template x-for="t in post.tags" :key="t">
+                                    <span class="px-2 py-0.5 bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-400 rounded-full text-xs"
+                                          x-text="t"></span>
+                                </template>
+                                <span class="ml-auto text-xs text-academic-400 dark:text-academic-600" x-text="post.date + ' · ' + post.readTime"></span>
                             </div>
                         </div>
                     </div>
