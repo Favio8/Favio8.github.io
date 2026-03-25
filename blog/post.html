@@ -261,10 +261,12 @@
     // ----------------------------------------------------------------
     // Post registry — must match the .md file slug
     // ----------------------------------------------------------------
+    // All asset paths are absolute (relative to domain root) for reliable resolution on GitHub Pages
+    const BASE = window.location.origin + '/blog';
     const POSTS = {
-        '2026-03-25-what-is-agent':     { title: '什么是 Agent？为什么大模型需要它？',           date: '2026-03-25', tags: ['Architecture'],          readTime: '8 min',  excerpt: '从 ChatGPT 到 AutoGPT，我们看到了大模型能力的飞跃。', cover: 'assets/img/post-cover-what-is-agent.jpg' },
-        '2026-03-18-agent-architecture': { title: 'Agent 架构解析：ReAct、Plan-and-Execute 与 Multi-Agent', date: '2026-03-18', tags: ['Architecture','Planning'], readTime: '12 min', excerpt: '目前主流的 Agent 架构有三种范式。', cover: 'assets/img/post-cover-arch.jpg' },
-        '2026-03-10-agent-memory':      { title: 'Agent 的记忆系统：从短期到长期的全链路设计',      date: '2026-03-10', tags: ['Memory','Architecture'],  readTime: '10 min', excerpt: '记忆是 Agent 智能的核心。',                             cover: 'assets/img/post-cover-memory.jpg' }
+        '2026-03-25-what-is-agent':     { title: '什么是 Agent？为什么大模型需要它？',           date: '2026-03-25', tags: ['Architecture'],          readTime: '8 min',  excerpt: '从 ChatGPT 到 AutoGPT，我们看到了大模型能力的飞跃。', cover: BASE + '/assets/img/post-cover-what-is-agent.jpg' },
+        '2026-03-18-agent-architecture': { title: 'Agent 架构解析：ReAct、Plan-and-Execute 与 Multi-Agent', date: '2026-03-18', tags: ['Architecture','Planning'], readTime: '12 min', excerpt: '目前主流的 Agent 架构有三种范式。', cover: BASE + '/assets/img/post-cover-arch.jpg' },
+        '2026-03-10-agent-memory':      { title: 'Agent 的记忆系统：从短期到长期的全链路设计',      date: '2026-03-10', tags: ['Memory','Architecture'],  readTime: '10 min', excerpt: '记忆是 Agent 智能的核心。',                             cover: BASE + '/assets/img/post-cover-memory.jpg' }
     };
 
     function postPage() {
@@ -290,8 +292,9 @@
                 this.post = POSTS[this.slug];
 
                 try {
-                    const response = await fetch('posts/' + this.slug + '.md');
-                    if (!response.ok) throw new Error('HTTP ' + response.status);
+                    const mdUrl = BASE + '/posts/' + this.slug + '.md';
+                    const response = await fetch(mdUrl);
+                    if (!response.ok) throw new Error('HTTP ' + response.status + ': ' + mdUrl);
                     const raw = await response.text();
                     this.content = this.parseMarkdown(raw);
                 } catch (e) {

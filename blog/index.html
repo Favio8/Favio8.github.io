@@ -277,7 +277,9 @@ cover: assets/img/your-cover.jpg
     // ----------------------------------------------------------------
     // Post registry — one entry per post, matching its .md file
     // To add a new post: create the .md file + add entry here
+    // All paths are absolute (relative to domain root) for GitHub Pages
     // ----------------------------------------------------------------
+    const BASE = window.location.origin + '/blog';
     const POSTS = [
         {
             slug: '2026-03-25-what-is-agent',
@@ -286,7 +288,7 @@ cover: assets/img/your-cover.jpg
             tags: ['Architecture'],
             excerpt: '从 ChatGPT 到 AutoGPT，我们看到了大模型能力的飞跃，但单纯的语言理解已经无法满足复杂任务的需求。本文从零开始，梳理 Agent 的定义、它解决的核心问题，以及为什么 Agent 是 LLM 发展的下一场革命。',
             readTime: '8 min',
-            cover: 'assets/img/post-cover-what-is-agent.jpg'
+            cover: BASE + '/assets/img/post-cover-what-is-agent.jpg'
         },
         {
             slug: '2026-03-18-agent-architecture',
@@ -295,7 +297,7 @@ cover: assets/img/your-cover.jpg
             tags: ['Architecture', 'Planning'],
             excerpt: '目前主流的 Agent 架构有三种范式：ReAct 的思考-行动循环、Plan-and-Execute 的先规划后执行、以及最近火热的 Multi-Agent 协作。本文通过流程图与代码示例，对比三种架构的优劣与适用场景。',
             readTime: '12 min',
-            cover: 'assets/img/post-cover-arch.jpg'
+            cover: BASE + '/assets/img/post-cover-arch.jpg'
         },
         {
             slug: '2026-03-10-agent-memory',
@@ -304,7 +306,7 @@ cover: assets/img/your-cover.jpg
             tags: ['Memory', 'Architecture'],
             excerpt: '记忆是 Agent 智能的核心。一个好的记忆系统需要同时处理即时上下文、历史摘要与长期知识持久化。本文探讨如何在资源受限的条件下，设计一个高效、可插拔的记忆存储与检索架构。',
             readTime: '10 min',
-            cover: 'assets/img/post-cover-memory.jpg'
+            cover: BASE + '/assets/img/post-cover-memory.jpg'
         }
     ];
 
