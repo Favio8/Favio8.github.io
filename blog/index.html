@@ -245,14 +245,19 @@
                 写新文章
             </h3>
             <div class="text-sm text-academic-600 dark:text-academic-400 space-y-2 leading-relaxed">
-                <p>在 <code class="px-1.5 py-0.5 bg-academic-200 dark:bg-academic-800 rounded text-xs font-mono">blog/posts/</code> 下新建 <code class="px-1.5 py-0.5 bg-academic-200 dark:bg-academic-800 rounded text-xs font-mono">YYYY-MM-DD-your-title.md</code> 文件，顶部添加 Frontmatter：</p>
-                <pre class="bg-academic-900 text-academic-100 dark:bg-academic-800 rounded-lg p-4 mt-3 text-xs font-mono overflow-x-auto leading-relaxed">---
+                <p>在 <code class="px-1.5 py-0.5 bg-academic-200 dark:bg-academic-800 rounded text-xs font-mono">blog/posts/</code> 下新建文件夹，结构如下：</p>
+                <pre class="bg-academic-900 text-academic-100 dark:bg-academic-800 rounded-lg p-4 mt-3 text-xs font-mono overflow-x-auto leading-relaxed">blog/posts/
+└── YYYY-MM-DD-your-title/
+    ├── index.md          ← 文章内容（Markdown）
+    └── images/           ← 放文章相关图片
+        └── cover.jpg     ← 封面图（命名固定为 cover.jpg）</pre>
+                <p class="mt-3 font-medium text-academic-700 dark:text-academic-200">index.md 顶部 Frontmatter：</p>
+                <pre class="bg-academic-900 text-academic-100 dark:bg-academic-800 rounded-lg p-4 mt-2 text-xs font-mono overflow-x-auto leading-relaxed">---
 title: 文章标题
 date: 2026-04-01
 tags: [Architecture, Planning]
 excerpt: 文章摘要，一句话描述核心内容
 readTime: 8 min
-cover: assets/img/your-cover.jpg
 ---
 
 正文使用标准 Markdown 写作...</pre>
@@ -288,7 +293,7 @@ cover: assets/img/your-cover.jpg
             tags: ['Architecture'],
             excerpt: '从 ChatGPT 到 AutoGPT，我们看到了大模型能力的飞跃，但单纯的语言理解已经无法满足复杂任务的需求。本文从零开始，梳理 Agent 的定义、它解决的核心问题，以及为什么 Agent 是 LLM 发展的下一场革命。',
             readTime: '8 min',
-            cover: BASE + '/assets/img/post-cover-what-is-agent.jpg'
+            cover: BASE + '/posts/2026-03-25-what-is-agent/images/cover.jpg'
         },
         {
             slug: '2026-03-18-agent-architecture',
@@ -297,7 +302,7 @@ cover: assets/img/your-cover.jpg
             tags: ['Architecture', 'Planning'],
             excerpt: '目前主流的 Agent 架构有三种范式：ReAct 的思考-行动循环、Plan-and-Execute 的先规划后执行、以及最近火热的 Multi-Agent 协作。本文通过流程图与代码示例，对比三种架构的优劣与适用场景。',
             readTime: '12 min',
-            cover: BASE + '/assets/img/post-cover-arch.jpg'
+            cover: BASE + '/posts/2026-03-18-agent-architecture/images/cover.jpg'
         },
         {
             slug: '2026-03-10-agent-memory',
@@ -306,7 +311,7 @@ cover: assets/img/your-cover.jpg
             tags: ['Memory', 'Architecture'],
             excerpt: '记忆是 Agent 智能的核心。一个好的记忆系统需要同时处理即时上下文、历史摘要与长期知识持久化。本文探讨如何在资源受限的条件下，设计一个高效、可插拔的记忆存储与检索架构。',
             readTime: '10 min',
-            cover: BASE + '/assets/img/post-cover-memory.jpg'
+            cover: BASE + '/posts/2026-03-10-agent-memory/images/cover.jpg'
         }
     ];
 
