@@ -126,8 +126,15 @@
                     <a href="blog/index.html" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">Blog</a>
                 </div>
 
-                <!-- 右侧：深色模式切换 -->
+                <!-- 右侧：深色模式切换 + 语言切换 -->
                 <div class="flex items-center gap-2">
+                    <!-- 语言切换 -->
+                    <a href="index-en.html"
+                       class="p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800 transition-colors"
+                       title="Switch to English">
+                        <i class="fas fa-language text-base"></i>
+                    </a>
+                    
                     <button @click="darkMode = !darkMode"
                             class="p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800 transition-colors"
                             :title="darkMode ? '切换到浅色模式' : '切换到深色模式'">
@@ -210,7 +217,7 @@
 
                     <!-- 操作按钮组 -->
                     <div class="flex flex-wrap gap-3">
-                        <a href="mailto:favio9758@gmail.com"
+                        <a href="mailto:3530501407@qq.com"
                            class="group inline-flex items-center gap-2 px-5 py-2.5 bg-academic-900 dark:bg-white text-white dark:text-academic-950 rounded-lg hover:bg-academic-800 dark:hover:bg-academic-100 transition-all duration-200 text-sm font-medium active:scale-[0.98]">
                             <i class="fas fa-envelope text-base"></i>
                             <span>Email</span>
