@@ -542,14 +542,14 @@
             <!-- 分类筛选 + 项目网格 -->
             <div x-data="{
                 activeCategory: 'all',
-                categories: ['all', 'Machine Learning', 'Full-Stack', 'Mathematical Modeling', 'Embedded Systems'],
+                categories: ['all', '机器学习', '全栈开发', '数学建模', '嵌入式系统'],
                 projects: [
-                    { name: '[项目/竞赛名称1]', level: '国家级一等奖', description: '[简短描述]', tags: ['Python','PyTorch','深度学习'], category: 'Machine Learning',       image: 'assets/img/project-ml-01.jpg' },
-                    { name: '[项目/竞赛名称2]', level: '省级金奖',       description: '[简短描述]', tags: ['React','Node.js'],               category: 'Full-Stack',             image: 'assets/img/project-web-01.jpg' },
-                    { name: '[项目/竞赛名称3]', level: '省级一等奖',   description: '[简短描述]', tags: ['MATLAB','优化算法'],            category: 'Mathematical Modeling',  image: 'assets/img/project-math-01.jpg' },
-                    { name: '[项目/竞赛名称4]', level: '校级特等奖',   description: '[简短描述]', tags: ['STM32','C','嵌入式'],          category: 'Embedded Systems',       image: 'assets/img/project-embed-01.jpg' },
-                    { name: '[项目/竞赛名称5]', level: '国家级二等奖', description: '[简短描述]', tags: ['Python','TensorFlow'],         category: 'Machine Learning',       image: 'assets/img/project-ml-01.jpg' },
-                    { name: '[项目/竞赛名称6]', level: '省级银奖',     description: '[简短描述]', tags: ['Vue.js','Flask','MySQL'],      category: 'Full-Stack',             image: '' }
+                    { name: '[项目/竞赛名称1]', level: '国家级一等奖', description: '[简短描述]', tags: ['Python','PyTorch','深度学习'], category: '机器学习',       image: 'assets/img/project-ml-01.jpg' },
+                    { name: '[项目/竞赛名称2]', level: '省级金奖',       description: '[简短描述]', tags: ['React','Node.js'],               category: '全栈开发',             image: 'assets/img/project-web-01.jpg' },
+                    { name: '[项目/竞赛名称3]', level: '省级一等奖',   description: '[简短描述]', tags: ['MATLAB','优化算法'],            category: '数学建模',  image: 'assets/img/project-math-01.jpg' },
+                    { name: '[项目/竞赛名称4]', level: '校级特等奖',   description: '[简短描述]', tags: ['STM32','C','嵌入式'],          category: '嵌入式系统',       image: 'assets/img/project-embed-01.jpg' },
+                    { name: '[项目/竞赛名称5]', level: '国家级二等奖', description: '[简短描述]', tags: ['Python','TensorFlow'],         category: '机器学习',       image: 'assets/img/project-ml-01.jpg' },
+                    { name: '[项目/竞赛名称6]', level: '省级银奖',     description: '[简短描述]', tags: ['Vue.js','Flask','MySQL'],      category: '全栈开发',             image: '' }
                 ],
                 get filteredProjects() {
                     return this.activeCategory === 'all'
@@ -640,7 +640,7 @@
                      style="--i: 1">
                     <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-5 flex items-center gap-2">
                         <i class="fas fa-keyboard text-sm text-academic-400"></i>
-                        Languages
+                        编程语言
                     </h3>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center text-sm">
@@ -680,7 +680,7 @@
                      style="--i: 2">
                     <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-5 flex items-center gap-2">
                         <i class="fas fa-tools text-sm text-academic-400"></i>
-                        Frameworks & Tools
+                        框架与工具
                     </h3>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center text-sm">
@@ -720,7 +720,7 @@
                      style="--i: 3">
                     <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-5 flex items-center gap-2">
                         <i class="fas fa-flask text-sm text-academic-400"></i>
-                        Domain Software
+                        专业软件
                     </h3>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center text-sm">
