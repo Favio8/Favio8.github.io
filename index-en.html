@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }"
+      x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))"
+      :class="{ 'dark': darkMode }">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mingyang Zhang (Favio) - Academic Homepage</title>
+
+    <!-- Favicon: SVG inline -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><text x='16' y='22' text-anchor='middle' font-size='18' font-family='sans-serif' font-weight='700' fill='white'>F</text></svg>">
+
+    <!-- SEO Meta -->
+    <meta name="description" content="Mingyang Zhang (Favio) - Undergraduate student at Xidian University, School of Artificial Intelligence. Research interests: Agent OS, AI Agent System Architecture, and Computer Vision">
+    <meta name="keywords" content="Mingyang Zhang, Favio, Artificial Intelligence, Agent OS, AI Agent, Computer Vision, CV, Xidian University, AI research, graduate student">
+    <meta name="author" content="Mingyang Zhang">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Mingyang Zhang (Favio) - Academic Homepage">
+    <meta property="og:description" content="Prospective Graduate Student | Agent OS, AI Agent & Computer Vision | Xidian University">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://favio8.github.io">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Mingyang Zhang (Favio) - Academic Homepage">
+    <meta name="twitter:description" content="Prospective Graduate Student | Agent OS, AI Agent & Computer Vision">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#6366f1" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a1814" media="(prefers-color-scheme: dark)">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts: Geist替代Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'geist': ['Geist', 'system-ui', 'sans-serif'],
+                        'geist-mono': ['Geist Mono', 'monospace'],
+                    },
+                    colors: {
+                        academic: {
+                            // Light: warm paper tone
+                            50:  '#faf9f7',
+                            100: '#f2efe9',
+                            200: '#e4dfd3',
+                            300: '#cfc7b5',
+                            400: '#b5aa90',
+                            500: '#9c8e72',
+                            600: '#7d7260',
+                            700: '#5f574a',
+                            800: '#454038',
+                            900: '#2d2a23',
+                            950: '#1a1814',
+                        },
+                        // Deep indigo accent — saturated but refined
+                        indigo: {
+                            50:  '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                            950: '#1e1b4b',
+                        }
+                    },
+                    // Custom shadow for glass effect
+                    boxShadow: {
+                        'glass': '0 4px 24px -4px rgba(0,0,0,0.08)',
+                        'glass-dark': '0 4px 24px -4px rgba(0,0,0,0.32)',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-academic-50 dark:bg-academic-950 text-academic-900 dark:text-academic-100 font-geist transition-colors duration-300">
+
+    <!-- ==================== 滚动进度条 ==================== -->
+    <div id="scroll-progress" class="fixed top-0 left-0 h-0.5 bg-academic-900 dark:bg-white z-[100] transition-none" style="width: 0%"></div>
+
+    <!-- ==================== 导航栏 Navbar ==================== -->
+    <nav id="navbar"
+         class="sticky top-0 z-50 bg-academic-50/80 dark:bg-academic-950/80 backdrop-blur-xl border-b border-academic-200/60 dark:border-academic-800/60 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="flex justify-between items-center h-16">
+
+                <!-- 左侧：姓名 -->
+                <a href="#about" class="text-base font-semibold text-academic-900 dark:text-white tracking-tight">
+                    Favio
+                </a>
+
+                <!-- PC端：导航列表 -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#about"    class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">About</a>
+                    <a href="#education" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">Education</a>
+                    <a href="#research" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">Research</a>
+                    <a href="#projects" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">Projects</a>
+                    <a href="#skills"   class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">Skills</a>
+                    <a href="blog/index.html" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">Blog</a>
+                </div>
+
+                <!-- Right: Language Switch + Dark Mode Toggle -->
+                <div class="flex items-center gap-2">
+                    <!-- Language Switch -->
+                    <a href="index.html"
+                       class="p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800 transition-colors"
+                       title="切换到中文">
+                        <i class="fas fa-language text-base"></i>
+                    </a>
+                    
+                    <button @click="darkMode = !darkMode"
+                            class="p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800 transition-colors"
+                            :title="darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+                        <i x-show="darkMode"  class="fas fa-sun text-base"></i>
+                        <i x-show="!darkMode" class="fas fa-moon text-base"></i>
+                    </button>
+
+                    <!-- Mobile: Hamburger Menu -->
+                    <button @click="mobileMenuOpen = !mobileMenuOpen"
+                            class="md:hidden p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800">
+                        <i class="fas fa-bars text-base"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 移动端下拉菜单 -->
+            <div x-data="{ mobileMenuOpen: false }"
+                 x-show="mobileMenuOpen"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 -translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-2"
+                 class="md:hidden py-4 border-t border-academic-200/60 dark:border-academic-800/60">
+                <div class="flex flex-col gap-3">
+                    <a href="#about"    @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">About</a>
+                    <a href="#education" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">Education</a>
+                    <a href="#research" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">Research</a>
+                    <a href="#projects" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">Projects</a>
+                    <a href="#skills"   @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">Skills</a>
+                    <a href="blog/index.html" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">Blog</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== Hero Section ==================== -->
+    <section id="about" class="relative py-20 md:py-32 overflow-hidden">
+
+        <!-- 背景装饰：不对称几何图形 -->
+        <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+            <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-indigo-200/30 dark:bg-indigo-900/10 blur-3xl"></div>
+            <div class="absolute top-1/2 -left-32 w-64 h-64 rounded-full bg-academic-200/40 dark:bg-academic-900/20 blur-3xl"></div>
+        </div>
+
+        <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-12 md:gap-16 items-center">
+
+                <!-- Left: Text Information -->
+                <div class="reveal-up order-2 md:order-1" style="--i: 0">
+                    <!-- Name -->
+                    <h1 class="text-[2.75rem] md:text-6xl font-bold tracking-tight text-academic-950 dark:text-white leading-[1.1] mb-4">
+                        Mingyang Zhang
+                    </h1>
+
+                    <!-- Identity Label -->
+                    <p class="inline-block text-sm font-medium text-indigo-700 dark:text-indigo-300 font-geist-mono tracking-wide mb-6">
+                        Prospective Graduate Student
+                    </p>
+
+                    <!-- Divider -->
+                    <div class="w-12 h-0.5 bg-indigo-600 dark:bg-indigo-400 mb-6"></div>
+
+                    <!-- Core Highlights -->
+                    <div class="space-y-4 text-academic-700 dark:text-academic-200 mb-10">
+                        <p class="flex items-start gap-3 text-base leading-relaxed">
+                            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 flex-shrink-0"></span>
+                            <span>Research Interests: Agent OS, AI Agent System Architecture, and Computer Vision (CV), focusing on intelligent agent system design and visual algorithm research</span>
+                        </p>
+                        <p class="flex items-start gap-3 text-base leading-relaxed">
+                            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 flex-shrink-0"></span>
+                            <span>Undergraduate student in Artificial Intelligence, School of Artificial Intelligence, Xidian University. GPA 3.8, Rank 19/157</span>
+                        </p>
+                        <p class="flex items-start gap-3 text-base leading-relaxed">
+                            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 flex-shrink-0"></span>
+                            <span>Solid foundation in algorithms and engineering practice, with multiple national and provincial awards</span>
+                        </p>
+                    </div>
+
+                    <!-- 操作按钮组 -->
+                    <div class="flex flex-wrap gap-3">
+                        <a href="mailto:3530501407@qq.com"
+                           class="group inline-flex items-center gap-2 px-5 py-2.5 bg-academic-900 dark:bg-white text-white dark:text-academic-950 rounded-lg hover:bg-academic-800 dark:hover:bg-academic-100 transition-all duration-200 text-sm font-medium active:scale-[0.98]">
+                            <i class="fas fa-envelope text-base"></i>
+                            <span>Email</span>
+                        </a>
+
+                        <a href="https://github.com/Favio8/" target="_blank"
+                           class="group inline-flex items-center gap-2 px-5 py-2.5 bg-academic-900 dark:bg-white text-white dark:text-academic-950 rounded-lg hover:bg-academic-800 dark:hover:bg-academic-100 transition-all duration-200 text-sm font-medium active:scale-[0.98]">
+                            <i class="fab fa-github text-base"></i>
+                            <span>GitHub</span>
+                        </a>
+
+                        <a href="#"
+                           class="group inline-flex items-center gap-2 px-5 py-2.5 bg-academic-900 dark:bg-white text-white dark:text-academic-950 rounded-lg hover:bg-academic-800 dark:hover:bg-academic-100 transition-all duration-200 text-sm font-medium active:scale-[0.98]">
+                            <i class="fas fa-graduation-cap text-base"></i>
+                            <span>Scholar</span>
+                        </a>
+
+                        <a href="assets/docs/cv.pdf" download
+                           class="group inline-flex items-center gap-2 px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all duration-200 text-sm font-semibold shadow-md active:scale-[0.98]">
+                            <i class="fas fa-download text-base"></i>
+                            <span>Download CV</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 右侧：头像区域（偏右，offset向上） -->
+                <div class="order-1 md:order-2 reveal-up" style="--i: 1">
+                    <div class="relative">
+                        <!-- 外圈装饰 -->
+                        <div class="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-indigo-200/60 via-transparent to-academic-200/40 dark:from-indigo-900/20 dark:to-transparent -rotate-6"></div>
+
+                        <!-- 堆叠照片容器 -->
+                        <div class="avatar-stack relative rounded-[1.75rem] overflow-visible aspect-square" 
+                             x-data="{ activeIndex: 0, photos: ['assets/img/avatar-1.jpg', 'assets/img/avatar-2.jpg', 'assets/img/avatar-3.jpg', 'assets/img/avatar-4.jpg'] }"
+                             @click="activeIndex = (activeIndex + 1) % photos.length">
+                            <!-- 照片4 - 底层 -->
+                            <div class="avatar-layer" 
+                                 :class="{ 'avatar-layer-active': activeIndex === 3, 'avatar-layer-1': activeIndex !== 3 && (activeIndex + 1) % 4 === 3, 'avatar-layer-2': activeIndex !== 3 && (activeIndex + 2) % 4 === 3, 'avatar-layer-3': activeIndex !== 3 && (activeIndex + 3) % 4 === 3 }">
+                                <img src="assets/img/avatar-4.jpg"
+                                     alt="Photo of Mingyang Zhang"
+                                     class="w-full h-full object-cover"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
+                            <!-- 照片3 - 第二层 -->
+                            <div class="avatar-layer"
+                                 :class="{ 'avatar-layer-active': activeIndex === 2, 'avatar-layer-1': activeIndex !== 2 && (activeIndex + 1) % 4 === 2, 'avatar-layer-2': activeIndex !== 2 && (activeIndex + 2) % 4 === 2, 'avatar-layer-3': activeIndex !== 2 && (activeIndex + 3) % 4 === 2 }">
+                                <img src="assets/img/avatar-3.jpg"
+                                     alt="Photo of Mingyang Zhang"
+                                     class="w-full h-full object-cover"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
+                            <!-- 照片2 - 第三层 -->
+                            <div class="avatar-layer"
+                                 :class="{ 'avatar-layer-active': activeIndex === 1, 'avatar-layer-1': activeIndex !== 1 && (activeIndex + 1) % 4 === 1, 'avatar-layer-2': activeIndex !== 1 && (activeIndex + 2) % 4 === 1, 'avatar-layer-3': activeIndex !== 1 && (activeIndex + 3) % 4 === 1 }">
+                                <img src="assets/img/avatar-2.jpg"
+                                     alt="Photo of Mingyang Zhang"
+                                     class="w-full h-full object-cover"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
+                            <!-- 照片1 - 顶层（默认显示） -->
+                            <div class="avatar-layer"
+                                 :class="{ 'avatar-layer-active': activeIndex === 0, 'avatar-layer-1': activeIndex !== 0 && (activeIndex + 1) % 4 === 0, 'avatar-layer-2': activeIndex !== 0 && (activeIndex + 2) % 4 === 0, 'avatar-layer-3': activeIndex !== 0 && (activeIndex + 3) % 4 === 0 }">
+                                <img src="assets/img/avatar-1.jpg"
+                                     alt="Photo of Mingyang Zhang"
+                                     class="w-full h-full object-cover"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
+                            
+                            <!-- 点击提示 -->
+                            <div class="absolute bottom-2 right-2 bg-indigo-600/90 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                <i class="fas fa-hand-pointer text-[10px]"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Education ==================== -->
+    <section id="education" class="py-20 md:py-28 bg-white dark:bg-academic-900/60">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+            <!-- Section Header -->
+            <div class="reveal-up mb-14" style="--i: 0">
+                <h2 class="text-2xl font-bold text-academic-950 dark:text-white flex items-center gap-3">
+                    <span class="w-8 h-0.5 bg-indigo-600 dark:bg-indigo-400 inline-block"></span>
+                    Education
+                </h2>
+            </div>
+
+            <!-- Timeline 布局 -->
+            <div class="relative pl-8 md:pl-12 reveal-up" style="--i: 1">
+
+                <!-- 时间线竖线 -->
+                <div class="absolute left-0 top-2 bottom-0 w-px bg-academic-200 dark:bg-academic-700"></div>
+
+                <!-- 时间线圆点 -->
+                <div class="absolute left-[-4px] top-3 w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400 ring-4 ring-academic-100 dark:ring-academic-900"></div>
+
+                <div class="bg-academic-50/60 dark:bg-academic-800/40 rounded-2xl p-6 md:p-8 border border-academic-200/60 dark:border-academic-700/40 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark"
+                     x-data="{ showCourses: false }">
+
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                        <div class="flex-1">
+                            <h3 class="text-xl font-semibold text-academic-950 dark:text-white">
+                                Xidian University &mdash; School of Artificial Intelligence
+                            </h3>
+                            <p class="text-academic-600 dark:text-academic-400 mt-1">
+                                Artificial Intelligence &middot; B.Eng.
+                            </p>
+
+                            <!-- Key Data Tags -->
+                            <div class="flex flex-wrap gap-2 mt-5">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 rounded-full text-sm font-medium">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                                    GPA: <strong class="font-semibold">3.8/4.0</strong>
+                                </span>
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-academic-100 dark:bg-academic-800 text-academic-700 dark:text-academic-300 rounded-full text-sm">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-academic-400"></span>
+                                    Rank: <strong class="font-semibold">19/157</strong>
+                                </span>
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-academic-100 dark:bg-academic-800 text-academic-700 dark:text-academic-300 rounded-full text-sm">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-academic-400"></span>
+                                    Expected Graduation 2027
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-1.5 text-sm text-academic-500 dark:text-academic-400 md:mt-1">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>2023 &ndash; 2027</span>
+                        </div>
+                    </div>
+
+                    <!-- 核心课程折叠 -->
+                    <div class="mt-6 pt-6 border-t border-academic-200/60 dark:border-academic-700/40">
+                        <button @click="showCourses = !showCourses"
+                                class="flex items-center gap-2 text-sm font-medium text-academic-600 dark:text-academic-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                            <i class="fas fa-book text-xs"></i>
+                            Core Courses & Grades
+                            <i class="fas fa-chevron-down text-[10px] transition-transform duration-200" :class="{ 'rotate-180': showCourses }"></i>
+                        </button>
+
+                        <div x-show="showCourses"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 -translate-y-2"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 translate-y-0"
+                             x-transition:leave-end="opacity-0 -translate-y-2"
+                             class="mt-4 space-y-2">
+
+                            <div class="skill-bar-group grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Intro to CS & Programming</span>
+                                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">99</span>
+                                </div>
+                                <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Cognitive Computing</span>
+                                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">95</span>
+                                </div>
+                                <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Data Structures</span>
+                                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">94</span>
+                                </div>
+                                <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Microcomputer Principles</span>
+                                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">94</span>
+                                </div>
+                                <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Operating Systems</span>
+                                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">93</span>
+                                </div>
+                                <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Pattern Recognition</span>
+                                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">92</span>
+                                </div>
+                                <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">College Physics</span>
+                                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">90</span>
+                                </div>
+                                <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Linear Algebra</span>
+                                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">89</span>
+                                </div>
+                                <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Advanced Mathematics</span>
+                                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">88</span>
+                                </div>
+                                <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Intro to AI</span>
+                                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">88</span>
+                                </div>
+                                <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Signals and Systems</span>
+                                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">88</span>
+                                </div>
+                                <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Computer Organization</span>
+                                    <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">86</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Research ==================== -->
+    <section id="research" class="py-20 md:py-28 bg-academic-50 dark:bg-academic-950/80">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+            <div class="reveal-up mb-14" style="--i: 0">
+                <h2 class="text-2xl font-bold text-academic-950 dark:text-white flex items-center gap-3">
+                    <span class="w-8 h-0.5 bg-indigo-600 dark:bg-indigo-400 inline-block"></span>
+                    Research Experience & Publications
+                </h2>
+            </div>
+
+            <!-- 研究卡片列表 -->
+            <div class="space-y-6">
+
+                <!-- 论文卡片 1 -->
+                <div class="research-card group reveal-up rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 md:p-8 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-0.5"
+                     style="--i: 1">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-5">
+                        <div>
+                            <h3 class="text-lg font-semibold text-academic-950 dark:text-white leading-snug">
+                                [Your Paper Title 1]
+                            </h3>
+                            <p class="text-sm text-academic-600 dark:text-academic-400 mt-1.5">
+                                <i class="fas fa-user-tie mr-1 text-academic-400"></i>
+                                Advisor: Prof. [Advisor Name]
+                                <span class="mx-2 text-academic-300 dark:text-academic-600">&middot;</span>
+                                <span class="text-indigo-600 dark:text-indigo-400">[Your Role]</span>
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-sm text-academic-500 dark:text-academic-400 whitespace-nowrap">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>[年月] &ndash; [年月]</span>
+                        </div>
+                    </div>
+
+                    <!-- Abstract 背景 -->
+                    <div class="bg-academic-100/60 dark:bg-academic-800/40 rounded-xl p-4 mb-5">
+                        <p class="text-sm text-academic-700 dark:text-academic-300 leading-relaxed">
+                            <strong class="text-academic-900 dark:text-white">Research Problem:</strong> [What problem did you solve],
+                            <strong class="text-academic-900 dark:text-white">Methodology:</strong> [What methods did you use],
+                            <strong class="text-academic-900 dark:text-white">Results:</strong> [What results did you achieve].
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-3">
+                        <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium active:scale-[0.98]">
+                            <i class="fas fa-file-pdf text-sm"></i>PDF
+                        </a>
+                        <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-academic-900 dark:bg-academic-800 text-white dark:text-academic-200 rounded-lg hover:bg-academic-800 dark:hover:bg-academic-700 transition-colors text-sm font-medium active:scale-[0.98]">
+                            <i class="fab fa-github text-sm"></i>Code
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 论文卡片 2 -->
+                <div class="research-card group reveal-up rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 md:p-8 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-0.5"
+                     style="--i: 2">
+                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-5">
+                        <div>
+                            <h3 class="text-lg font-semibold text-academic-950 dark:text-white leading-snug">
+                                [Your Paper Title 2]
+                            </h3>
+                            <p class="text-sm text-academic-600 dark:text-academic-400 mt-1.5">
+                                <i class="fas fa-user-tie mr-1 text-academic-400"></i>
+                                Advisor: Prof. [Advisor Name]
+                                <span class="mx-2 text-academic-300 dark:text-academic-600">&middot;</span>
+                                <span class="text-indigo-600 dark:text-indigo-400">[Your Role]</span>
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-sm text-academic-500 dark:text-academic-400 whitespace-nowrap">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>[年月] &ndash; [年月]</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-academic-100/60 dark:bg-academic-800/40 rounded-xl p-4 mb-5">
+                        <p class="text-sm text-academic-700 dark:text-academic-300 leading-relaxed">
+                            <strong class="text-academic-900 dark:text-white">Research Problem:</strong> [Describe research problem],
+                            <strong class="text-academic-900 dark:text-white">Methodology:</strong> [Describe methodology],
+                            <strong class="text-academic-900 dark:text-white">Results:</strong> [Describe results].
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-3">
+                        <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium active:scale-[0.98]">
+                            <i class="fas fa-file-pdf text-sm"></i>PDF
+                        </a>
+                        <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-academic-900 dark:bg-academic-800 text-white dark:text-academic-200 rounded-lg hover:bg-academic-800 dark:hover:bg-academic-700 transition-colors text-sm font-medium active:scale-[0.98]">
+                            <i class="fab fa-github text-sm"></i>Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Projects & Awards ==================== -->
+    <section id="projects" class="py-20 md:py-28 bg-white dark:bg-academic-900/60">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+            <div class="reveal-up mb-14" style="--i: 0">
+                <h2 class="text-2xl font-bold text-academic-950 dark:text-white flex items-center gap-3">
+                    <span class="w-8 h-0.5 bg-indigo-600 dark:bg-indigo-400 inline-block"></span>
+                    Competitions & Projects
+                </h2>
+            </div>
+
+            <!-- 分类筛选 + 项目网格 -->
+            <div x-data="{
+                activeCategory: 'all',
+                categories: ['all', 'Machine Learning', 'Full-Stack', 'Mathematical Modeling', 'Embedded Systems'],
+                projects: [
+                    { name: '[项目/竞赛名称1]', level: '国家级一等奖', description: '[简短描述]', tags: ['Python','PyTorch','深度学习'], category: 'Machine Learning',       image: 'assets/img/project-ml-01.jpg' },
+                    { name: '[项目/竞赛名称2]', level: '省级金奖',       description: '[简短描述]', tags: ['React','Node.js'],               category: 'Full-Stack',             image: 'assets/img/project-web-01.jpg' },
+                    { name: '[项目/竞赛名称3]', level: '省级一等奖',   description: '[简短描述]', tags: ['MATLAB','优化算法'],            category: 'Mathematical Modeling',  image: 'assets/img/project-math-01.jpg' },
+                    { name: '[项目/竞赛名称4]', level: '校级特等奖',   description: '[简短描述]', tags: ['STM32','C','嵌入式'],          category: 'Embedded Systems',       image: 'assets/img/project-embed-01.jpg' },
+                    { name: '[项目/竞赛名称5]', level: '国家级二等奖', description: '[简短描述]', tags: ['Python','TensorFlow'],         category: 'Machine Learning',       image: 'assets/img/project-ml-01.jpg' },
+                    { name: '[项目/竞赛名称6]', level: '省级银奖',     description: '[简短描述]', tags: ['Vue.js','Flask','MySQL'],      category: 'Full-Stack',             image: '' }
+                ],
+                get filteredProjects() {
+                    return this.activeCategory === 'all'
+                        ? this.projects
+                        : this.projects.filter(p => p.category === this.activeCategory);
+                }
+            }">
+
+                <!-- 分类标签 -->
+                <div class="flex flex-wrap gap-2 reveal-up" style="--i: 1">
+                    <template x-for="cat in categories" :key="cat">
+                        <button @click="activeCategory = cat"
+                                :class="activeCategory === cat
+                                    ? 'bg-indigo-600 text-white shadow-sm'
+                                    : 'bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-400 hover:bg-academic-200 dark:hover:bg-academic-700'"
+                                class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 active:scale-[0.97]">
+                            <span x-text="cat"></span>
+                        </button>
+                    </template>
+                </div>
+
+                <!-- 项目网格 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
+                    <template x-for="(project, idx) in filteredProjects" :key="project.name">
+                        <div class="project-card group reveal-up rounded-2xl overflow-hidden border border-academic-200/60 dark:border-academic-700/40 bg-white/60 dark:bg-academic-900/40 backdrop-blur-sm transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-1"
+                             :style="'--i: ' + (idx + 2)">
+
+                            <!-- 图片/占位区域 -->
+                            <div class="h-40 overflow-hidden relative">
+                                <div x-show="project.image" class="h-full">
+                                    <img :src="project.image" :alt="project.name" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async">
+                                </div>
+                                <div x-show="!project.image" class="h-full bg-gradient-to-br from-academic-100 to-academic-200 dark:from-academic-800 dark:to-academic-900 flex items-center justify-center">
+                                    <i class="fas fa-project-diagram text-3xl text-academic-400 dark:text-academic-600"></i>
+                                </div>
+
+                                <!-- 级别标签浮于图片底部 -->
+                                <div class="absolute bottom-3 left-3">
+                                    <span class="inline-block px-2.5 py-0.5 bg-amber-100/90 dark:bg-amber-900/60 text-amber-800 dark:text-amber-300 rounded-full text-xs font-semibold backdrop-blur-sm"
+                                          x-text="project.level"></span>
+                                </div>
+                            </div>
+
+                            <!-- 信息区 -->
+                            <div class="p-5">
+                                <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-2 leading-snug"
+                                    x-text="project.name"></h3>
+                                <p class="text-sm text-academic-600 dark:text-academic-400 mb-4 leading-relaxed line-clamp-2"
+                                   x-text="project.description"></p>
+
+                                <!-- 技术栈标签 -->
+                                <div class="flex flex-wrap gap-1.5">
+                                    <template x-for="tag in project.tags" :key="tag">
+                                        <span class="px-2 py-0.5 bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-400 rounded text-xs font-medium"
+                                              x-text="tag"></span>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- 空状态 -->
+                <div x-show="filteredProjects.length === 0" class="text-center py-16 text-academic-400 dark:text-academic-600">
+                    <i class="fas fa-inbox text-4xl mb-4"></i>
+                    <p class="text-sm">该分类下暂无项目</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Skills ==================== -->
+    <section id="skills" class="py-20 md:py-28 bg-academic-50 dark:bg-academic-950/80">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+            <div class="reveal-up mb-14" style="--i: 0">
+                <h2 class="text-2xl font-bold text-academic-950 dark:text-white flex items-center gap-3">
+                    <span class="w-8 h-0.5 bg-indigo-600 dark:bg-indigo-400 inline-block"></span>
+                    Technical Skills
+                </h2>
+            </div>
+
+            <!-- 技能三大分组 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- Languages -->
+                <div class="skill-card reveal-up rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark"
+                     style="--i: 1">
+                    <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-5 flex items-center gap-2">
+                        <i class="fas fa-keyboard text-sm text-academic-400"></i>
+                        Languages
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">Python</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">熟练</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="90"></div></div>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">C / C++</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">熟练</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="80"></div></div>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">JavaScript</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="65"></div></div>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">MATLAB</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="70"></div></div>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">LaTeX</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">熟练</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="85"></div></div>
+                    </div>
+                </div>
+
+                <!-- Frameworks & Tools -->
+                <div class="skill-card reveal-up rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark"
+                     style="--i: 2">
+                    <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-5 flex items-center gap-2">
+                        <i class="fas fa-tools text-sm text-academic-400"></i>
+                        Frameworks & Tools
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">PyTorch</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">熟练</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="88"></div></div>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">TensorFlow</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="70"></div></div>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">NumPy / Pandas</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">熟练</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="85"></div></div>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">Git / Linux</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">熟练</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="80"></div></div>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">React / Flask</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="60"></div></div>
+                    </div>
+                </div>
+
+                <!-- Domain Software -->
+                <div class="skill-card reveal-up rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark"
+                     style="--i: 3">
+                    <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-5 flex items-center gap-2">
+                        <i class="fas fa-flask text-sm text-academic-400"></i>
+                        Domain Software
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">MATLAB / Simulink</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="72"></div></div>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">AutoCAD</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="60"></div></div>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">Vivado</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">了解</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="45"></div></div>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">Multisim</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="65"></div></div>
+
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-academic-700 dark:text-academic-300">Docker</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">了解</span>
+                        </div>
+                        <div class="skill-progress"><div class="skill-progress-bar" data-width="50"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Footer ==================== -->
+    <footer class="py-10 bg-white dark:bg-academic-900 border-t border-academic-200/60 dark:border-academic-800/60">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-academic-500 dark:text-academic-400">
+                <div>
+                    <p>&copy; 2024&ndash;2026 Mingyang Zhang (Favio). All rights reserved.</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="italic">"Stay hungry, stay foolish." &mdash; Steve Jobs</p>
+                    <p class="text-xs mt-1 text-academic-400 dark:text-academic-600">Last updated: 2026-03</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== Scripts ==================== -->
+    <script>
+        // ---------- 滚动进度条 ----------
+        const scrollProgress = document.getElementById('scroll-progress');
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            scrollProgress.style.width = progress + '%';
+
+            // Navbar shadow on scroll
+            if (scrollTop > 20) {
+                navbar.classList.add('shadow-glass');
+            } else {
+                navbar.classList.remove('shadow-glass');
+            }
+        }, { passive: true });
+
+        // ---------- 入场动画：Intersection Observer ----------
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const delay = parseInt(el.style.getPropertyValue('--i')) * 80 || 0;
+                    setTimeout(() => {
+                        el.classList.add('is-visible');
+                    }, delay);
+                    revealObserver.unobserve(el);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-up').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // ---------- 技能进度条动画 ----------
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bars = entry.target.querySelectorAll('.skill-progress-bar');
+                    bars.forEach((bar, idx) => {
+                        const width = bar.getAttribute('data-width') || '0';
+                        setTimeout(() => {
+                            bar.style.width = width + '%';
+                        }, idx * 80);
+                    });
+                    skillObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.skill-card').forEach(card => {
+            skillObserver.observe(card);
+        });
+
+        // ---------- 平滑滚动 ----------
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ---------- 减少动画偏好 ----------
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.querySelectorAll('.reveal-up, .skill-progress-bar').forEach(el => {
+                el.style.transition = 'none';
+                el.classList.add('is-visible');
+                if (el.classList.contains('skill-progress-bar')) {
+                    el.style.width = el.getAttribute('data-width') + '%';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
