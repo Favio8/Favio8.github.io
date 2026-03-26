@@ -226,44 +226,8 @@
 
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
 
-        <!-- 精选 Featured -->
-        <template x-if="featuredPosts.length > 0">
-            <div class="mb-14 reveal-up" style="--i:2">
-                <h2 class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 font-geist-mono tracking-widest uppercase mb-6 flex items-center gap-3">
-                    <i class="fas fa-star text-xs"></i>
-                    精选
-                </h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-                    <template x-for="post in featuredPosts" :key="post.slug">
-                        <a :href="'post.html?slug=' + post.slug" class="featured-card">
-                            <div class="featured-cover">
-                                <img :src="post.cover" :alt="post.title" loading="lazy" decoding="async">
-                            </div>
-                            <div class="p-5 flex flex-col gap-2 flex-1">
-                                <div class="flex flex-wrap gap-1.5">
-                                    <template x-for="t in post.tags" :key="t">
-                                        <span class="px-2 py-0.5 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-medium"
-                                              x-text="t"></span>
-                                    </template>
-                                </div>
-                                <h3 class="text-sm font-semibold text-academic-950 dark:text-white leading-snug mt-1"
-                                    x-text="post.title"></h3>
-                                <p class="text-xs text-academic-500 dark:text-academic-400 leading-relaxed line-clamp-2 mt-auto"
-                                   x-text="post.excerpt"></p>
-                                <div class="flex items-center gap-1.5 text-xs text-academic-400 dark:text-academic-600 mt-2 pt-2 border-t border-academic-100 dark:border-academic-800">
-                                    <i class="far fa-calendar-alt"></i>
-                                    <span x-text="post.date"></span>
-                                    <span class="ml-auto" x-text="post.readTime"></span>
-                                </div>
-                            </div>
-                        </a>
-                    </template>
-                </div>
-            </div>
-        </template>
-
         <!-- 全部文章 All posts (list view) -->
-        <div class="reveal-up is-visible" style="--i:3">
+        <div class="reveal-up is-visible" style="--i:2">
             <h2 class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 font-geist-mono tracking-widest uppercase mb-6 flex items-center gap-3">
                 <i class="fas fa-feather-alt text-xs"></i>
                 全部文章
@@ -300,20 +264,17 @@
                         </div>
                     </div>
                 </template>
-            </div>
 
-            <!-- Empty state -->
-            <div x-show="filteredPosts.length === 0" class="text-center py-16 text-academic-400 dark:text-academic-600">
-                <i class="fas fa-feather text-4xl mb-4 opacity-50"></i>
-                <p class="text-sm">该分类下暂无文章，持续更新中...</p>
+                <!-- Empty state -->
+                <div x-show="filteredPosts.length === 0" class="text-center py-16 text-academic-400 dark:text-academic-600">
+                    <i class="fas fa-feather text-4xl mb-4 opacity-50"></i>
+                    <p class="text-sm">该分类下暂无文章，持续更新中...</p>
+                </div>
             </div>
         </div>
 
-    </div>
-
-    <!-- ==================== How to Write ==================== -->
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 mt-20">
-        <div class="reveal-up rounded-2xl bg-academic-100/60 dark:bg-academic-900/40 border border-academic-200/60 dark:border-academic-700/40 p-6 md:p-8">
+        <!-- ==================== How to Write ==================== -->
+        <div class="mt-20 reveal-up rounded-2xl bg-academic-100/60 dark:bg-academic-900/40 border border-academic-200/60 dark:border-academic-700/40 p-6 md:p-8">
             <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-3 flex items-center gap-2">
                 <i class="fas fa-pen text-indigo-500 text-sm"></i>
                 写新文章
@@ -340,6 +301,7 @@ readTime: 8 min
                 <p class="pt-2">在 <code class="px-1.5 py-0.5 bg-academic-200 dark:bg-academic-800 rounded text-xs font-mono">blog/index.html</code> 的 <code class="px-1.5 py-0.5 bg-academic-200 dark:bg-academic-800 rounded text-xs font-mono">POSTS</code> 数组中添加一条记录即可。</p>
             </div>
         </div>
+
     </div>
 </section>
 
@@ -409,11 +371,6 @@ readTime: 8 min
             posts: POSTS,
             activeCat: 'all',
             mobileMenuOpen: false,
-
-            // 精选：featured:true 的文章（不受分类筛选影响）
-            get featuredPosts() {
-                return this.posts.filter(p => p.featured);
-            },
 
             // 当前分类下的文章
             get filteredPosts() {

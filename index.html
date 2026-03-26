@@ -11,14 +11,14 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><text x='16' y='22' text-anchor='middle' font-size='18' font-family='sans-serif' font-weight='700' fill='white'>F</text></svg>">
 
     <!-- SEO Meta -->
-    <meta name="description" content="张铭扬 (Favio) - 西安电子科技大学人工智能学院本科生，专注于机器学习、深度学习及计算机视觉研究，寻求海外硕博申请">
-    <meta name="keywords" content="张铭扬, Favio, 人工智能, 机器学习, 计算机视觉, 深度学习, 西安电子科技大学, AI research, PhD application">
+    <meta name="description" content="张铭扬 (Favio) - 西安电子科技大学人工智能学院本科生，专注于机器学习、深度学习及计算机视觉研究，寻求研究生深造机会">
+    <meta name="keywords" content="张铭扬, Favio, 人工智能, 机器学习, 计算机视觉, 深度学习, 西安电子科技大学, AI research, graduate student">
     <meta name="author" content="张铭扬">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:title" content="张铭扬 (Favio) - 学术主页">
-    <meta property="og:description" content="Prospective Master / Ph.D. Student | AI & Machine Learning | 西安电子科技大学">
+    <meta property="og:description" content="Prospective Graduate Student | AI & Machine Learning | 西安电子科技大学">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://favio8.github.io">
     <meta property="og:locale" content="zh_CN">
@@ -26,7 +26,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="张铭扬 (Favio) - 学术主页">
-    <meta name="twitter:description" content="Prospective Master / Ph.D. Student | AI & Machine Learning">
+    <meta name="twitter:description" content="Prospective Graduate Student | AI & Machine Learning">
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#6366f1" media="(prefers-color-scheme: light)">
@@ -186,7 +186,7 @@
 
                     <!-- 身份标签 -->
                     <p class="inline-block text-sm font-medium text-indigo-700 dark:text-indigo-300 font-geist-mono tracking-wide mb-6">
-                        Prospective Master / Ph.D. Student
+                        Prospective Graduate Student
                     </p>
 
                     <!-- 分隔线 -->
@@ -242,13 +242,51 @@
                         <!-- 外圈装饰 -->
                         <div class="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-indigo-200/60 via-transparent to-academic-200/40 dark:from-indigo-900/20 dark:to-transparent -rotate-6"></div>
 
-                        <!-- 头像容器 -->
-                        <div class="relative rounded-[1.75rem] overflow-hidden shadow-glass dark:shadow-glass-dark bg-academic-200 dark:bg-academic-800 aspect-square">
-                            <img src="assets/img/avatar-placeholder.jpg"
-                                 alt="张铭扬的照片"
-                                 class="w-full h-full object-cover"
-                                 loading="lazy"
-                                 decoding="async">
+                        <!-- 堆叠照片容器 -->
+                        <div class="avatar-stack relative rounded-[1.75rem] overflow-visible aspect-square" 
+                             x-data="{ activeIndex: 0, photos: ['assets/img/avatar-1.jpg', 'assets/img/avatar-2.jpg', 'assets/img/avatar-3.jpg', 'assets/img/avatar-4.jpg'] }"
+                             @click="activeIndex = (activeIndex + 1) % photos.length">
+                            <!-- 照片4 - 底层 -->
+                            <div class="avatar-layer" 
+                                 :class="{ 'avatar-layer-active': activeIndex === 3, 'avatar-layer-1': activeIndex !== 3 && (activeIndex + 1) % 4 === 3, 'avatar-layer-2': activeIndex !== 3 && (activeIndex + 2) % 4 === 3, 'avatar-layer-3': activeIndex !== 3 && (activeIndex + 3) % 4 === 3 }">
+                                <img src="assets/img/avatar-4.jpg"
+                                     alt="张铭扬的照片"
+                                     class="w-full h-full object-cover"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
+                            <!-- 照片3 - 第二层 -->
+                            <div class="avatar-layer"
+                                 :class="{ 'avatar-layer-active': activeIndex === 2, 'avatar-layer-1': activeIndex !== 2 && (activeIndex + 1) % 4 === 2, 'avatar-layer-2': activeIndex !== 2 && (activeIndex + 2) % 4 === 2, 'avatar-layer-3': activeIndex !== 2 && (activeIndex + 3) % 4 === 2 }">
+                                <img src="assets/img/avatar-3.jpg"
+                                     alt="张铭扬的照片"
+                                     class="w-full h-full object-cover"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
+                            <!-- 照片2 - 第三层 -->
+                            <div class="avatar-layer"
+                                 :class="{ 'avatar-layer-active': activeIndex === 1, 'avatar-layer-1': activeIndex !== 1 && (activeIndex + 1) % 4 === 1, 'avatar-layer-2': activeIndex !== 1 && (activeIndex + 2) % 4 === 1, 'avatar-layer-3': activeIndex !== 1 && (activeIndex + 3) % 4 === 1 }">
+                                <img src="assets/img/avatar-2.jpg"
+                                     alt="张铭扬的照片"
+                                     class="w-full h-full object-cover"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
+                            <!-- 照片1 - 顶层（默认显示） -->
+                            <div class="avatar-layer"
+                                 :class="{ 'avatar-layer-active': activeIndex === 0, 'avatar-layer-1': activeIndex !== 0 && (activeIndex + 1) % 4 === 0, 'avatar-layer-2': activeIndex !== 0 && (activeIndex + 2) % 4 === 0, 'avatar-layer-3': activeIndex !== 0 && (activeIndex + 3) % 4 === 0 }">
+                                <img src="assets/img/avatar-1.jpg"
+                                     alt="张铭扬的照片"
+                                     class="w-full h-full object-cover"
+                                     loading="lazy"
+                                     decoding="async">
+                            </div>
+                            
+                            <!-- 点击提示 -->
+                            <div class="absolute bottom-2 right-2 bg-indigo-600/90 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                <i class="fas fa-hand-pointer text-[10px]"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
