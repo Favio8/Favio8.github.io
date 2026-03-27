@@ -285,9 +285,9 @@
     // All paths absolute (relative to domain root) for GitHub Pages
     const BASE = window.location.origin + '/blog';
     const POSTS = {
-        '2026-03-25-what-is-agent':     { title: '什么是 Agent？为什么大模型需要它？',           date: '2026-03-25', category: 'Agent随笔', featured: true,  tags: ['Architecture'],          readTime: '8 min',  excerpt: '从 ChatGPT 到 AutoGPT，我们看到了大模型能力的飞跃。', cover: BASE + '/posts/2026-03-25-what-is-agent/images/cover.jpg' },
-        '2026-03-18-agent-architecture': { title: 'Agent 架构解析：ReAct、Plan-and-Execute 与 Multi-Agent', date: '2026-03-18', category: 'Agent随笔', featured: true,  tags: ['Architecture','Planning'], readTime: '12 min', excerpt: '目前主流的 Agent 架构有三种范式。', cover: BASE + '/posts/2026-03-18-agent-architecture/images/cover.jpg' },
-        '2026-03-10-agent-memory':      { title: 'Agent 的记忆系统：从短期到长期的全链路设计',      date: '2026-03-10', category: 'Agent随笔', featured: false, tags: ['Memory','Architecture'],  readTime: '10 min', excerpt: '记忆是 Agent 智能的核心。',                             cover: BASE + '/posts/2026-03-10-agent-memory/images/cover.jpg' }
+        '2026-03-27-ToT':     { title: 'Agent论文阅读（3）| Tree of Thoughts：让大模型学会"先看后走"的思维树',           date: '2026-03-27', category: '论文阅读笔记', featured: true,  tags: ['Agent', 'Planning'],          readTime: '10 min',  excerpt: 'Tree of Thoughts (ToT) 提出了将复杂规划问题转化为在「思维树」上的搜索问题。', cover: BASE + '/posts/2026-03-27-ToT/images/cover.png' },
+        '2026-03-23-Toolformer': { title: 'Agent论文阅读（2）| Toolformer：语言模型可以自学使用工具', date: '2026-03-23', category: '论文阅读笔记', featured: true,  tags: ['Agent', 'ToolUse'], readTime: '12 min', excerpt: 'Toolformer 提出了一种自监督范式，让语言模型通过少量 API 示例自行学会在合适时机调用外部工具。', cover: BASE + '/posts/2026-03-23-Toolformer/images/cover.png' },
+        '2026-03-14-ReAct':      { title: 'Agent论文阅读（1）| ReAct：让大模型同时思考和行动',      date: '2026-03-14', category: '论文阅读笔记', featured: true, tags: ['Agent', 'ReAct'],  readTime: '10 min', excerpt: 'ReAct 首次打破了推理和行动的壁垒，让LLM以交替的方式生成推理轨迹和特定操作。',                             cover: BASE + '/posts/2026-03-14-ReAct/images/cover.png' }
     };
 
     function postPage() {
