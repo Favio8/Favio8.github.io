@@ -5,19 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mingyang Zhang (Favio) - Academic Homepage</title>
+    <title>Zhang Mingyang (Favio) - Academic Homepage</title>
 
     <!-- Favicon: SVG inline -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><text x='16' y='22' text-anchor='middle' font-size='18' font-family='sans-serif' font-weight='700' fill='white'>F</text></svg>">
 
     <!-- SEO Meta -->
-    <meta name="description" content="Mingyang Zhang (Favio) - Undergraduate student at Xidian University, School of Artificial Intelligence. Research interests: Agent OS, AI Agent System Architecture, and Computer Vision">
+    <meta name="description" content="Zhang Mingyang (Favio) - Undergraduate at the School of Artificial Intelligence, Xidian University. Research interests: Agent OS, AI Agent system architecture & Computer Vision">
     <meta name="keywords" content="Mingyang Zhang, Favio, Artificial Intelligence, Agent OS, AI Agent, Computer Vision, CV, Xidian University, AI research, graduate student">
     <meta name="author" content="Mingyang Zhang">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Mingyang Zhang (Favio) - Academic Homepage">
+    <meta property="og:title" content="Zhang Mingyang (Favio) - Academic Homepage">
     <meta property="og:description" content="Prospective Graduate Student | Agent OS, AI Agent & Computer Vision | Xidian University">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://favio8.github.io">
@@ -25,7 +25,7 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Mingyang Zhang (Favio) - Academic Homepage">
+    <meta name="twitter:title" content="Zhang Mingyang (Favio) - Academic Homepage">
     <meta name="twitter:description" content="Prospective Graduate Student | Agent OS, AI Agent & Computer Vision">
 
     <!-- Theme Color -->
@@ -34,6 +34,15 @@
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ============================================================
+         数据文件：科研日报索引 + 公众号文章清单
+         注意：必须用普通 <script> 加载，不能加 type="module"，
+         否则本地 file:// 直接双击打开时会被 CORS 拦截。
+         同时必须在 Alpine 之前加载，Alpine 组件初始化时才能读到数据。
+         ============================================================ -->
+    <script src="data/daily-manifest.js?v=20260901"></script>
+    <script src="data/articles.js?v=20260901"></script>
 
     <!-- Alpine.js CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -124,11 +133,12 @@
                     <a href="#education" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">Education</a>
                     <a href="#research" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">Research</a>
                     <a href="#projects" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">Projects</a>
+                    <a href="#daily"    class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">Daily Log</a>
+                    <a href="#articles" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">Articles</a>
                     <a href="#skills"   class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">Skills</a>
-                    <a href="blog/index.html" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">Blog</a>
                 </div>
 
-                <!-- Right: Language Switch + Dark Mode Toggle -->
+                <!-- 右侧：深色模式切换 + 语言切换 -->
                 <div class="flex items-center gap-2">
                     <!-- Language Switch -->
                     <a href="index.html"
@@ -144,7 +154,7 @@
                         <i x-show="!darkMode" class="fas fa-moon text-base"></i>
                     </button>
 
-                    <!-- Mobile: Hamburger Menu -->
+                    <!-- 移动端：汉堡菜单 -->
                     <button @click="mobileMenuOpen = !mobileMenuOpen"
                             class="md:hidden p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800">
                         <i class="fas fa-bars text-base"></i>
@@ -166,8 +176,9 @@
                     <a href="#education" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">Education</a>
                     <a href="#research" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">Research</a>
                     <a href="#projects" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">Projects</a>
+                    <a href="#daily"    @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">Daily Log</a>
+                    <a href="#articles" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">Articles</a>
                     <a href="#skills"   @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">Skills</a>
-                    <a href="blog/index.html" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">Blog</a>
                 </div>
             </div>
         </div>
@@ -185,34 +196,40 @@
         <div class="relative max-w-6xl mx-auto px-4 sm:px-6">
             <div class="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-12 md:gap-16 items-center">
 
-                <!-- Left: Text Information -->
+                <!-- 左侧：文字信息（偏左不对称） -->
                 <div class="reveal-up order-2 md:order-1" style="--i: 0">
-                    <!-- Name -->
+                    <!-- 姓名 -->
                     <h1 class="text-[2.75rem] md:text-6xl font-bold tracking-tight text-academic-950 dark:text-white leading-[1.1] mb-4">
                         Mingyang Zhang
                     </h1>
 
-                    <!-- Identity Label -->
+                    <!-- 身份标签 -->
                     <p class="inline-block text-sm font-medium text-indigo-700 dark:text-indigo-300 font-geist-mono tracking-wide mb-6">
                         Prospective Graduate Student
                     </p>
 
-                    <!-- Divider -->
+                    <!-- 打字机：当前在做的事。改文案 → 页面底部脚本里的 typewriter().lines -->
+                    <p x-data="typewriter()" x-init="start()"
+                       class="font-geist-mono text-sm md:text-base text-academic-600 dark:text-academic-300 mb-6 h-7">
+                        <span class="text-indigo-500 dark:text-indigo-400 mr-2">▸</span><span x-text="typed"></span><span class="inline-block w-[2px] h-[1.05em] bg-indigo-500 dark:bg-indigo-400 align-middle ml-1 animate-pulse"></span>
+                    </p>
+
+                    <!-- 分隔线 -->
                     <div class="w-12 h-0.5 bg-indigo-600 dark:bg-indigo-400 mb-6"></div>
 
-                    <!-- Core Highlights -->
+                    <!-- 核心 Highlights -->
                     <div class="space-y-4 text-academic-700 dark:text-academic-200 mb-10">
                         <p class="flex items-start gap-3 text-base leading-relaxed">
                             <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 flex-shrink-0"></span>
-                            <span>Research Interests: Agent OS, AI Agent System Architecture, and Computer Vision (CV), focusing on intelligent agent system design and visual algorithm research</span>
+                            <span>Research interests: Agent OS, AI Agent system architecture, and Computer Vision — focusing on intelligent agent design and visual algorithms</span>
                         </p>
                         <p class="flex items-start gap-3 text-base leading-relaxed">
                             <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 flex-shrink-0"></span>
-                            <span>Undergraduate student in Artificial Intelligence, School of Artificial Intelligence, Xidian University. GPA 3.8, Rank 19/157</span>
+                            <span>Undergraduate in Artificial Intelligence at Xidian University, GPA 3.8, ranked 19/157</span>
                         </p>
                         <p class="flex items-start gap-3 text-base leading-relaxed">
                             <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 flex-shrink-0"></span>
-                            <span>Solid foundation in algorithms and engineering practice, with multiple national and provincial awards</span>
+                            <span>Solid foundation in algorithms and engineering, with multiple national/provincial awards</span>
                         </p>
                     </div>
 
@@ -299,6 +316,19 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 活力数据条：数字全部由 data/*.js 实时计算，零维护 -->
+            <div class="reveal-up mt-16 md:mt-24" style="--i: 2" x-data="statsStrip()" x-init="init()">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8 py-10 border-t border-academic-200/70 dark:border-academic-800/70">
+                    <template x-for="s in stats" :key="s.label">
+                        <div class="text-center">
+                            <div class="font-geist-mono text-3xl md:text-4xl font-semibold text-academic-950 dark:text-white"
+                                 x-text="s.display"></div>
+                            <div class="text-xs text-academic-500 dark:text-academic-400 mt-2 tracking-wider" x-text="s.label"></div>
+                        </div>
+                    </template>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -308,10 +338,15 @@
 
             <!-- Section Header -->
             <div class="reveal-up mb-14" style="--i: 0">
-                <h2 class="text-2xl font-bold text-academic-950 dark:text-white flex items-center gap-3">
-                    <span class="w-8 h-0.5 bg-indigo-600 dark:bg-indigo-400 inline-block"></span>
-                    Education
-                </h2>
+                <div class="flex items-center gap-4">
+                    <span class="w-11 h-11 rounded-xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fas fa-graduation-cap"></i>
+                    </span>
+                    <div>
+                        <div class="font-geist-mono text-[11px] tracking-[0.25em] text-academic-400 dark:text-academic-500 uppercase">01 · Education</div>
+                        <h2 class="text-2xl font-bold text-academic-950 dark:text-white leading-tight">Education</h2>
+                    </div>
+                </div>
             </div>
 
             <!-- Timeline 布局 -->
@@ -335,7 +370,7 @@
                                 Artificial Intelligence &middot; B.Eng.
                             </p>
 
-                            <!-- Key Data Tags -->
+                            <!-- 关键数据标签 -->
                             <div class="flex flex-wrap gap-2 mt-5">
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 rounded-full text-sm font-medium">
                                     <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
@@ -363,7 +398,7 @@
                         <button @click="showCourses = !showCourses"
                                 class="flex items-center gap-2 text-sm font-medium text-academic-600 dark:text-academic-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
                             <i class="fas fa-book text-xs"></i>
-                            Core Courses & Grades
+                            Core Courses &amp; Grades
                             <i class="fas fa-chevron-down text-[10px] transition-transform duration-200" :class="{ 'rotate-180': showCourses }"></i>
                         </button>
 
@@ -378,7 +413,7 @@
 
                             <div class="skill-bar-group grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
-                                    <span class="text-sm text-academic-700 dark:text-academic-300">Intro to CS & Programming</span>
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Intro to Computing &amp; Programming</span>
                                     <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">99</span>
                                 </div>
                                 <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
@@ -390,7 +425,7 @@
                                     <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">94</span>
                                 </div>
                                 <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
-                                    <span class="text-sm text-academic-700 dark:text-academic-300">Microcomputer Principles</span>
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Microcomputer Principles &amp; System Design</span>
                                     <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">94</span>
                                 </div>
                                 <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
@@ -410,15 +445,15 @@
                                     <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">89</span>
                                 </div>
                                 <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
-                                    <span class="text-sm text-academic-700 dark:text-academic-300">Advanced Mathematics</span>
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Calculus</span>
                                     <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">88</span>
                                 </div>
                                 <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
-                                    <span class="text-sm text-academic-700 dark:text-academic-300">Intro to AI</span>
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Introduction to AI</span>
                                     <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">88</span>
                                 </div>
                                 <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
-                                    <span class="text-sm text-academic-700 dark:text-academic-300">Signals and Systems</span>
+                                    <span class="text-sm text-academic-700 dark:text-academic-300">Signals &amp; Systems</span>
                                     <span class="text-sm font-semibold text-indigo-600 dark:text-indigo-400">88</span>
                                 </div>
                                 <div class="skill-bar-item flex justify-between items-center bg-white dark:bg-academic-900/60 rounded-lg px-4 py-2.5 border border-academic-200/60 dark:border-academic-700/40">
@@ -438,91 +473,104 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
             <div class="reveal-up mb-14" style="--i: 0">
-                <h2 class="text-2xl font-bold text-academic-950 dark:text-white flex items-center gap-3">
-                    <span class="w-8 h-0.5 bg-indigo-600 dark:bg-indigo-400 inline-block"></span>
-                    Research Experience & Publications
-                </h2>
+                <div class="flex items-center gap-4">
+                    <span class="w-11 h-11 rounded-xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fas fa-flask"></i>
+                    </span>
+                    <div>
+                        <div class="font-geist-mono text-[11px] tracking-[0.25em] text-academic-400 dark:text-academic-500 uppercase">02 · Research</div>
+                        <h2 class="text-2xl font-bold text-academic-950 dark:text-white leading-tight">Research Experience &amp; Publications</h2>
+                    </div>
+                </div>
             </div>
 
             <!-- 研究卡片列表 -->
             <div class="space-y-6">
 
                 <!-- 论文卡片 1 -->
-                <div class="research-card group reveal-up rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 md:p-8 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-0.5"
+                <!-- Sample-data card: when replacing with real content, remove the demo-card / demo-ribbon / demo-title classes -->
+                <div class="research-card demo-card group reveal-up relative rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 md:p-8 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-0.5"
                      style="--i: 1">
+                    <span class="demo-ribbon"><i class="fas fa-flask"></i> Sample Data</span>
+
                     <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-5">
                         <div>
-                            <h3 class="text-lg font-semibold text-academic-950 dark:text-white leading-snug">
-                                [Your Paper Title 1]
+                            <h3 class="demo-title text-lg font-semibold text-academic-950 dark:text-white leading-snug">
+                                [Example] Memory &amp; Reflection Mechanisms for Tool-Calling Agents
                             </h3>
                             <p class="text-sm text-academic-600 dark:text-academic-400 mt-1.5">
                                 <i class="fas fa-user-tie mr-1 text-academic-400"></i>
-                                Advisor: Prof. [Advisor Name]
+                                Advisor: <span class="text-amber-700 dark:text-amber-400 font-medium">[TBD · advisor name]</span>
                                 <span class="mx-2 text-academic-300 dark:text-academic-600">&middot;</span>
-                                <span class="text-indigo-600 dark:text-indigo-400">[Your Role]</span>
+                                <span class="text-indigo-600 dark:text-indigo-400">Core implementer / [TBD · author position]</span>
                             </p>
                         </div>
                         <div class="flex items-center gap-1.5 text-sm text-academic-500 dark:text-academic-400 whitespace-nowrap">
                             <i class="far fa-calendar-alt"></i>
-                            <span>[年月] &ndash; [年月]</span>
+                            <span>[TBD · start date] &ndash; Present</span>
                         </div>
                     </div>
 
                     <!-- Abstract 背景 -->
                     <div class="bg-academic-100/60 dark:bg-academic-800/40 rounded-xl p-4 mb-5">
                         <p class="text-sm text-academic-700 dark:text-academic-300 leading-relaxed">
-                            <strong class="text-academic-900 dark:text-white">Research Problem:</strong> [What problem did you solve],
-                            <strong class="text-academic-900 dark:text-white">Methodology:</strong> [What methods did you use],
-                            <strong class="text-academic-900 dark:text-white">Results:</strong> [What results did you achieve].
+                            <strong class="text-academic-900 dark:text-white">Problem:</strong> tool-calling agents repeat the same mistakes across multi-turn tasks and cannot reuse past experience.
+                            <strong class="text-academic-900 dark:text-white">Method:</strong> a two-tier memory design (short-term trajectory cache + long-term experience library) with failure-driven reflection rewriting.
+                            <strong class="text-academic-900 dark:text-white">Results:</strong> improved task success rate and average steps on a self-built multi-tool benchmark (<span class="text-amber-700 dark:text-amber-400">numbers TBD</span>).
                         </p>
                     </div>
 
                     <div class="flex flex-wrap gap-3">
-                        <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium active:scale-[0.98]">
-                            <i class="fas fa-file-pdf text-sm"></i>PDF
-                        </a>
-                        <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-academic-900 dark:bg-academic-800 text-white dark:text-academic-200 rounded-lg hover:bg-academic-800 dark:hover:bg-academic-700 transition-colors text-sm font-medium active:scale-[0.98]">
-                            <i class="fab fa-github text-sm"></i>Code
-                        </a>
+                        <span class="inline-flex items-center gap-2 px-4 py-2 bg-academic-100 dark:bg-academic-800 text-academic-400 dark:text-academic-500 rounded-lg text-sm font-medium cursor-not-allowed"
+                              title="Replace with the real link once the PDF is available">
+                            <i class="fas fa-file-pdf text-sm"></i>PDF (TBD)
+                        </span>
+                        <span class="inline-flex items-center gap-2 px-4 py-2 bg-academic-100 dark:bg-academic-800 text-academic-400 dark:text-academic-500 rounded-lg text-sm font-medium cursor-not-allowed"
+                              title="Replace with the real link once the repository is public">
+                            <i class="fab fa-github text-sm"></i>Code (TBD)
+                        </span>
                     </div>
                 </div>
 
                 <!-- 论文卡片 2 -->
-                <div class="research-card group reveal-up rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 md:p-8 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-0.5"
+                <!-- Sample-data card 2 -->
+                <div class="research-card demo-card group reveal-up relative rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 md:p-8 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-0.5"
                      style="--i: 2">
+                    <span class="demo-ribbon"><i class="fas fa-flask"></i> Sample Data</span>
+
                     <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-5">
                         <div>
-                            <h3 class="text-lg font-semibold text-academic-950 dark:text-white leading-snug">
-                                [Your Paper Title 2]
+                            <h3 class="demo-title text-lg font-semibold text-academic-950 dark:text-white leading-snug">
+                                [Example] Weakly-Supervised Visual Object Localization
                             </h3>
                             <p class="text-sm text-academic-600 dark:text-academic-400 mt-1.5">
                                 <i class="fas fa-user-tie mr-1 text-academic-400"></i>
-                                Advisor: Prof. [Advisor Name]
+                                Advisor: <span class="text-amber-700 dark:text-amber-400 font-medium">[TBD · advisor name]</span>
                                 <span class="mx-2 text-academic-300 dark:text-academic-600">&middot;</span>
-                                <span class="text-indigo-600 dark:text-indigo-400">[Your Role]</span>
+                                <span class="text-indigo-600 dark:text-indigo-400">[TBD · author position &amp; status: under review / in writing]</span>
                             </p>
                         </div>
                         <div class="flex items-center gap-1.5 text-sm text-academic-500 dark:text-academic-400 whitespace-nowrap">
                             <i class="far fa-calendar-alt"></i>
-                            <span>[年月] &ndash; [年月]</span>
+                            <span>[TBD · start &ndash; end]</span>
                         </div>
                     </div>
 
                     <div class="bg-academic-100/60 dark:bg-academic-800/40 rounded-xl p-4 mb-5">
                         <p class="text-sm text-academic-700 dark:text-academic-300 leading-relaxed">
-                            <strong class="text-academic-900 dark:text-white">Research Problem:</strong> [Describe research problem],
-                            <strong class="text-academic-900 dark:text-white">Methodology:</strong> [Describe methodology],
-                            <strong class="text-academic-900 dark:text-white">Results:</strong> [Describe results].
+                            <strong class="text-academic-900 dark:text-white">Problem:</strong> with only image-level labels, models overfit to the most discriminative parts and miss the whole object.
+                            <strong class="text-academic-900 dark:text-white">Method:</strong> class-activation-map erasure with regional contrast constraints, forcing attention on the full spatial extent.
+                            <strong class="text-academic-900 dark:text-white">Results:</strong> improved localization accuracy (<span class="text-amber-700 dark:text-amber-400">dataset, numbers and submission status TBD</span>).
                         </p>
                     </div>
 
                     <div class="flex flex-wrap gap-3">
-                        <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium active:scale-[0.98]">
-                            <i class="fas fa-file-pdf text-sm"></i>PDF
-                        </a>
-                        <a href="#" class="inline-flex items-center gap-2 px-4 py-2 bg-academic-900 dark:bg-academic-800 text-white dark:text-academic-200 rounded-lg hover:bg-academic-800 dark:hover:bg-academic-700 transition-colors text-sm font-medium active:scale-[0.98]">
-                            <i class="fab fa-github text-sm"></i>Code
-                        </a>
+                        <span class="inline-flex items-center gap-2 px-4 py-2 bg-academic-100 dark:bg-academic-800 text-academic-400 dark:text-academic-500 rounded-lg text-sm font-medium cursor-not-allowed">
+                            <i class="fas fa-file-pdf text-sm"></i>PDF (TBD)
+                        </span>
+                        <span class="inline-flex items-center gap-2 px-4 py-2 bg-academic-100 dark:bg-academic-800 text-academic-400 dark:text-academic-500 rounded-lg text-sm font-medium cursor-not-allowed">
+                            <i class="fab fa-github text-sm"></i>Code (TBD)
+                        </span>
                     </div>
                 </div>
             </div>
@@ -534,23 +582,35 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
             <div class="reveal-up mb-14" style="--i: 0">
-                <h2 class="text-2xl font-bold text-academic-950 dark:text-white flex items-center gap-3">
-                    <span class="w-8 h-0.5 bg-indigo-600 dark:bg-indigo-400 inline-block"></span>
-                    Competitions & Projects
-                </h2>
+                <div class="flex items-center gap-4">
+                    <span class="w-11 h-11 rounded-xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fas fa-trophy"></i>
+                    </span>
+                    <div>
+                        <div class="font-geist-mono text-[11px] tracking-[0.25em] text-academic-400 dark:text-academic-500 uppercase">03 · Projects</div>
+                        <h2 class="text-2xl font-bold text-academic-950 dark:text-white leading-tight">Competitions &amp; Projects</h2>
+                    </div>
+                </div>
             </div>
 
             <!-- 分类筛选 + 项目网格 -->
-            <div x-data="{
+            <div x-init="$watch('activeCategory', () => $nextTick(() => registerReveal()))" x-data="{
                 activeCategory: 'all',
-                categories: ['all', 'Machine Learning', 'Full-Stack', 'Mathematical Modeling', 'Embedded Systems'],
+                categories: ['all', 'Machine Learning', 'Full-Stack', 'Math Modeling', 'Embedded Systems'],
+                // ------------------------------------------------------------
+                // Sample data: level/category keep the real structure, names and
+                // descriptions are placeholders. Cards whose name contains
+                // 【示例】 or [Example automatically get the amber ribbon
+                // and dashed border — replace them with real content and the
+                // markers disappear on their own.
+                // ------------------------------------------------------------
                 projects: [
-                    { name: '[项目/竞赛名称1]', level: '国家级一等奖', description: '[简短描述]', tags: ['Python','PyTorch','深度学习'], category: 'Machine Learning',       image: 'assets/img/project-ml-01.jpg' },
-                    { name: '[项目/竞赛名称2]', level: '省级金奖',       description: '[简短描述]', tags: ['React','Node.js'],               category: 'Full-Stack',             image: 'assets/img/project-web-01.jpg' },
-                    { name: '[项目/竞赛名称3]', level: '省级一等奖',   description: '[简短描述]', tags: ['MATLAB','优化算法'],            category: 'Mathematical Modeling',  image: 'assets/img/project-math-01.jpg' },
-                    { name: '[项目/竞赛名称4]', level: '校级特等奖',   description: '[简短描述]', tags: ['STM32','C','嵌入式'],          category: 'Embedded Systems',       image: 'assets/img/project-embed-01.jpg' },
-                    { name: '[项目/竞赛名称5]', level: '国家级二等奖', description: '[简短描述]', tags: ['Python','TensorFlow'],         category: 'Machine Learning',       image: 'assets/img/project-ml-01.jpg' },
-                    { name: '[项目/竞赛名称6]', level: '省级银奖',     description: '[简短描述]', tags: ['Vue.js','Flask','MySQL'],      category: 'Full-Stack',             image: '' }
+                    { name: '[Example · AI Algorithm Competition]',   level: 'National 1st Prize',    description: '[Example] Multimodal retrieval system for a real-world scenario — responsible for model selection and the retrieval ranking module.', tags: ['Python','PyTorch','Multimodal'],  category: 'Machine Learning',  image: 'assets/img/project-ml-01.jpg' },
+                    { name: '[Example · Innovation Competition]',     level: 'Provincial Gold Award', description: '[Example] Agent workflow platform for research scenarios — owned the front/back-end architecture and the task orchestration engine.',  tags: ['React','Node.js','Agent'],        category: 'Full-Stack',        image: 'assets/img/project-web-01.jpg' },
+                    { name: '[Example · Math Modeling Competition]',  level: 'Provincial 1st Prize',  description: '[Example] Built multi-objective optimization models, solved with heuristics, and wrote the modeling sections of the paper.',          tags: ['MATLAB','Optimization','Writing'], category: 'Math Modeling',    image: 'assets/img/project-math-01.jpg' },
+                    { name: '[Example · Embedded Design Competition]',level: 'University Grand Prize',description: '[Example] Real-time on-device inference on an embedded platform — model quantization and inference acceleration.',                     tags: ['STM32','C','Deployment'],         category: 'Embedded Systems',  image: 'assets/img/project-embed-01.jpg' },
+                    { name: '[Example · Computer Vision Competition]',level: 'National 2nd Prize',    description: '[Example] Object detection track — data augmentation design and detection model training/tuning.',                                    tags: ['Python','TensorFlow','Detection'], category: 'Machine Learning', image: 'assets/img/project-ml-01.jpg' },
+                    { name: '[Example · Research Project]',           level: 'Provincial Silver Award',description: '[Example] Tool-calling framework for agents — prototype development and experimental evaluation.',                                    tags: ['Vue.js','Flask','MySQL'],         category: 'Full-Stack',        image: '' }
                 ],
                 get filteredProjects() {
                     return this.activeCategory === 'all'
@@ -575,8 +635,15 @@
                 <!-- 项目网格 -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
                     <template x-for="(project, idx) in filteredProjects" :key="project.name">
-                        <div class="project-card group reveal-up rounded-2xl overflow-hidden border border-academic-200/60 dark:border-academic-700/40 bg-white/60 dark:bg-academic-900/40 backdrop-blur-sm transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-1"
+                        <!-- 名称含「【示例】」时自动挂上 demo-card（虚线边框）与琥珀色角标。
+                             替换成真实内容后这两个标识会自动消失，无需改代码 -->
+                        <div class="project-card group reveal-up relative rounded-2xl overflow-hidden border border-academic-200/60 dark:border-academic-700/40 bg-white/60 dark:bg-academic-900/40 backdrop-blur-sm transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-1"
+                             :class="{ 'demo-card': isDemo(project.name) }"
                              :style="'--i: ' + (idx + 2)">
+
+                            <span x-show="isDemo(project.name)" class="demo-ribbon">
+                                <i class="fas fa-flask"></i> Sample
+                            </span>
 
                             <!-- 图片/占位区域 -->
                             <div class="h-40 overflow-hidden relative">
@@ -616,8 +683,276 @@
                 <!-- 空状态 -->
                 <div x-show="filteredProjects.length === 0" class="text-center py-16 text-academic-400 dark:text-academic-600">
                     <i class="fas fa-inbox text-4xl mb-4"></i>
-                    <p class="text-sm">该分类下暂无项目</p>
+                    <p class="text-sm">No projects in this category</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 科研日报（新增板块） ==================== -->
+    <!-- 背景色与 #research 一致（academic-50），与 #projects 的白底形成明暗交替 -->
+    <section id="daily" class="py-20 md:py-28 bg-academic-50 dark:bg-academic-950/80">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6" x-data="dailySection()" x-init="init()">
+
+            <!-- 标题行：与 #projects 同构，右侧多出「最近更新」与「查看全部」 -->
+            <div class="reveal-up mb-14 flex flex-wrap items-end justify-between gap-4" style="--i: 0">
+                <div>
+                    <div class="flex items-center gap-4">
+                        <span class="w-11 h-11 rounded-xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg flex-shrink-0">
+                            <i class="fas fa-calendar-check"></i>
+                        </span>
+                        <div>
+                            <div class="font-geist-mono text-[11px] tracking-[0.25em] text-academic-400 dark:text-academic-500 uppercase">04 · Daily Log</div>
+                            <h2 class="text-2xl font-bold text-academic-950 dark:text-white leading-tight">Research Daily Log</h2>
+                        </div>
+                    </div>
+                    <p class="text-sm text-academic-500 dark:text-academic-400 mt-3 ml-[60px]">
+                        Reading papers, running experiments, and lessons learned
+                    </p>
+                </div>
+
+                <div class="flex items-center gap-5">
+                    <!-- 最近更新时间：超过 30 天自动淡化为灰色。
+                         诚实展示但不刺眼——断更时这比硬撑着假装活跃要好 -->
+                    <span x-show="lastUpdateText"
+                          :class="isStale
+                              ? 'text-academic-400 dark:text-academic-600'
+                              : 'text-academic-500 dark:text-academic-400'"
+                          class="text-xs whitespace-nowrap"
+                          x-text="lastUpdateText"></span>
+
+                    <a href="daily/index.html"
+                       class="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center gap-1.5 whitespace-nowrap">
+                        View All <i class="fas fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 记录热力图：GitHub 风格，近半年哪些天写了日报。
+                 数据完全来自 daily-manifest.js，零维护；manifest 为空时自动隐藏 -->
+            <div x-data="heatmap()" x-init="init()" x-show="hasData" style="display:none; --i: 1"
+                 class="reveal-up mb-12">
+                <div class="flex items-end justify-between mb-3">
+                    <span class="text-xs font-medium text-academic-500 dark:text-academic-400">
+                        <i class="fas fa-fire text-indigo-500 dark:text-indigo-400 mr-1.5"></i>Log density · last 6 months
+                    </span>
+                    <span class="inline-flex items-center gap-1 text-xs text-academic-400 dark:text-academic-500">
+                        Less
+                        <span class="w-[10px] h-[10px] rounded-[2px] bg-academic-100 dark:bg-academic-800"></span>
+                        <span class="w-[10px] h-[10px] rounded-[2px] bg-indigo-300 dark:bg-indigo-600/60"></span>
+                        <span class="w-[10px] h-[10px] rounded-[2px] bg-indigo-400 dark:bg-indigo-500"></span>
+                        <span class="w-[10px] h-[10px] rounded-[2px] bg-indigo-600 dark:bg-indigo-400"></span>
+                        More
+                    </span>
+                </div>
+                <div class="overflow-x-auto pb-1">
+                    <div class="grid grid-rows-7 grid-flow-col gap-[3px] w-max">
+                        <template x-for="(w, wi) in weeks" :key="wi">
+                            <template x-for="d in w" :key="d.key">
+                                <div class="w-[10px] h-[10px] rounded-[2px]" :class="levelClass(d.n)" :title="d.tip"></div>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 加载骨架：索引合并（manifest + GitHub API 自动发现）期间短暂展示 -->
+            <div x-show="loading" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <template x-for="i in 3" :key="i">
+                    <div class="h-44 rounded-2xl bg-academic-100 dark:bg-academic-800/50 animate-pulse"></div>
+                </template>
+            </div>
+
+            <!-- 最近 3 条卡片：视觉对齐 #projects 的 project-card -->
+            <div x-show="!loading && items.length" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <template x-for="(d, idx) in items" :key="d.date">
+                    <a :href="'daily/index.html#' + d.date"
+                       class="group reveal-up flex flex-col rounded-2xl border border-academic-200/60 dark:border-academic-700/40 bg-white/60 dark:bg-academic-900/40 backdrop-blur-sm p-5 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-1"
+                       :style="'--i: ' + (idx + 1)">
+
+                        <!-- 日期行 -->
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-6 h-0.5 bg-indigo-500 inline-block"></span>
+                            <time class="font-geist-mono text-xs text-academic-500 dark:text-academic-400" x-text="d.date"></time>
+                            <span x-show="d.readMinutes"
+                                  class="ml-auto text-xs text-academic-400 dark:text-academic-500"
+                                  x-text="d.readMinutes + ' min'"></span>
+                        </div>
+
+                        <!-- 标题：缺省时回退为「日期 + 日报」，保证只加一行也不会出现空白卡 -->
+                        <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-2 leading-snug line-clamp-2"
+                            x-text="d.title || (d.date + ' Daily Log')"></h3>
+
+                        <!-- 摘要 -->
+                        <p class="text-sm text-academic-600 dark:text-academic-400 leading-relaxed line-clamp-3"
+                           x-text="d.summary || '(Summary pending — click to read)'"></p>
+
+                        <!-- 标签 -->
+                        <div class="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-academic-100 dark:border-academic-800">
+                            <template x-for="t in (d.tags || [])" :key="t">
+                                <span class="px-2 py-0.5 bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-400 rounded text-xs font-medium"
+                                      x-text="t"></span>
+                            </template>
+                        </div>
+                    </a>
+                </template>
+            </div>
+
+            <!-- 兜底空状态：断更或 manifest 为空时展示，绝不留白 -->
+            <div x-show="!loading && items.length === 0"
+                 class="text-center py-16 text-academic-400 dark:text-academic-600 rounded-2xl border border-dashed border-academic-200 dark:border-academic-700">
+                <i class="fas fa-seedling text-4xl mb-4"></i>
+                <p class="text-sm">Research log is warming up — updates soon</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 文章与随笔（新增板块，卡片直跳微信公众号） ==================== -->
+    <section id="articles" class="py-20 md:py-28 bg-white dark:bg-academic-900/60">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6" x-data="articlesSection()" x-init="init()">
+
+            <!-- relative z-40：reveal-up 的 transform 会让本容器形成层叠上下文，
+                 若不显式提层，浮出的二维码会被下方文章卡片（DOM 顺序靠后）盖住 -->
+            <div class="reveal-up relative z-40 mb-14 flex flex-wrap items-end justify-between gap-4" style="--i: 0">
+                <div>
+                    <div class="flex items-center gap-4">
+                        <span class="w-11 h-11 rounded-xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg flex-shrink-0">
+                            <i class="fas fa-pen-nib"></i>
+                        </span>
+                        <div>
+                            <div class="font-geist-mono text-[11px] tracking-[0.25em] text-academic-400 dark:text-academic-500 uppercase">05 · Articles</div>
+                            <h2 class="text-2xl font-bold text-academic-950 dark:text-white leading-tight">Articles &amp; Essays</h2>
+                        </div>
+                    </div>
+                    <p class="text-sm text-academic-500 dark:text-academic-400 mt-3 ml-[60px]">
+                        Paper notes and reflections, first published on WeChat
+                    </p>
+                </div>
+                <!-- hover / 键盘聚焦 / 移动端点按 均可弹出公众号二维码 -->
+                <span tabindex="0" class="relative group cursor-help text-sm text-academic-500 dark:text-academic-400 inline-flex items-center gap-1.5">
+                    <i class="fab fa-weixin text-green-600"></i> WeChat Official Account「梦思之隅」
+
+                    <!-- 二维码浮层：默认不可见，group-hover / group-focus-within 时淡入 -->
+                    <span class="pointer-events-none absolute right-0 top-full mt-3 z-30 opacity-0 invisible translate-y-1
+                                 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
+                                 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0
+                                 transition-all duration-200">
+                        <span class="block p-2 bg-white rounded-xl shadow-glass dark:shadow-glass-dark ring-1 ring-academic-200/70 dark:ring-academic-700/60">
+                            <img src="assets/img/wechat-qrcode.jpg" alt="QR code of WeChat Official Account 梦思之隅"
+                                 class="block w-36 h-36 rounded-lg" decoding="async">
+                            <span class="block text-center text-xs text-academic-600 dark:text-academic-300 mt-1.5 mb-0.5">Scan to follow on WeChat</span>
+                        </span>
+                    </span>
+                </span>
+            </div>
+
+            <!-- 系列筛选栏（占位实现）：所有文章同属一个系列（或都没填 series）时
+                 由 x-show 自动隐藏；articles.js 里出现第二个系列的那一刻，这里会
+                 自动长出筛选栏——不需要改任何 HTML -->
+            <div x-show="series.length > 1" style="display:none; --i: 1"
+                 class="flex flex-wrap gap-2 mb-8 reveal-up">
+                <button @click="activeSeries = 'all'"
+                        :class="activeSeries === 'all'
+                            ? 'bg-indigo-600 text-white shadow-sm'
+                            : 'bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-400 hover:bg-academic-200 dark:hover:bg-academic-700'"
+                        class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 active:scale-[0.97]">
+                    All <span class="opacity-70" x-text="items.length"></span>
+                </button>
+                <template x-for="s in series" :key="s.name">
+                    <button @click="activeSeries = s.name"
+                            :class="activeSeries === s.name
+                                ? 'bg-indigo-600 text-white shadow-sm'
+                                : 'bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-400 hover:bg-academic-200 dark:hover:bg-academic-700'"
+                            class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 active:scale-[0.97]">
+                        <span x-text="s.name"></span> <span class="opacity-70" x-text="s.count"></span>
+                    </button>
+                </template>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <template x-for="(a, idx) in filtered" :key="a.title">
+
+                    <!-- 整卡可点击跳微信原文。noopener 防止新页面通过 window.opener 反向操作本页 -->
+                    <a :href="isPlaceholderUrl(a.url) ? '#' : a.url"
+                       @click="if (isPlaceholderUrl(a.url)) $event.preventDefault()"
+                       target="_blank" rel="noopener noreferrer"
+                       class="group reveal-up relative flex flex-col rounded-2xl overflow-hidden border border-academic-200/60 dark:border-academic-700/40 bg-white/60 dark:bg-academic-900/40 backdrop-blur-sm transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-1"
+                       :style="'--i: ' + (idx + 1)">
+
+                        <!-- 封面区：有 cover 用图；没有（如一行速记条目）则按系列生成渐变封面 -->
+                        <div class="h-40 overflow-hidden relative bg-academic-100 dark:bg-academic-800">
+                            <img x-show="a.cover" :src="a.cover" :alt="a.title" loading="lazy" decoding="async"
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                 onerror="this.style.display='none'">
+                            <div x-show="!a.cover"
+                                 class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-gradient-to-br"
+                                 :class="coverTheme(a.series)">
+                                <i class="fab fa-weixin text-white/85 text-2xl"></i>
+                                <span class="text-white font-semibold text-sm tracking-wide px-4 text-center leading-snug"
+                                      x-text="a.series || 'WeChat'"></span>
+                            </div>
+
+                            <!-- 外链提示 1：右上角常驻角标。链接未填写时改为琥珀色警示 -->
+                            <span x-show="isPlaceholderUrl(a.url)"
+                                  class="absolute top-3 right-3 inline-flex items-center gap-1 px-2 py-0.5 rounded-full
+                                         bg-amber-500/90 text-white text-xs font-semibold backdrop-blur-sm">
+                                <i class="fas fa-exclamation-triangle"></i> Link TBD
+                            </span>
+                            <span x-show="!isPlaceholderUrl(a.url)"
+                                  class="absolute top-3 right-3 inline-flex items-center gap-1 px-2 py-0.5 rounded-full
+                                         bg-green-600/90 text-white text-xs font-semibold backdrop-blur-sm">
+                                <i class="fab fa-weixin"></i> WeChat Post
+                            </span>
+
+                            <!-- 外链提示 2：hover 时从底部浮出的遮罩条 -->
+                            <div x-show="!isPlaceholderUrl(a.url)"
+                                 class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/60 to-transparent
+                                        opacity-0 group-hover:opacity-100 transition-opacity duration-300
+                                        flex items-end justify-end px-3 pb-2">
+                                <span class="text-white text-xs font-medium inline-flex items-center gap-1">
+                                    Open in WeChat <i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- 信息区 -->
+                        <div class="p-5 flex flex-col flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <!-- 速记条目可不填 date：整行优雅降级，不留「undefined」 -->
+                                <time x-show="a.date" class="font-geist-mono text-xs text-academic-500 dark:text-academic-400" x-text="a.date"></time>
+                                <span class="text-xs text-academic-400 dark:text-academic-500"
+                                      x-text="(a.date ? '· ' : '') + a.source"></span>
+                                <!-- 系列徽标：articles.js 里填了 series 就会显示 -->
+                                <span x-show="a.series" x-text="a.series"
+                                      class="ml-auto px-2 py-0.5 rounded text-xs font-medium bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"></span>
+                            </div>
+
+                            <!-- 外链提示 3：标题右侧的小箭头 -->
+                            <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-2 leading-snug line-clamp-2">
+                                <span x-text="a.title"></span>
+                                <i x-show="!isPlaceholderUrl(a.url)"
+                                   class="fas fa-external-link-alt text-[10px] text-academic-400 ml-1 align-super"></i>
+                            </h3>
+
+                            <p x-show="a.excerpt"
+                               class="text-sm text-academic-600 dark:text-academic-400 mb-4 leading-relaxed line-clamp-3"
+                               x-text="a.excerpt"></p>
+
+                            <div class="flex flex-wrap gap-1.5 mt-auto">
+                                <template x-for="t in (a.tags || [])" :key="t">
+                                    <span class="px-2 py-0.5 bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-400 rounded text-xs font-medium"
+                                          x-text="t"></span>
+                                </template>
+                            </div>
+
+                            <!-- 本地存档：微信链接失效或被删时的兜底入口 -->
+                            <span x-show="a.mirror" @click.stop.prevent="window.location.href = a.mirror"
+                                  class="mt-3 text-xs text-academic-400 hover:text-indigo-600 dark:hover:text-indigo-400 inline-flex items-center gap-1 cursor-pointer">
+                                <i class="fas fa-archive"></i> Local Archive
+                            </span>
+                        </div>
+                    </a>
+                </template>
             </div>
         </div>
     </section>
@@ -627,10 +962,15 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
             <div class="reveal-up mb-14" style="--i: 0">
-                <h2 class="text-2xl font-bold text-academic-950 dark:text-white flex items-center gap-3">
-                    <span class="w-8 h-0.5 bg-indigo-600 dark:bg-indigo-400 inline-block"></span>
-                    Technical Skills
-                </h2>
+                <div class="flex items-center gap-4">
+                    <span class="w-11 h-11 rounded-xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fas fa-layer-group"></i>
+                    </span>
+                    <div>
+                        <div class="font-geist-mono text-[11px] tracking-[0.25em] text-academic-400 dark:text-academic-500 uppercase">06 · Skills</div>
+                        <h2 class="text-2xl font-bold text-academic-950 dark:text-white leading-tight">Skills</h2>
+                    </div>
+                </div>
             </div>
 
             <!-- 技能三大分组 -->
@@ -641,7 +981,7 @@
                      style="--i: 1">
                     <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-5 flex items-center gap-2">
                         <i class="fas fa-keyboard text-sm text-academic-400"></i>
-                        Languages
+                        Programming Languages
                     </h3>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center text-sm">
@@ -658,13 +998,13 @@
 
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-academic-700 dark:text-academic-300">JavaScript</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Competent</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Familiar</span>
                         </div>
                         <div class="skill-progress"><div class="skill-progress-bar" data-width="65"></div></div>
 
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-academic-700 dark:text-academic-300">MATLAB</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Competent</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Familiar</span>
                         </div>
                         <div class="skill-progress"><div class="skill-progress-bar" data-width="70"></div></div>
 
@@ -681,7 +1021,7 @@
                      style="--i: 2">
                     <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-5 flex items-center gap-2">
                         <i class="fas fa-tools text-sm text-academic-400"></i>
-                        Frameworks & Tools
+                        Frameworks &amp; Tools
                     </h3>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center text-sm">
@@ -692,7 +1032,7 @@
 
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-academic-700 dark:text-academic-300">TensorFlow</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Competent</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Familiar</span>
                         </div>
                         <div class="skill-progress"><div class="skill-progress-bar" data-width="70"></div></div>
 
@@ -710,7 +1050,7 @@
 
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-academic-700 dark:text-academic-300">React / Flask</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Competent</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Familiar</span>
                         </div>
                         <div class="skill-progress"><div class="skill-progress-bar" data-width="60"></div></div>
                     </div>
@@ -726,31 +1066,31 @@
                     <div class="space-y-3">
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-academic-700 dark:text-academic-300">MATLAB / Simulink</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Competent</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Familiar</span>
                         </div>
                         <div class="skill-progress"><div class="skill-progress-bar" data-width="72"></div></div>
 
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-academic-700 dark:text-academic-300">AutoCAD</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Competent</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Familiar</span>
                         </div>
                         <div class="skill-progress"><div class="skill-progress-bar" data-width="60"></div></div>
 
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-academic-700 dark:text-academic-300">Vivado</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Familiar</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Basic</span>
                         </div>
                         <div class="skill-progress"><div class="skill-progress-bar" data-width="45"></div></div>
 
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-academic-700 dark:text-academic-300">Multisim</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Competent</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Familiar</span>
                         </div>
                         <div class="skill-progress"><div class="skill-progress-bar" data-width="65"></div></div>
 
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-academic-700 dark:text-academic-300">Docker</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Familiar</span>
+                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">Basic</span>
                         </div>
                         <div class="skill-progress"><div class="skill-progress-bar" data-width="50"></div></div>
                     </div>
@@ -776,6 +1116,378 @@
 
     <!-- ==================== Scripts ==================== -->
     <script>
+        // ============================================================
+        // 一、工具函数
+        // ============================================================
+
+        // 判断文章链接是否还是未填写的占位符。
+        // 占位链接会被阻止跳转，否则读者点一下就被甩到微信的 404 页面上了。
+        function isPlaceholderUrl(url) {
+            return !url || String(url).indexOf('__REPLACE_ME__') !== -1;
+        }
+
+        // 判断项目/论文名称是否还是示例数据。
+        // 名称里带「【示例】」或 "[Example" 的就挂上虚线边框和角标；
+        // 换成真实内容后标识自动消失。
+        function isDemo(name) {
+            const s = String(name);
+            return s.indexOf('【示例') !== -1 || s.indexOf('[Example') !== -1;
+        }
+
+        // ============================================================
+        // 一·五、日报索引加载（manifest 打底 + GitHub API 自动发现）
+        // ------------------------------------------------------------
+        // 目标工作流：往 daily/ 丢一个 YYYY-MM-DD.md 并 push，主页与归档页
+        // 都会自动出现这篇日报——daily-manifest.js 从此【无需维护】。
+        // 它仍会被读取，作用退化为：
+        //   a. 加速：这里写过的 title/summary 直接可用，省一次 md 拉取
+        //   b. 回退：API 限流 / 断网 / file:// 预览时仍有内容可显示
+        // GitHub API 匿名限额 60 次/小时/访客，对个人站点绰绰有余；
+        // 仓库与目录由页面地址自动推导，迁移到根目录后无需改代码。
+        // ============================================================
+        let __dailyIndexPromise = null;
+        function loadDailyIndex() {
+            if (__dailyIndexPromise) return __dailyIndexPromise;
+            __dailyIndexPromise = (async () => {
+                // 1) manifest 打底
+                const byDate = new Map();
+                (window.DAILY_MANIFEST || []).forEach(m => {
+                    if (m && m.date) byDate.set(m.date, Object.assign({}, m));
+                });
+                // 2) GitHub API 补充：发现 daily/ 下 manifest 没登记的日期命名 md
+                try {
+                    // 由当前页面地址推出 daily 目录在仓库中的位置：
+                    //   根目录 /index.html → daily（自适应，无需硬编码）
+                    const dir = location.pathname
+                        .replace(/index\.html$/, '')
+                        .replace(/^\//, '')
+                        .replace(/\/$/, '');
+                    const api = 'https://api.github.com/repos/Favio8/Favio8.github.io/contents/'
+                        + (dir ? dir + '/' : '') + 'daily';
+                    const res = await fetch(api, { headers: { Accept: 'application/vnd.github+json' } });
+                    if (res.ok) {
+                        (await res.json()).forEach(f => {
+                            if (/^\d{4}-\d{2}-\d{2}\.md$/.test(f.name)) {
+                                const date = f.name.slice(0, 10);
+                                if (!byDate.has(date)) byDate.set(date, { file: f.name, date: date });
+                            }
+                        });
+                    }
+                } catch (e) { /* 网络失败 / 限流 / file:// → 静默降级，仅用 manifest */ }
+                // 3) 统一日期倒序（最新的在最前）
+                return Array.from(byDate.values())
+                    .sort((a, b) => (a.date < b.date ? 1 : -1));
+            })();
+            return __dailyIndexPromise;
+        }
+
+        // 极简 frontmatter 解析：只取主页卡片需要的 title/summary/tags。
+        // 归档页有完整版解析器（含 papers/links 嵌套），这里故意保持轻量。
+        function parseFrontmatterLite(text) {
+            const out = {};
+            const m = String(text).match(/^---\r?\n([\s\S]*?)\r?\n---/);
+            if (!m) return out;
+            m[1].split(/\r?\n/).forEach(line => {
+                const kv = line.match(/^(title|summary|tags)\s*:\s*(.*)$/);
+                if (!kv) return;
+                if (kv[1] === 'tags') {
+                    out.tags = kv[2].replace(/^\[|\]$/g, '')
+                        .split(',').map(s => s.trim().replace(/^['"]|['"]$/g, ''))
+                        .filter(Boolean);
+                } else {
+                    out[kv[1]] = kv[2].trim().replace(/^['"]|['"]$/g, '');
+                }
+            });
+            return out;
+        }
+
+        // ============================================================
+        // 二、科研日报板块的 Alpine 组件
+        // 数据源 = loadDailyIndex()（manifest 打底 + GitHub API 自动发现）；
+        // 卡片缺 title/summary 时再按需拉取 md 的 frontmatter 补全。
+        // ============================================================
+        function dailySection() {
+            return {
+                items: [],           // 主页展示的最近 3 条
+                loading: true,       // 骨架屏开关（索引合并期间短暂展示）
+                lastUpdateText: '',  // 「最近更新：X 天前」
+                isStale: false,      // 超过 30 天未更新，文案淡化为灰色
+
+                async init() {
+                    const list = await loadDailyIndex();
+
+                    // 主页只取最近 3 条
+                    this.items = list.slice(0, 3);
+
+                    // 计算「最近更新 X 天前」
+                    if (list.length > 0 && list[0].date) {
+                        this.lastUpdateText = this.formatLastUpdate(list[0].date);
+                        this.isStale = this.daysSince(list[0].date) > 30;
+                    }
+
+                    this.loading = false;
+
+                    // manifest 没写 title/summary 的条目（含 API 自动发现的）：
+                    // 逐条拉取 md 的 frontmatter 补全卡片文字，互不阻塞
+                    this.items.forEach(d => this.backfill(d));
+                },
+
+                // 从日报 md 的 frontmatter 补全卡片元数据（失败静默，走缺省文案）
+                async backfill(d) {
+                    if (!d.file || (d.title && d.summary)) return;
+                    try {
+                        const res = await fetch('daily/' + d.file);
+                        if (!res.ok) return;
+                        const meta = parseFrontmatterLite(await res.text());
+                        if (!d.title && meta.title)     d.title   = meta.title;
+                        if (!d.summary && meta.summary) d.summary = meta.summary;
+                        if ((!d.tags || !d.tags.length) && meta.tags && meta.tags.length) d.tags = meta.tags;
+                    } catch (e) { /* file:// 等 → 保持缺省文案 */ }
+                },
+
+                // 某个日期距今多少天
+                daysSince(dateStr) {
+                    const then = new Date(dateStr + 'T00:00:00');
+                    if (isNaN(then)) return 0;
+                    return Math.floor((new Date() - then) / 86400000);
+                },
+
+                // 把天数转成人类可读的文案
+                formatLastUpdate(dateStr) {
+                    const d = this.daysSince(dateStr);
+                    if (d <= 0)   return 'Updated: today';
+                    if (d === 1)  return 'Updated: yesterday';
+                    if (d < 30)   return 'Updated: ' + d + ' days ago';
+                    if (d < 365)  return 'Updated: ' + Math.floor(d / 30) + ' months ago';
+                    return 'Updated: ' + Math.floor(d / 365) + ' years ago';
+                }
+            };
+        }
+
+        // ============================================================
+        // 三、文章与随笔板块的 Alpine 组件（多系列 + 一行速记）
+        // 读 window.ARTICLES：既支持完整对象，也支持字符串速记
+        //   '系列名 | https://mp.weixin.qq.com/s/xxx'
+        // 速记条目自动补全：标题按系列编号、封面渐变、标签取系列名。
+        // series 统计：一个系列 → 筛选栏隐藏；多个 → 自动出现
+        // ============================================================
+        function articlesSection() {
+            return {
+                items: [],
+                series: [],           // [{ name, count }]，按文章数降序
+                activeSeries: 'all',
+
+                init() {
+                    this.items = this.normalize(window.ARTICLES || []);
+
+                    const map = new Map();
+                    this.items.forEach(a => {
+                        const s = String(a.series || '').trim();
+                        if (!s) return;       // 没填系列的文章只出现在「全部」
+                        map.set(s, (map.get(s) || 0) + 1);
+                    });
+                    this.series = Array.from(map.entries())
+                        .map(([name, count]) => ({ name: name, count: count }))
+                        .sort((x, y) => y.count - x.count);
+
+                    // 切换系列后新渲染的卡片也要补注册入场动画（见 registerReveal）
+                    this.$watch('activeSeries', () => this.$nextTick(() => registerReveal()));
+                },
+
+                // 速记条目补全。先按日期倒序统一排列（没写日期的速记条目视为
+                // 最新），再从数组尾往前编号——条目加在数组【任何位置】都正确。
+                normalize(raw) {
+                    const items = raw.map(e => {
+                        if (typeof e !== 'string') return e;
+                        const i = e.indexOf('|');
+                        return {
+                            series: i === -1 ? '' : e.slice(0, i).trim(),
+                            url:    i === -1 ? e.trim()  : e.slice(i + 1).trim()
+                        };
+                    });
+                    items.sort((a, b) => {
+                        const da = a.date || '9999';   // 无日期 → 当作最新
+                        const db = b.date || '9999';
+                        return da < db ? 1 : da > db ? -1 : 0;
+                    });
+                    const counters = {};
+                    for (let k = items.length - 1; k >= 0; k--) {
+                        const a = items[k];
+                        const s = String(a.series || '').trim() || 'Uncategorized';
+                        a.series = s;
+                        counters[s] = (counters[s] || 0) + 1;
+                        if (!a.title)  a.title  = s + ' · No. ' + counters[s];
+                        if (!a.source) a.source = 'WeChat Official Account';
+                        if (!a.tags)   a.tags   = [s];
+                    }
+                    return items;
+                },
+
+                // 无封面条目的渐变封面配色：按系列名哈希到 4 组，同系列永远同色
+                coverTheme(series) {
+                    const palettes = [
+                        'from-indigo-500 to-violet-600',
+                        'from-sky-500 to-blue-600',
+                        'from-rose-500 to-pink-600',
+                        'from-amber-500 to-orange-600'
+                    ];
+                    let h = 0;
+                    const s = String(series || '');
+                    for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+                    return palettes[h % palettes.length];
+                },
+
+                get filtered() {
+                    if (this.activeSeries === 'all') return this.items;
+                    return this.items.filter(a => String(a.series || '').trim() === this.activeSeries);
+                }
+            };
+        }
+
+        // ---------- Hero 打字机：「正在做什么」 ----------
+        // 想换文案：直接改 lines 数组即可，条目数量不限
+        function typewriter() {
+            return {
+                typed: '',
+                lines: [
+                    'Reading: ReAct — interleaving reasoning with acting',
+                    'Building: a minimal Agent Loop on HotpotQA samples',
+                    'Setting up: my personal portal & research log'
+                ],
+                li: 0, ci: 0, deleting: false,
+                start() {
+                    // 减少动态效果偏好：直接静态显示第一行
+                    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                        this.typed = this.lines[0];
+                        return;
+                    }
+                    this.tick();
+                },
+                tick() {
+                    const line = this.lines[this.li];
+                    if (!this.deleting) {
+                        this.ci++;
+                        this.typed = line.slice(0, this.ci);
+                        if (this.ci === line.length) {          // 打完一行 → 停留 → 开始删
+                            this.deleting = true;
+                            setTimeout(() => this.tick(), 2400);
+                            return;
+                        }
+                        setTimeout(() => this.tick(), 60 + Math.random() * 45);
+                    } else {
+                        this.ci--;
+                        this.typed = line.slice(0, this.ci);
+                        if (this.ci === 0) {                    // 删完 → 换下一行
+                            this.deleting = false;
+                            this.li = (this.li + 1) % this.lines.length;
+                            setTimeout(() => this.tick(), 500);
+                            return;
+                        }
+                        setTimeout(() => this.tick(), 28);
+                    }
+                }
+            };
+        }
+
+        // ---------- 活力数据条：日报/文章篇数、记录跨度、最近更新 ----------
+        // 数字全部实时计算，新增内容后自动变化，零维护
+        function statsStrip() {
+            return {
+                stats: [],
+                async init() {
+                    const daily = await loadDailyIndex();
+                    const arts = window.ARTICLES || [];
+                    const dates = daily.map(d => d && d.date).filter(Boolean).sort();
+
+                    const span = dates.length
+                        ? Math.max(1, Math.floor((Date.now() - new Date(dates[0] + 'T00:00:00')) / 86400000) + 1)
+                        : 0;
+                    const since = dates.length
+                        ? Math.floor((Date.now() - new Date(dates[dates.length - 1] + 'T00:00:00')) / 86400000)
+                        : -1;
+
+                    this.stats = [
+                        { label: 'Research Logs', target: daily.length, display: '0' },
+                        { label: 'WeChat Articles', target: arts.length, display: '0' },
+                        { label: 'Days of Logging', target: span, display: '0' },
+                        { label: 'Last Updated', target: null, display: this.lastText(since) }
+                    ];
+                    this.animate();
+                },
+                lastText(d) {
+                    if (d < 0) return '—';
+                    if (d <= 0) return 'Today';
+                    if (d === 1) return 'Yesterday';
+                    return d + ' days ago';
+                },
+                animate() {
+                    const nums = this.stats.filter(s => s.target !== null);
+                    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                        nums.forEach(s => s.display = String(s.target));
+                        return;
+                    }
+                    // 滚动进入视口时才做数字滚动，避免用户根本没看到动画
+                    const io = new IntersectionObserver((entries) => {
+                        if (!entries[0].isIntersecting) return;
+                        io.disconnect();
+                        const t0 = performance.now(), dur = 900;
+                        const step = (t) => {
+                            const p = Math.min(1, (t - t0) / dur);
+                            const ease = 1 - Math.pow(1 - p, 3);   // easeOutCubic
+                            nums.forEach(s => s.display = String(Math.round(s.target * ease)));
+                            if (p < 1) requestAnimationFrame(step);
+                        };
+                        requestAnimationFrame(step);
+                    }, { threshold: 0.4 });
+                    io.observe(this.$el);
+                }
+            };
+        }
+
+        // ---------- 日报热力图：GitHub 贡献图风格 ----------
+        // 近半年（26 周）哪些天写了日报；同一天多篇按颜色深浅区分
+        function heatmap() {
+            return {
+                weeks: [],
+                hasData: false,
+                async init() {
+                    const list = await loadDailyIndex();
+                    const counts = new Map();
+                    list.forEach(m => {
+                        if (!m || !m.date) return;
+                        counts.set(m.date, (counts.get(m.date) || 0) + 1);
+                    });
+                    this.hasData = counts.size > 0;
+                    if (!this.hasData) return;
+
+                    // 以周日为一周起点，从 25 周前的周日铺到今天
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const end = new Date(today);
+                    const start = new Date(today);
+                    start.setDate(start.getDate() - start.getDay() - 25 * 7);
+
+                    const weeks = [];
+                    let cur = null;
+                    for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                        const key = d.getFullYear() + '-' +
+                            String(d.getMonth() + 1).padStart(2, '0') + '-' +
+                            String(d.getDate()).padStart(2, '0');
+                        if (d.getDay() === 0 || cur === null) { cur = []; weeks.push(cur); }
+                        const n = counts.get(key) || 0;
+                        cur.push({ key: key, n: n, tip: key + (n ? ' · ' + n + ' log(s)' : '') });
+                    }
+                    this.weeks = weeks;
+                },
+                levelClass(n) {
+                    if (n <= 0) return 'bg-academic-100 dark:bg-academic-800/70';
+                    if (n === 1) return 'bg-indigo-300 dark:bg-indigo-600/60';
+                    if (n === 2) return 'bg-indigo-400 dark:bg-indigo-500';
+                    return 'bg-indigo-600 dark:bg-indigo-400';
+                }
+            };
+        }
+
         // ---------- 滚动进度条 ----------
         const scrollProgress = document.getElementById('scroll-progress');
         const navbar = document.getElementById('navbar');
@@ -813,9 +1525,24 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.reveal-up').forEach(el => {
-            revealObserver.observe(el);
-        });
+        // 注意：科研日报 / 文章 / 项目竞赛的卡片由 Alpine 的 x-for 在初始化后才
+        // 渲染进 DOM，解析阶段这一轮只能注册到静态元素。若不在 alpine:initialized
+        // 之后补一轮注册，这些卡片会永远停在 reveal-up 的初始透明态（不可见）。
+        // data-reveal-registered 标记用于跳过已注册过的元素，保证可重复调用。
+        function registerReveal() {
+            document.querySelectorAll('.reveal-up:not([data-reveal-registered])').forEach(el => {
+                el.dataset.revealRegistered = '1';
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    el.style.transition = 'none';
+                    el.classList.add('is-visible');
+                    return;
+                }
+                revealObserver.observe(el);
+            });
+        }
+        registerReveal();                                                // 静态元素（首屏）
+        document.addEventListener('alpine:initialized', registerReveal); // x-for 渲染的卡片
+        window.addEventListener('load', () => setTimeout(registerReveal, 400)); // CDN 加载慢时兜底
 
         // ---------- 技能进度条动画 ----------
         const skillObserver = new IntersectionObserver((entries) => {
