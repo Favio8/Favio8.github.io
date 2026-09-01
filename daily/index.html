@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-CN" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }"
+      x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))"
+      :class="{ 'dark': darkMode }">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科研日报归档 — 张铭扬 (Favio)</title>
+
+    <!-- Favicon: SVG inline -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><text x='16' y='22' text-anchor='middle' font-size='18' font-family='sans-serif' font-weight='700' fill='white'>F</text></svg>">
+
+    <!-- SEO Meta -->
+    <meta name="description" content="张铭扬 (Favio) 的科研日报归档——读论文、跑实验、踩坑的日常记录，按月分组的时间线视图。">
+    <meta name="author" content="张铭扬">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ============================================================
+         数据文件：科研日报索引。
+         与主页同理：必须用普通 <script> 加载，不能加 type="module"，
+         否则本地 file:// 直接双击打开时会被 CORS 拦截；
+         且必须在 Alpine 之前加载，组件初始化时才能读到数据。
+         ============================================================ -->
+    <script src="../data/daily-manifest.js?v=20260901"></script>
+
+    <!-- Markdown 渲染：与 blog/index.html 使用同一 CDN 源 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- KaTeX：渲染日报里的行内 $…$ 与块级 $$…$$ 公式 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+    <!-- Alpine.js + collapse 插件（插件必须先于 Alpine 本体加载，用于展开/收起的高度动画） -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts: Geist替代Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- ============================================================
+         样式：本页位于 daily/，一层 ../ 命中根目录 assets/；
+         ../data/ 与同目录 md 的引用不受部署位置影响。
+         ============================================================ -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <!-- Tailwind Config（色板与主页保持一致） -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'geist': ['Geist', 'system-ui', 'sans-serif'],
+                        'geist-mono': ['Geist Mono', 'monospace'],
+                    },
+                    colors: {
+                        academic: {
+                            50:  '#faf9f7',
+                            100: '#f2efe9',
+                            200: '#e4dfd3',
+                            300: '#cfc7b5',
+                            400: '#b5aa90',
+                            500: '#9c8e72',
+                            600: '#7d7260',
+                            700: '#5f574a',
+                            800: '#454038',
+                            900: '#2d2a23',
+                            950: '#1a1814',
+                        },
+                        indigo: {
+                            50:  '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                            950: '#1e1b4b',
+                        }
+                    },
+                    boxShadow: {
+                        'glass': '0 4px 24px -4px rgba(0,0,0,0.08)',
+                        'glass-dark': '0 4px 24px -4px rgba(0,0,0,0.32)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- 归档页专属样式：CSS 变量、时间线、sticky 月份头、markdown 正文排版 -->
+    <style>
+        /* style.css 中没有定义 CSS 变量（色值真源在 tailwind config 里），
+           本页自用变量在这里就地定义，取值与 tailwind config 严格一致 */
+        :root {
+            --academic-50: #faf9f7;  --academic-100: #f2efe9; --academic-200: #e4dfd3;
+            --academic-300: #cfc7b5; --academic-400: #b5aa90; --academic-500: #9c8e72;
+            --academic-600: #7d7260; --academic-700: #5f574a; --academic-800: #454038;
+            --academic-900: #2d2a23; --academic-950: #1a1814; --indigo: #6366f1;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        /* ---------- 时间线 ---------- */
+        .timeline-line {
+            position: absolute;
+            left: 9px;
+            top: 0.5rem;
+            bottom: 0.5rem;
+            width: 1px;
+            background: var(--academic-200);
+        }
+        .dark .timeline-line { background: var(--academic-800); }
+
+        .timeline-dot {
+            position: absolute;
+            left: -27px;
+            top: 1.65rem;
+            width: 9px;
+            height: 9px;
+            border-radius: 9999px;
+            background: var(--indigo);
+            box-shadow: 0 0 0 4px var(--academic-50);
+            transition: box-shadow 0.3s;
+        }
+        .dark .timeline-dot { box-shadow: 0 0 0 4px var(--academic-950); }
+
+        /* ---------- markdown 正文排版（Tailwind CDN 无 typography 插件，手写） ---------- */
+        .daily-md {
+            font-size: 0.925rem;
+            line-height: 1.8;
+            color: var(--academic-700);
+            overflow-wrap: break-word;
+        }
+        .dark .daily-md { color: var(--academic-300); }
+
+        .daily-md > :first-child { margin-top: 0; }
+        .daily-md > :last-child { margin-bottom: 0; }
+
+        .daily-md h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.02rem;
+            font-weight: 600;
+            color: var(--academic-900);
+            margin: 1.6em 0 0.6em;
+        }
+        .daily-md h2::before {
+            content: '';
+            display: inline-block;
+            width: 1.1rem;
+            height: 2px;
+            background: var(--indigo);
+            flex: none;
+        }
+        .dark .daily-md h2 { color: #fff; }
+
+        .daily-md h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--academic-900);
+            margin: 1.4em 0 0.5em;
+        }
+        .dark .daily-md h3 { color: var(--academic-100); }
+
+        .daily-md p { margin: 0.7em 0; }
+
+        .daily-md ul { list-style: disc; margin: 0.7em 0; padding-left: 1.3em; }
+        .daily-md ol { list-style: decimal; margin: 0.7em 0; padding-left: 1.3em; }
+        .daily-md li { margin: 0.35em 0; }
+        .daily-md li::marker { color: var(--indigo); }
+
+        /* marked 的任务列表（- [ ] / - [x]） */
+        .daily-md input[type="checkbox"] {
+            accent-color: var(--indigo);
+            margin-right: 0.45em;
+            width: 0.95em;
+            height: 0.95em;
+            vertical-align: -0.1em;
+        }
+        .daily-md li:has(> input[type="checkbox"]) { list-style: none; margin-left: -1.2em; }
+
+        .daily-md strong { font-weight: 600; color: var(--academic-900); }
+        .dark .daily-md strong { color: #fff; }
+
+        .daily-md a {
+            color: var(--indigo);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-color: rgba(99,102,241,0.4);
+        }
+        .daily-md a:hover { text-decoration-color: var(--indigo); }
+
+        .daily-md code {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.85em;
+            background: rgba(99,102,241,0.09);
+            color: var(--academic-800);
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+        }
+        .dark .daily-md code { background: rgba(99,102,241,0.16); color: var(--academic-200); }
+
+        .daily-md pre {
+            background: var(--academic-900);
+            color: var(--academic-100);
+            border-radius: 0.75rem;
+            padding: 1rem 1.25rem;
+            margin: 1em 0;
+            font-size: 0.85rem;
+            line-height: 1.65;
+            overflow-x: auto;
+        }
+        .daily-md pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+
+        .daily-md blockquote {
+            border-left: 3px solid var(--indigo);
+            background: rgba(99,102,241,0.05);
+            color: var(--academic-600);
+            padding: 0.4em 1em;
+            margin: 1em 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .dark .daily-md blockquote { color: var(--academic-400); }
+
+        .daily-md table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1em 0;
+            font-size: 0.875em;
+            display: block;
+            overflow-x: auto;
+        }
+        .daily-md th, .daily-md td {
+            border: 1px solid rgba(156,142,114,0.35);
+            padding: 0.5em 0.75em;
+            text-align: left;
+        }
+        .daily-md th { background: rgba(99,102,241,0.07); font-weight: 600; }
+
+        .daily-md img { max-width: 100%; border-radius: 0.5rem; margin: 0.75em 0; }
+
+        .daily-md hr { border: none; border-top: 1px solid rgba(156,142,114,0.3); margin: 1.5em 0; }
+
+        /* KaTeX 块级公式在窄屏可横向滚动，不撑破卡片 */
+        .daily-md .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.3em 0; }
+
+        ::selection { background: var(--indigo); color: #fff; }
+        a:focus-visible, button:focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; border-radius: 4px; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+            .reveal-up { opacity: 1 !important; transform: none !important; }
+        }
+    </style>
+</head>
+
+<body class="bg-academic-50 dark:bg-academic-950 text-academic-900 dark:text-academic-100 font-geist transition-colors duration-300">
+
+    <!-- ==================== 滚动进度条 ==================== -->
+    <div id="scroll-progress" class="fixed top-0 left-0 h-0.5 bg-academic-900 dark:bg-white z-[100] transition-none" style="width: 0%"></div>
+
+    <!-- ==================== 导航栏（简化版） ==================== -->
+    <nav id="navbar"
+         class="sticky top-0 z-50 bg-academic-50/80 dark:bg-academic-950/80 backdrop-blur-xl border-b border-academic-200/60 dark:border-academic-800/60 transition-all duration-300">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6" x-data="{ mobileMenuOpen: false }">
+            <div class="flex justify-between items-center h-16">
+
+                <!-- 左侧：站点标识 -->
+                <a href="../index.html" class="text-base font-semibold text-academic-900 dark:text-white tracking-tight">
+                    Favio
+                    <span class="text-academic-400 dark:text-academic-600 font-normal mx-1">/</span>
+                    <span class="text-sm font-medium text-academic-600 dark:text-academic-300">科研日报</span>
+                </a>
+
+                <!-- 右侧：返回主页 + 深色模式 + 移动端菜单 -->
+                <div class="flex items-center gap-2">
+                    <a href="../index.html#daily"
+                       class="hidden md:inline-flex items-center gap-1.5 text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">
+                        <i class="fas fa-arrow-left text-xs"></i> 返回主页
+                    </a>
+
+                    <button @click="darkMode = !darkMode"
+                            class="p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800 transition-colors"
+                            :title="darkMode ? '切换到浅色模式' : '切换到深色模式'">
+                        <i x-show="darkMode"  class="fas fa-sun text-base"></i>
+                        <i x-show="!darkMode" class="fas fa-moon text-base"></i>
+                    </button>
+
+                    <!-- 移动端：汉堡菜单 -->
+                    <button @click="mobileMenuOpen = !mobileMenuOpen"
+                            class="md:hidden p-2 rounded-lg text-academic-600 dark:text-academic-400 hover:bg-academic-100 dark:hover:bg-academic-800">
+                        <i class="fas fa-bars text-base"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 移动端下拉菜单 -->
+            <div x-show="mobileMenuOpen"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 -translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-2"
+                 class="md:hidden py-4 border-t border-academic-200/60 dark:border-academic-800/60">
+                <div class="flex flex-col gap-3">
+                    <a href="../index.html#daily" @click="mobileMenuOpen = false"
+                       class="text-sm font-medium text-academic-600 dark:text-academic-300 inline-flex items-center gap-2">
+                        <i class="fas fa-arrow-left text-xs"></i> 返回主页（科研日报板块）
+                    </a>
+                    <a href="../index.html" @click="mobileMenuOpen = false"
+                       class="text-sm font-medium text-academic-600 dark:text-academic-300">
+                        返回主页（顶部）
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== 主区域 ==================== -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+        <div x-data="dailyArchive()">
+
+            <!-- 页头 -->
+            <header class="mb-12 reveal-up" style="--i: 0">
+                <div class="flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-academic-950 dark:text-white flex items-center gap-3">
+                            <span class="w-8 h-0.5 bg-indigo-600 dark:bg-indigo-400 inline-block"></span>
+                            科研日报
+                        </h1>
+                        <p class="text-sm text-academic-500 dark:text-academic-400 mt-3 ml-11">
+                            记录读论文、跑实验、踩坑的过程
+                            <span x-show="total()" class="ml-2 px-2 py-0.5 rounded-full bg-academic-100 dark:bg-academic-800 text-academic-500 dark:text-academic-400 text-xs"
+                                  x-text="'共 ' + total() + ' 篇'"></span>
+                        </p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 加载骨架：manifest 同步注入，通常一闪而过 -->
+            <div x-show="loading" class="space-y-4">
+                <template x-for="i in 3" :key="i">
+                    <div class="h-28 rounded-2xl bg-academic-100 dark:bg-academic-800/50 animate-pulse"></div>
+                </template>
+            </div>
+
+            <!-- 空状态兜底：与主页同款文案，绝不留白 -->
+            <div x-show="!loading && groups.length === 0"
+                 class="text-center py-20 text-academic-400 dark:text-academic-600 rounded-2xl border border-dashed border-academic-200 dark:border-academic-700">
+                <i class="fas fa-seedling text-4xl mb-4"></i>
+                <p class="text-sm">日报正在积累中，近期更新</p>
+            </div>
+
+            <!-- 时间线（按月分组） -->
+            <div x-show="!loading && groups.length > 0" class="space-y-14">
+
+                <template x-for="g in groups" :key="g.key">
+                    <section>
+
+                        <!-- 月份头：sticky 吸顶，落在导航栏正下方 -->
+                        <div class="sticky top-16 z-30 -mx-4 sm:-mx-6 px-4 sm:px-6 py-3
+                                    bg-academic-50/95 dark:bg-academic-950/95 backdrop-blur-md
+                                    border-b border-academic-200/70 dark:border-academic-800/70">
+                            <div class="flex items-center gap-3">
+                                <span class="font-geist-mono text-sm font-medium text-indigo-600 dark:text-indigo-400" x-text="g.key"></span>
+                                <h2 class="text-base font-bold text-academic-900 dark:text-white" x-text="g.label"></h2>
+                                <span class="ml-auto px-2.5 py-0.5 rounded-full bg-academic-100 dark:bg-academic-800 text-academic-500 dark:text-academic-400 text-xs font-medium"
+                                      x-text="g.count + ' 篇'"></span>
+                            </div>
+                        </div>
+
+                        <!-- 当月条目：左侧竖线 + 圆点 -->
+                        <div class="relative mt-5 pl-8">
+                            <div class="timeline-line"></div>
+
+                            <template x-for="(item, idx) in g.items" :key="item.date">
+                                <article class="relative pb-6 reveal-up" :id="'entry-' + item.date" :style="'--i: ' + Math.min(idx, 5)">
+                                    <span class="timeline-dot"></span>
+
+                                    <div class="rounded-2xl border border-academic-200/60 dark:border-academic-700/40 bg-white/70 dark:bg-academic-900/40 backdrop-blur-sm overflow-hidden transition-all duration-300"
+                                         :class="item.expanded
+                                             ? 'border-indigo-200 dark:border-indigo-500/30 shadow-glass dark:shadow-glass-dark'
+                                             : 'hover:shadow-glass dark:hover:shadow-glass-dark'">
+
+                                        <!-- 卡片头（点击展开/收起） -->
+                                        <button @click="toggle(item)"
+                                                class="w-full text-left p-5 cursor-pointer"
+                                                :aria-expanded="item.expanded">
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <span class="w-5 h-0.5 bg-indigo-500 inline-block"></span>
+                                                <time class="font-geist-mono text-xs text-academic-500 dark:text-academic-400" x-text="item.date"></time>
+                                                <span x-show="item.readMinutes"
+                                                      class="text-xs text-academic-400 dark:text-academic-500"
+                                                      x-text="'约 ' + item.readMinutes + ' min'"></span>
+                                                <i class="fas fa-chevron-down ml-auto text-xs text-academic-400 dark:text-academic-500 transition-transform duration-300"
+                                                   :class="item.expanded ? 'rotate-180' : ''"></i>
+                                            </div>
+
+                                            <span class="block text-base font-semibold text-academic-950 dark:text-white mb-1.5 leading-snug"
+                                                  x-text="item.title || (item.date + ' 日报')"></span>
+
+                                            <!-- 摘要：展开后由正文取代；加载失败时保留兜底 -->
+                                            <span x-show="!item.expanded || item.loadError"
+                                                  class="block text-sm text-academic-600 dark:text-academic-400 leading-relaxed"
+                                                  x-text="item.summary || '（摘要待补充，点击展开全文）'"></span>
+                                        </button>
+
+                                        <!-- 展开区（x-collapse：高度平滑过渡） -->
+                                        <div x-show="item.expanded" x-collapse
+                                             class="border-t border-academic-100 dark:border-academic-800 px-5 pb-5">
+
+                                            <!-- 正文加载中 -->
+                                            <div x-show="item.loading" class="py-8 flex items-center justify-center gap-2 text-sm text-academic-400 dark:text-academic-500">
+                                                <i class="fas fa-circle-notch fa-spin"></i> 正在加载正文…
+                                            </div>
+
+                                            <!-- 加载失败降级：本地 file:// 预览或文件缺失时，绝不白屏 -->
+                                            <div x-show="!item.loading && item.loadError"
+                                                 class="my-4 rounded-xl border border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-900/20 px-4 py-3 text-sm text-amber-700 dark:text-amber-300">
+                                                <p class="leading-relaxed">
+                                                    <i class="fas fa-triangle-exclamation mr-1.5"></i>
+                                                    正文加载失败——本地 file:// 直接双击打开时无法 fetch 同目录文件，属预期行为；
+                                                    通过本地服务器或 GitHub Pages 访问即可正常展开。
+                                                </p>
+                                                <p class="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1">
+                                                    <a :href="item.file" class="underline underline-offset-2 hover:text-amber-800 dark:hover:text-amber-200">
+                                                        <i class="fas fa-file-lines mr-1"></i>打开 .md 原文
+                                                    </a>
+                                                    <a x-show="githubUrl(item)" :href="githubUrl(item)"
+                                                       target="_blank" rel="noopener noreferrer"
+                                                       class="underline underline-offset-2 hover:text-amber-800 dark:hover:text-amber-200">
+                                                        <i class="fab fa-github mr-1"></i>在 GitHub 查看
+                                                    </a>
+                                                </p>
+                                            </div>
+
+                                            <!-- frontmatter 附带：今日论文 -->
+                                            <div x-show="!item.loading && !item.loadError && item.papers.length"
+                                                 class="mt-4 rounded-xl border border-academic-200/70 dark:border-academic-700/40 bg-academic-50/80 dark:bg-academic-900/60 px-4 py-3">
+                                                <div class="text-xs font-semibold text-academic-500 dark:text-academic-400 mb-2 tracking-wider">
+                                                    <i class="fas fa-book-open mr-1.5 text-indigo-500"></i>今日论文
+                                                </div>
+                                                <ul class="space-y-1.5">
+                                                    <template x-for="(p, pi) in item.papers" :key="pi">
+                                                        <li class="text-sm leading-relaxed">
+                                                            <span class="font-medium text-academic-800 dark:text-academic-200" x-text="p.title"></span>
+                                                            <span x-show="p.note" class="text-academic-500 dark:text-academic-400" x-text="' —— ' + (p.note || '')"></span>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+
+                                            <!-- frontmatter 附带：参考链接 -->
+                                            <div x-show="!item.loading && !item.loadError && item.links.length"
+                                                 class="mt-3 rounded-xl border border-academic-200/70 dark:border-academic-700/40 bg-academic-50/80 dark:bg-academic-900/60 px-4 py-3">
+                                                <div class="text-xs font-semibold text-academic-500 dark:text-academic-400 mb-2 tracking-wider">
+                                                    <i class="fas fa-link mr-1.5 text-indigo-500"></i>参考链接
+                                                </div>
+                                                <ul class="space-y-1.5">
+                                                    <template x-for="(l, li) in item.links" :key="li">
+                                                        <li class="text-sm leading-relaxed">
+                                                            <a x-show="l.url" :href="l.url" target="_blank" rel="noopener noreferrer"
+                                                               class="text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center gap-1.5">
+                                                                <span x-text="l.title || l.url"></span>
+                                                                <i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+                                                            </a>
+                                                            <span x-show="!l.url" class="text-academic-600 dark:text-academic-400" x-text="l.title"></span>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+
+                                            <!-- markdown 正文（marked 渲染 + KaTeX 公式） -->
+                                            <div x-show="!item.loading && !item.loadError"
+                                                 :id="'md-' + item.date"
+                                                 class="daily-md mt-4"
+                                                 x-html="item.html"></div>
+                                        </div>
+                                    </div>
+                                </article>
+                            </template>
+                        </div>
+                    </section>
+                </template>
+            </div>
+        </div>
+    </main>
+
+    <!-- ==================== Footer（极简） ==================== -->
+    <footer class="border-t border-academic-200/60 dark:border-academic-800/60 py-8">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between gap-3 text-sm text-academic-500 dark:text-academic-400">
+            <span>© 2026 张铭扬 (Favio)</span>
+            <a href="../index.html" class="inline-flex items-center gap-1.5 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                <i class="fas fa-arrow-left text-xs"></i> 返回主页
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================================
+        // 一、frontmatter 极简解析器
+        // 只覆盖 _TEMPLATE.md 中出现的字段形态：
+        //   标量  title: xxx
+        //   行内数组  tags: [A, B]
+        //   嵌套列表  papers: / links: 下挂 "- k: v" 条目
+        // 不引 js-yaml，解析失败也只是拿不到元数据，不影响正文渲染。
+        // ============================================================
+        function cleanYamlVal(s) {
+            s = String(s).trim();
+            if ((s.charAt(0) === '"' && s.slice(-1) === '"') || (s.charAt(0) === "'" && s.slice(-1) === "'")) {
+                s = s.slice(1, -1);
+            }
+            return s;
+        }
+
+        function parseFrontmatter(text) {
+            const lines = String(text).split(/\r?\n/);
+            let i = 0;
+            while (i < lines.length && lines[i].trim() === '') i++;
+
+            // 没有起始 --- 就当纯正文
+            if (i >= lines.length || lines[i].trim() !== '---') {
+                return { meta: {}, body: text };
+            }
+            i++;
+
+            const meta = {};
+            let listKey = null;   // 当前正在收集的嵌套列表字段名
+            let currentItem = null;
+
+            while (i < lines.length && lines[i].trim() !== '---') {
+                const line = lines[i];
+                if (line.trim() === '') { i++; continue; }
+
+                // 嵌套列表条目行："  - title: xxx"
+                const mItem = line.match(/^\s+-\s+(.*)$/);
+                if (mItem && listKey) {
+                    currentItem = {};
+                    meta[listKey].push(currentItem);
+                    const rest = mItem[1];
+                    const mPair = rest.match(/^([A-Za-z_][\w-]*)\s*:\s*(.*)$/);
+                    if (mPair) currentItem[mPair[1]] = cleanYamlVal(mPair[2]);
+                    i++;
+                    continue;
+                }
+
+                // 嵌套条目的属性行："    note: xxx" / "    url: https://…"
+                const mDeep = line.match(/^\s+([A-Za-z_][\w-]*)\s*:\s*(.*)$/);
+                if (mDeep && currentItem) {
+                    currentItem[mDeep[1]] = cleanYamlVal(mDeep[2]);
+                    i++;
+                    continue;
+                }
+
+                // 顶层字段
+                const mTop = line.match(/^([A-Za-z_][\w-]*)\s*:\s*(.*)$/);
+                if (mTop) {
+                    const key = mTop[1];
+                    const rawVal = mTop[2].trim();
+                    if (rawVal === '' ) {
+                        // 可能开启嵌套列表（papers / links）
+                        meta[key] = [];
+                        listKey = key;
+                        currentItem = null;
+                    } else if (rawVal.charAt(0) === '[') {
+                        // 行内数组 tags: [A, B]
+                        meta[key] = rawVal.replace(/^\[|\]$/g, '')
+                            .split(',').map(cleanYamlVal).filter(s => s !== '');
+                        listKey = null; currentItem = null;
+                    } else {
+                        meta[key] = cleanYamlVal(rawVal);
+                        listKey = null; currentItem = null;
+                    }
+                    i++;
+                    continue;
+                }
+                i++;
+            }
+
+            if (i < lines.length && lines[i].trim() === '---') i++;
+
+            // 去掉正文开头的空行
+            const body = lines.slice(i).join('\n').replace(/^\s*\n/, '');
+            return { meta: meta, body: body };
+        }
+
+        function escapeHtml(s) {
+            return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        // ============================================================
+        // 二、归档页 Alpine 组件
+        // 数据流：manifest 打底 + GitHub API 自动发现 daily/ 下的日期命名 md
+        //   （只丢 md 文件、不登记 manifest 也能出现在这里）→ 倒序 → 按月分组
+        // 正文：首次展开时才 fetch 同目录 md，frontmatter 自动补齐
+        // manifest 里缺省的 title/summary（"每天只加一行"的最小维护姿势）。
+        // ============================================================
+        function dailyArchive() {
+            return {
+                groups: [],   // [{ key:'2026-09', label:'2026 年 9 月', count, items:[…] }]
+                loading: true,
+
+                async init() {
+                    let list = (window.DAILY_MANIFEST || []).slice();
+
+                    // GitHub API 自动发现：列出本目录下 manifest 没登记的日期命名 md。
+                        // 目录位置由页面地址推导（本页在 daily/ → 列出 daily/），
+                    // 失败（限流 / 断网 / file://）则静默退回 manifest 单独支撑。
+                    try {
+                        const dir = location.pathname.replace(/[^/]*$/, '')
+                            .replace(/^\//, '').replace(/\/$/, '');
+                        const res = await fetch(
+                            'https://api.github.com/repos/Favio8/Favio8.github.io/contents/' + dir,
+                            { headers: { Accept: 'application/vnd.github+json' } });
+                        if (res.ok) {
+                            const known = new Set(list.map(m => m.file));
+                            (await res.json()).forEach(f => {
+                                if (/^\d{4}-\d{2}-\d{2}\.md$/.test(f.name) && !known.has(f.name)) {
+                                    list.push({ file: f.name, date: f.name.slice(0, 10) });
+                                }
+                            });
+                        }
+                    } catch (e) { /* 静默降级：仅用 manifest */ }
+
+                    // 日期倒序重排一次，manifest 里顺序写乱也不影响展示
+                    list.sort((a, b) => ((a.date || '') < (b.date || '') ? 1 : -1));
+
+                    const items = list.map(m => ({
+                        file:        m.file || '',
+                        date:        m.date || '',
+                        title:       m.title || '',
+                        summary:     m.summary || '',
+                        tags:        (m.tags || []).slice(),
+                        readMinutes: m.readMinutes || 0,
+                        papers:      [],
+                        links:       [],
+                        expanded:    false,
+                        loading:     false,
+                        loaded:      false,
+                        loadError:   false,
+                        html:        ''
+                    }));
+
+                    // 按月分组
+                    const map = new Map();
+                    items.forEach(it => {
+                        const key = /^\d{4}-\d{2}/.test(it.date) ? it.date.slice(0, 7) : '其他';
+                        if (!map.has(key)) map.set(key, []);
+                        map.get(key).push(it);
+                    });
+                    this.groups = Array.from(map.entries()).map(([key, arr]) => ({
+                        key: key,
+                        label: this.monthLabel(key),
+                        count: arr.length,
+                        items: arr
+                    }));
+
+                    this.loading = false;
+
+                    // 主页卡片链接形如 daily/index.html#2026-09-01：自动展开定位
+                    this.handleHash();
+                    window.addEventListener('hashchange', () => this.handleHash());
+                },
+
+                monthLabel(key) {
+                    if (key === '其他') return '其他';
+                    const parts = key.split('-');
+                    return parts[0] + ' 年 ' + parseInt(parts[1], 10) + ' 月';
+                },
+
+                total() {
+                    return this.groups.reduce((s, g) => s + g.count, 0);
+                },
+
+                toggle(item) {
+                    item.expanded = !item.expanded;
+                    if (item.expanded) this.ensureLoaded(item);
+                },
+
+                async ensureLoaded(item) {
+                    if (item.loaded || item.loading) return;
+                    item.loading = true;
+                    try {
+                        // 同目录相对路径：/daily/xx.md，
+                        const res = await fetch(item.file);
+                        if (!res.ok) throw new Error('HTTP ' + res.status);
+                        const text = await res.text();
+                        const parsed = parseFrontmatter(text);
+                        const meta = parsed.meta;
+
+                        // manifest 缺省字段由 frontmatter 回填
+                        if (!item.title   && meta.title)   item.title   = meta.title;
+                        if (!item.summary && meta.summary) item.summary = meta.summary;
+                        if ((!item.tags.length) && meta.tags && meta.tags.length) item.tags = meta.tags;
+                        if (!item.readMinutes && meta.readMinutes) item.readMinutes = parseInt(meta.readMinutes, 10) || 0;
+                        item.papers = (meta.papers || []).filter(p => p && (p.title || p.note));
+                        item.links  = (meta.links  || []).filter(l => l && (l.title || l.url));
+
+                        // marked 渲染正文；CDN 意外失效时降级为纯文本
+                        item.html = (window.marked && marked.parse)
+                            ? marked.parse(parsed.body)
+                            : '<pre>' + escapeHtml(parsed.body) + '</pre>';
+
+                        item.loaded = true;
+                        item.loadError = false;
+
+                        // KaTeX 在 DOM 更新后再跑（$nextTick 确保节点已渲染）
+                        this.$nextTick(() => this.renderMath(item));
+                    } catch (err) {
+                        // file:// 下 fetch 必然被 CORS 拦截；文件名写错则 404。
+                        // 两种情况都走降级 UI，不抛未捕获异常
+                        item.loaded = true;
+                        item.loadError = true;
+                    } finally {
+                        item.loading = false;
+                    }
+                },
+
+                renderMath(item) {
+                    const el = document.getElementById('md-' + item.date);
+                    if (!el || !window.renderMathInElement) return;
+                    try {
+                        renderMathInElement(el, {
+                            delimiters: [
+                                { left: '$$', right: '$$', display: true },
+                                { left: '$',  right: '$',  display: false }
+                            ],
+                            throwOnError: false
+                        });
+                    } catch (e) { /* 公式渲染失败不致命，正文已就位 */ }
+                },
+
+                handleHash() {
+                    const h = decodeURIComponent((location.hash || '').replace(/^#/, ''));
+                    if (!/^\d{4}-\d{2}-\d{2}$/.test(h)) return;
+
+                    for (const g of this.groups) {
+                        const item = g.items.find(it => it.date === h);
+                        if (item) {
+                            if (!item.expanded) {
+                                item.expanded = true;
+                                this.ensureLoaded(item);
+                            }
+                            this.$nextTick(() => {
+                                const el = document.getElementById('entry-' + h);
+                                if (el) {
+                                    // 偏移量：导航栏 64px + sticky 月份头约 48px
+                                    const y = el.getBoundingClientRect().top + window.scrollY - 116;
+                                    window.scrollTo({ top: y, behavior: 'smooth' });
+                                }
+                            });
+                            return;
+                        }
+                    }
+                },
+
+                // GitHub 源文件链接（仅 http(s) 下有意义；路径随部署位置自适应）
+                githubUrl(item) {
+                    if (!/^https?:$/.test(location.protocol)) return '';
+                    const dir = location.pathname.replace(/[^/]*$/, '');
+                    return 'https://github.com/Favio8/Favio8.github.io/blob/main' + dir + item.file;
+                }
+            };
+        }
+
+        // ============================================================
+        // 三、滚动进度条 + 导航栏阴影
+        // ============================================================
+        const scrollProgress = document.getElementById('scroll-progress');
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            scrollProgress.style.width = progress + '%';
+            if (scrollTop > 20) {
+                navbar.classList.add('shadow-glass');
+            } else {
+                navbar.classList.remove('shadow-glass');
+            }
+        }, { passive: true });
+
+        // ============================================================
+        // 四、入场动画
+        // 注意：时间线卡片由 Alpine 的 x-for 在初始化时才渲染，
+        // 因此观察器必须等 alpine:initialized 之后再注册，
+        // 否则卡片永远停在 opacity:0（reveal-up 的初始态）。
+        // 另挂 window load 兜底：CDN 意外失效时页面也不会黑屏。
+        // ============================================================
+        let revealSetupDone = false;
+        function setupReveal() {
+            if (revealSetupDone) return;
+            revealSetupDone = true;
+
+            const els = document.querySelectorAll('.reveal-up');
+
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                els.forEach(el => { el.style.transition = 'none'; el.classList.add('is-visible'); });
+                return;
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const delay = parseInt(el.style.getPropertyValue('--i')) * 80 || 0;
+                        setTimeout(() => el.classList.add('is-visible'), delay);
+                        observer.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+            els.forEach(el => observer.observe(el));
+        }
+
+        document.addEventListener('alpine:initialized', setupReveal);
+        window.addEventListener('load', () => setTimeout(setupReveal, 400));
+    </script>
+</body>
+</html>
