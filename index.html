@@ -11,14 +11,14 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><text x='16' y='22' text-anchor='middle' font-size='18' font-family='sans-serif' font-weight='700' fill='white'>F</text></svg>">
 
     <!-- SEO Meta -->
-    <meta name="description" content="张铭扬 (Favio) - 西安电子科技大学人工智能学院本科生，研究兴趣：Agent OS、AI Agent 系统架构与计算机视觉">
-    <meta name="keywords" content="张铭扬, Favio, 人工智能, Agent OS, AI Agent, 计算机视觉, CV, 西安电子科技大学, AI research, graduate student">
+    <meta name="description" content="张铭扬 (Favio)，西安电子科技大学人工智能本科生，独立开发 StudyClaw、Research Radar 与 ScholarFlow，关注 AI Agent 系统和学习科研工具。">
+    <meta name="keywords" content="Favio, 张铭扬, AI Agent, StudyClaw, Research Radar, ScholarFlow, Xidian University, TypeScript, Python, Computer Vision">
     <meta name="author" content="张铭扬">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:title" content="张铭扬 (Favio) - 学术主页">
-    <meta property="og:description" content="Prospective Graduate Student | Agent OS, AI Agent & Computer Vision | 西安电子科技大学">
+    <meta property="og:description" content="张铭扬 (Favio)，西安电子科技大学人工智能本科生，独立开发 StudyClaw、Research Radar 与 ScholarFlow，关注 AI Agent 系统和学习科研工具。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://favio8.github.io">
     <meta property="og:locale" content="zh_CN">
@@ -26,7 +26,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="张铭扬 (Favio) - 学术主页">
-    <meta name="twitter:description" content="Prospective Graduate Student | Agent OS, AI Agent & Computer Vision">
+    <meta name="twitter:description" content="张铭扬 (Favio)，西安电子科技大学人工智能本科生，独立开发 StudyClaw、Research Radar 与 ScholarFlow，关注 AI Agent 系统和学习科研工具。">
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#6366f1" media="(prefers-color-scheme: light)">
@@ -43,6 +43,7 @@
          ============================================================ -->
     <script src="data/daily-manifest.js?v=20260901"></script>
     <script src="data/articles.js?v=20260901"></script>
+    <script src="data/portfolio.js?v=20261013"></script>
 
     <!-- Alpine.js CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -131,8 +132,8 @@
                 <div class="hidden md:flex items-center gap-8">
                     <a href="#about"    class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">关于</a>
                     <a href="#education" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">教育背景</a>
-                    <a href="#research" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">科研经历</a>
-                    <a href="#projects" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">项目竞赛</a>
+                    <a href="#projects" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">技术项目</a>
+                    <a href="#research" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">研究经历</a>
                     <a href="#daily"    class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">科研日报</a>
                     <a href="#articles" class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">文章</a>
                     <a href="#skills"   class="nav-link text-sm font-medium text-academic-600 dark:text-academic-300 hover:text-academic-900 dark:hover:text-white transition-colors">技能特长</a>
@@ -174,8 +175,8 @@
                 <div class="flex flex-col gap-3">
                     <a href="#about"    @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">关于</a>
                     <a href="#education" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">教育背景</a>
-                    <a href="#research" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">科研经历</a>
-                    <a href="#projects" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">项目竞赛</a>
+                    <a href="#projects" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">技术项目</a>
+                    <a href="#research" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">研究经历</a>
                     <a href="#daily"    @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">科研日报</a>
                     <a href="#articles" @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">文章</a>
                     <a href="#skills"   @click="mobileMenuOpen = false" class="text-sm font-medium text-academic-600 dark:text-academic-300">技能特长</a>
@@ -205,12 +206,12 @@
 
                     <!-- 身份标签 -->
                     <p class="inline-block text-sm font-medium text-indigo-700 dark:text-indigo-300 font-geist-mono tracking-wide mb-6">
-                        Prospective Graduate Student
+                        AI 应用独立开发者 · 人工智能本科生
                     </p>
 
                     <!-- 打字机：当前在做的事。改文案 → 页面底部脚本里的 typewriter().lines -->
                     <p x-data="typewriter()" x-init="start()"
-                       class="font-geist-mono text-sm md:text-base text-academic-600 dark:text-academic-300 mb-6 h-7">
+                       class="font-geist-mono text-sm md:text-base text-academic-600 dark:text-academic-300 mb-6 min-h-[3.5rem] md:min-h-7">
                         <span class="text-indigo-500 dark:text-indigo-400 mr-2">▸</span><span x-text="typed"></span><span class="inline-block w-[2px] h-[1.05em] bg-indigo-500 dark:bg-indigo-400 align-middle ml-1 animate-pulse"></span>
                     </p>
 
@@ -221,15 +222,15 @@
                     <div class="space-y-4 text-academic-700 dark:text-academic-200 mb-10">
                         <p class="flex items-start gap-3 text-base leading-relaxed">
                             <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 flex-shrink-0"></span>
-                            <span>研究兴趣：Agent OS、AI Agent 系统架构与计算机视觉（CV），专注于智能体系统设计与视觉算法研究</span>
+                            <span>关注 AI Agent 系统、面向学习与科研的 AI 应用，以及计算机视觉。</span>
                         </p>
                         <p class="flex items-start gap-3 text-base leading-relaxed">
                             <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 flex-shrink-0"></span>
-                            <span>西安电子科技大学人工智能学院人工智能专业本科生，GPA 3.8，排名 19/157</span>
+                            <span>西安电子科技大学人工智能专业本科生，2025–2026 学年学业排名 4/157，综测排名 1/157。</span>
                         </p>
                         <p class="flex items-start gap-3 text-base leading-relaxed">
                             <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-500 flex-shrink-0"></span>
-                            <span>具备扎实的算法基础与工程实践能力，曾获多项国家级/省级荣誉</span>
+                            <span>独立开发 StudyClaw、Research Radar 和 ScholarFlow，持续推进从系统设计到可用产品的迭代。</span>
                         </p>
                     </div>
 
@@ -247,16 +248,16 @@
                             <span>GitHub</span>
                         </a>
 
-                        <a href="#"
+                        <a href="#projects"
                            class="group inline-flex items-center gap-2 px-5 py-2.5 bg-academic-900 dark:bg-white text-white dark:text-academic-950 rounded-lg hover:bg-academic-800 dark:hover:bg-academic-100 transition-all duration-200 text-sm font-medium active:scale-[0.98]">
-                            <i class="fas fa-graduation-cap text-base"></i>
-                            <span>Scholar</span>
+                            <i class="fas fa-code text-base"></i>
+                            <span>项目作品</span>
                         </a>
 
-                        <a href="assets/docs/cv.pdf" download
+                        <a href="assets/docs/cv.pdf?v=20261013" download="Zhang-Mingyang-CV-2026-10.pdf"
                            class="group inline-flex items-center gap-2 px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all duration-200 text-sm font-semibold shadow-md active:scale-[0.98]">
                             <i class="fas fa-download text-base"></i>
-                            <span>Download CV</span>
+                            <span>下载技术项目简历</span>
                         </a>
                     </div>
                 </div>
@@ -374,15 +375,15 @@
                             <div class="flex flex-wrap gap-2 mt-5">
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 rounded-full text-sm font-medium">
                                     <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
-                                    GPA: <strong class="font-semibold">3.8/4.0</strong>
+                                    学业排名: <strong class="font-semibold">4/157</strong>
                                 </span>
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-academic-100 dark:bg-academic-800 text-academic-700 dark:text-academic-300 rounded-full text-sm">
                                     <span class="w-1.5 h-1.5 rounded-full bg-academic-400"></span>
-                                    Rank: <strong class="font-semibold">19/157</strong>
+                                    综测排名: <strong class="font-semibold">1/157</strong>
                                 </span>
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-academic-100 dark:bg-academic-800 text-academic-700 dark:text-academic-300 rounded-full text-sm">
                                     <span class="w-1.5 h-1.5 rounded-full bg-academic-400"></span>
-                                    预计毕业 2027
+                                    2025–2026 学年
                                 </span>
                             </div>
                         </div>
@@ -468,221 +469,79 @@
         </div>
     </section>
 
-    <!-- ==================== Research ==================== -->
-    <section id="research" class="py-20 md:py-28 bg-academic-50 dark:bg-academic-950/80">
+    <!-- ==================== Independent Projects ==================== -->
+    <section id="projects" class="py-20 md:py-28 bg-white dark:bg-academic-900/60">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
-
-            <div class="reveal-up mb-14" style="--i: 0">
+            <div class="reveal-up mb-12" style="--i: 0">
                 <div class="flex items-center gap-4">
-                    <span class="w-11 h-11 rounded-xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg flex-shrink-0">
-                        <i class="fas fa-flask"></i>
-                    </span>
-                    <div>
-                        <div class="font-geist-mono text-[11px] tracking-[0.25em] text-academic-400 dark:text-academic-500 uppercase">02 · Research</div>
-                        <h2 class="text-2xl font-bold text-academic-950 dark:text-white leading-tight">科研经历与论文发表</h2>
-                    </div>
+                    <span class="w-11 h-11 rounded-xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg flex-shrink-0"><i class="fas fa-code"></i></span>
+                    <div><div class="font-geist-mono text-[11px] tracking-[0.25em] text-academic-400 dark:text-academic-500 uppercase">02 · Projects</div><h2 class="text-2xl font-bold text-academic-950 dark:text-white leading-tight">独立开发项目</h2></div>
                 </div>
             </div>
-
-            <!-- 研究卡片列表 -->
-            <div class="space-y-6">
-
-                <!-- 论文卡片 1 -->
-                <!-- 示例数据卡片：替换为真实内容时，删掉 demo-card / demo-ribbon / demo-title 三个类即可 -->
-                <div class="research-card demo-card group reveal-up relative rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 md:p-8 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-0.5"
-                     style="--i: 1">
-                    <span class="demo-ribbon"><i class="fas fa-flask"></i> 示例数据</span>
-
-                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-5">
-                        <div>
-                            <h3 class="demo-title text-lg font-semibold text-academic-950 dark:text-white leading-snug">
-                                面向工具调用型 Agent 的记忆与反思机制设计
-                            </h3>
-                            <p class="text-sm text-academic-600 dark:text-academic-400 mt-1.5">
-                                <i class="fas fa-user-tie mr-1 text-academic-400"></i>
-                                指导老师：<span class="text-amber-700 dark:text-amber-400 font-medium">【待填·导师姓名】</span> 教授
-                                <span class="mx-2 text-academic-300 dark:text-academic-600">&middot;</span>
-                                <span class="text-indigo-600 dark:text-indigo-400">核心实现者 / 【待填·作者位次】</span>
-                            </p>
-                        </div>
-                        <div class="flex items-center gap-1.5 text-sm text-academic-500 dark:text-academic-400 whitespace-nowrap">
-                            <i class="far fa-calendar-alt"></i>
-                            <span>【待填·起始年月】 &ndash; 至今</span>
-                        </div>
-                    </div>
-
-                    <!-- Abstract 背景 -->
-                    <div class="bg-academic-100/60 dark:bg-academic-800/40 rounded-xl p-4 mb-5">
-                        <p class="text-sm text-academic-700 dark:text-academic-300 leading-relaxed">
-                            <strong class="text-academic-900 dark:text-white">研究问题：</strong>工具调用型 Agent 在多轮任务中重复犯同类错误、历史经验无法复用，
-                            <strong class="text-academic-900 dark:text-white">研究方法：</strong>设计「短期轨迹缓存 + 长期经验库」的双层记忆结构，引入基于失败案例的反思重写模块，
-                            <strong class="text-academic-900 dark:text-white">研究成果：</strong>在自建多工具任务集上任务成功率与平均步数均有改善（<span class="text-amber-700 dark:text-amber-400">具体数值待补</span>）。
-                        </p>
-                    </div>
-
-                    <div class="flex flex-wrap gap-3">
-                        <span class="inline-flex items-center gap-2 px-4 py-2 bg-academic-100 dark:bg-academic-800 text-academic-400 dark:text-academic-500 rounded-lg text-sm font-medium cursor-not-allowed"
-                              title="拿到 PDF 后替换为真实链接">
-                            <i class="fas fa-file-pdf text-sm"></i>PDF（待补）
-                        </span>
-                        <span class="inline-flex items-center gap-2 px-4 py-2 bg-academic-100 dark:bg-academic-800 text-academic-400 dark:text-academic-500 rounded-lg text-sm font-medium cursor-not-allowed"
-                              title="拿到仓库地址后替换为真实链接">
-                            <i class="fab fa-github text-sm"></i>Code（待补）
-                        </span>
-                    </div>
+            <p class="text-academic-600 dark:text-academic-400 leading-relaxed max-w-3xl mb-8">围绕学习、科研信息发现与学术写作，独立推进产品设计、系统实现和持续迭代。</p>
+            <div x-data="{ activeCategory: '全部', categories: portfolioData('zh').categories, projects: portfolioData('zh').projects, get filteredProjects() { return this.activeCategory === '全部' ? this.projects : this.projects.filter(p => p.category === this.activeCategory); } }"
+                 x-init="$watch('activeCategory', () => $nextTick(() => registerReveal()))">
+                <div class="flex flex-wrap gap-2 reveal-up" style="--i: 1" aria-label="筛选项目">
+                    <template x-for="cat in categories" :key="cat">
+                        <button type="button" @click="activeCategory = cat" :aria-pressed="activeCategory === cat"
+                                :class="activeCategory === cat ? 'bg-indigo-600 text-white shadow-sm' : 'bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-400 hover:bg-academic-200 dark:hover:bg-academic-700'"
+                                class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 active:scale-[0.97]" x-text="cat"></button>
+                    </template>
                 </div>
-
-                <!-- 论文卡片 2 -->
-                <!-- 示例数据卡片 2 -->
-                <div class="research-card demo-card group reveal-up relative rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 md:p-8 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-0.5"
-                     style="--i: 2">
-                    <span class="demo-ribbon"><i class="fas fa-flask"></i> 示例数据</span>
-
-                    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-5">
-                        <div>
-                            <h3 class="demo-title text-lg font-semibold text-academic-950 dark:text-white leading-snug">
-                                弱监督条件下的视觉目标定位方法研究
-                            </h3>
-                            <p class="text-sm text-academic-600 dark:text-academic-400 mt-1.5">
-                                <i class="fas fa-user-tie mr-1 text-academic-400"></i>
-                                指导老师：<span class="text-amber-700 dark:text-amber-400 font-medium">【待填·导师姓名】</span> 教授
-                                <span class="mx-2 text-academic-300 dark:text-academic-600">&middot;</span>
-                                <span class="text-indigo-600 dark:text-indigo-400">【待填·作者位次与状态：在投 / 在写】</span>
-                            </p>
-                        </div>
-                        <div class="flex items-center gap-1.5 text-sm text-academic-500 dark:text-academic-400 whitespace-nowrap">
-                            <i class="far fa-calendar-alt"></i>
-                            <span>【待填·起止年月】</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-academic-100/60 dark:bg-academic-800/40 rounded-xl p-4 mb-5">
-                        <p class="text-sm text-academic-700 dark:text-academic-300 leading-relaxed">
-                            <strong class="text-academic-900 dark:text-white">研究问题：</strong>仅有图像级标签时，模型易过拟合到目标最具判别力的局部区域而漏检整体，
-                            <strong class="text-academic-900 dark:text-white">研究方法：</strong>引入类激活图擦除与区域对比约束，迫使模型关注目标的完整空间范围，
-                            <strong class="text-academic-900 dark:text-white">研究成果：</strong>定位精度指标有提升（<span class="text-amber-700 dark:text-amber-400">数据集名称、具体数值与投稿状态待补</span>）。
-                        </p>
-                    </div>
-
-                    <div class="flex flex-wrap gap-3">
-                        <span class="inline-flex items-center gap-2 px-4 py-2 bg-academic-100 dark:bg-academic-800 text-academic-400 dark:text-academic-500 rounded-lg text-sm font-medium cursor-not-allowed">
-                            <i class="fas fa-file-pdf text-sm"></i>PDF（待补）
-                        </span>
-                        <span class="inline-flex items-center gap-2 px-4 py-2 bg-academic-100 dark:bg-academic-800 text-academic-400 dark:text-academic-500 rounded-lg text-sm font-medium cursor-not-allowed">
-                            <i class="fab fa-github text-sm"></i>Code（待补）
-                        </span>
-                    </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
+                    <template x-for="(project, idx) in filteredProjects" :key="project.name">
+                        <article class="project-card group reveal-up flex flex-col rounded-2xl overflow-hidden border border-academic-200/70 dark:border-academic-700/50 bg-academic-50/60 dark:bg-academic-900/40 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-1" :style="'--i: ' + (idx + 2)">
+                            <div class="flex items-center justify-between gap-3 px-6 py-5 border-b border-academic-200/60 dark:border-academic-700/40">
+                                <span class="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center"><i :class="'fas ' + project.icon" aria-hidden="true"></i></span>
+                                <span class="font-geist-mono text-xs text-academic-500 dark:text-academic-400" x-text="project.date"></span>
+                            </div>
+                            <div class="p-6 flex flex-col flex-1">
+                                <p class="text-xs font-medium text-indigo-600 dark:text-indigo-400 mb-2" x-text="project.role"></p>
+                                <h3 class="text-xl font-semibold text-academic-950 dark:text-white tracking-tight" x-text="project.name"></h3>
+                                <p class="text-sm text-academic-700 dark:text-academic-300 mt-1 mb-4" x-text="project.subtitle"></p>
+                                <p class="text-sm text-academic-600 dark:text-academic-400 leading-relaxed mb-5" x-text="project.description"></p>
+                                <ul class="space-y-2 mb-5">
+                                    <template x-for="item in project.highlights" :key="item"><li class="flex items-start gap-2 text-sm leading-relaxed text-academic-600 dark:text-academic-400"><span class="text-indigo-500 mt-0.5" aria-hidden="true">—</span><span x-text="item"></span></li></template>
+                                </ul>
+                                <div class="flex flex-wrap gap-1.5 mb-5"><template x-for="tag in project.tags" :key="tag"><span class="px-2 py-1 bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-300 rounded text-xs" x-text="tag"></span></template></div>
+                                <div class="mt-auto pt-5 border-t border-academic-200/60 dark:border-academic-700/40">
+                                    <p class="text-xs leading-relaxed text-academic-500 dark:text-academic-400 mb-3" x-text="project.status"></p>
+                                    <template x-if="!project.private"><a :href="project.url" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"><i class="fab fa-github" aria-hidden="true"></i>查看源码<span aria-hidden="true">↗</span></a></template>
+                                    <template x-if="project.private"><div class="flex flex-wrap items-center gap-3"><span class="inline-flex items-center gap-1.5 text-xs text-academic-500 dark:text-academic-400"><i class="fas fa-lock" aria-hidden="true"></i>私有仓库</span><a href="mailto:3530501407@qq.com?subject=Research%20Radar%20Demo" class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">联系我查看演示</a></div></template>
+                                </div>
+                            </div>
+                        </article>
+                    </template>
                 </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-academic-200/60 dark:border-academic-700/40 reveal-up" style="--i: 1" x-data="{ awards: portfolioData('zh').awards }">
+                <h3 class="text-sm font-semibold text-academic-900 dark:text-white mb-4">部分竞赛与荣誉</h3>
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3"><template x-for="award in awards" :key="award"><li class="flex items-start gap-2 text-sm text-academic-600 dark:text-academic-400"><span class="text-indigo-500" aria-hidden="true">·</span><span x-text="award"></span></li></template></ul>
             </div>
         </div>
     </section>
 
-    <!-- ==================== Projects & Awards ==================== -->
-    <section id="projects" class="py-20 md:py-28 bg-white dark:bg-academic-900/60">
+    <!-- ==================== Research ==================== -->
+    <section id="research" class="py-20 md:py-28 bg-academic-50 dark:bg-academic-950/80">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
-
-            <div class="reveal-up mb-14" style="--i: 0">
+            <div class="reveal-up mb-12" style="--i: 0">
                 <div class="flex items-center gap-4">
-                    <span class="w-11 h-11 rounded-xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg flex-shrink-0">
-                        <i class="fas fa-trophy"></i>
-                    </span>
-                    <div>
-                        <div class="font-geist-mono text-[11px] tracking-[0.25em] text-academic-400 dark:text-academic-500 uppercase">03 · Projects</div>
-                        <h2 class="text-2xl font-bold text-academic-950 dark:text-white leading-tight">竞赛与项目</h2>
-                    </div>
+                    <span class="w-11 h-11 rounded-xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg flex-shrink-0"><i class="fas fa-flask"></i></span>
+                    <div><div class="font-geist-mono text-[11px] tracking-[0.25em] text-academic-400 dark:text-academic-500 uppercase">03 · Research</div><h2 class="text-2xl font-bold text-academic-950 dark:text-white leading-tight">研究经历</h2></div>
                 </div>
             </div>
-
-            <!-- 分类筛选 + 项目网格 -->
-            <div x-init="$watch('activeCategory', () => $nextTick(() => registerReveal()))" x-data="{
-                activeCategory: 'all',
-                categories: ['all', '机器学习', '全栈开发', '数学建模', '嵌入式系统'],
-                // ------------------------------------------------------------
-                // 示例数据：等级（level）与分类（category）沿用真实结构，
-                // 名称与描述均为占位，替换时把「【示例·…】」整体换成真实内容即可。
-                // 名称里含「【示例】」字样的卡片会自动挂上琥珀色角标与虚线边框。
-                // ------------------------------------------------------------
-                projects: [
-                    { name: '【示例·人工智能算法类竞赛】', level: '国家级一等奖', description: '【示例】面向真实场景的多模态检索系统，负责模型选型与检索排序模块，决赛中承担系统演示。', tags: ['Python','PyTorch','多模态检索'], category: '机器学习',       image: 'assets/img/project-ml-01.jpg' },
-                    { name: '【示例·创新创业类竞赛】',     level: '省级金奖',     description: '【示例】面向科研场景的 Agent 工作流平台，负责前后端整体架构与任务编排引擎实现。',   tags: ['React','Node.js','Agent'],   category: '全栈开发',       image: 'assets/img/project-web-01.jpg' },
-                    { name: '【示例·数学建模类竞赛】',     level: '省级一等奖',   description: '【示例】负责建模与求解，构建多目标优化模型并用启发式算法求解，撰写论文建模部分。',     tags: ['MATLAB','优化算法','论文写作'], category: '数学建模',  image: 'assets/img/project-math-01.jpg' },
-                    { name: '【示例·嵌入式设计类竞赛】',   level: '校级特等奖',   description: '【示例】基于嵌入式平台的实时推理部署，负责模型量化压缩与端侧推理加速。',             tags: ['STM32','C','模型部署'],      category: '嵌入式系统',     image: 'assets/img/project-embed-01.jpg' },
-                    { name: '【示例·计算机视觉类竞赛】',   level: '国家级二等奖', description: '【示例】视觉检测方向，负责数据增强策略设计与检测模型训练调优。',                       tags: ['Python','TensorFlow','目标检测'], category: '机器学习',  image: 'assets/img/project-ml-01.jpg' },
-                    { name: '【示例·大创 / 科研项目】',    level: '省级银奖',     description: '【示例】课题为 Agent 方向的工具调用框架，负责原型系统开发与实验评估。',               tags: ['Vue.js','Flask','MySQL'],    category: '全栈开发',       image: '' }
-                ],
-                get filteredProjects() {
-                    return this.activeCategory === 'all'
-                        ? this.projects
-                        : this.projects.filter(p => p.category === this.activeCategory);
-                }
-            }">
-
-                <!-- 分类标签 -->
-                <div class="flex flex-wrap gap-2 reveal-up" style="--i: 1">
-                    <template x-for="cat in categories" :key="cat">
-                        <button @click="activeCategory = cat"
-                                :class="activeCategory === cat
-                                    ? 'bg-indigo-600 text-white shadow-sm'
-                                    : 'bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-400 hover:bg-academic-200 dark:hover:bg-academic-700'"
-                                class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 active:scale-[0.97]">
-                            <span x-text="cat"></span>
-                        </button>
-                    </template>
-                </div>
-
-                <!-- 项目网格 -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
-                    <template x-for="(project, idx) in filteredProjects" :key="project.name">
-                        <!-- 名称含「【示例】」时自动挂上 demo-card（虚线边框）与琥珀色角标。
-                             替换成真实内容后这两个标识会自动消失，无需改代码 -->
-                        <div class="project-card group reveal-up relative rounded-2xl overflow-hidden border border-academic-200/60 dark:border-academic-700/40 bg-white/60 dark:bg-academic-900/40 backdrop-blur-sm transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark hover:-translate-y-1"
-                             :class="{ 'demo-card': isDemo(project.name) }"
-                             :style="'--i: ' + (idx + 2)">
-
-                            <span x-show="isDemo(project.name)" class="demo-ribbon">
-                                <i class="fas fa-flask"></i> 示例
-                            </span>
-
-                            <!-- 图片/占位区域 -->
-                            <div class="h-40 overflow-hidden relative">
-                                <div x-show="project.image" class="h-full">
-                                    <img :src="project.image" :alt="project.name" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async">
-                                </div>
-                                <div x-show="!project.image" class="h-full bg-gradient-to-br from-academic-100 to-academic-200 dark:from-academic-800 dark:to-academic-900 flex items-center justify-center">
-                                    <i class="fas fa-project-diagram text-3xl text-academic-400 dark:text-academic-600"></i>
-                                </div>
-
-                                <!-- 级别标签浮于图片底部 -->
-                                <div class="absolute bottom-3 left-3">
-                                    <span class="inline-block px-2.5 py-0.5 bg-amber-100/90 dark:bg-amber-900/60 text-amber-800 dark:text-amber-300 rounded-full text-xs font-semibold backdrop-blur-sm"
-                                          x-text="project.level"></span>
-                                </div>
-                            </div>
-
-                            <!-- 信息区 -->
-                            <div class="p-5">
-                                <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-2 leading-snug"
-                                    x-text="project.name"></h3>
-                                <p class="text-sm text-academic-600 dark:text-academic-400 mb-4 leading-relaxed line-clamp-2"
-                                   x-text="project.description"></p>
-
-                                <!-- 技术栈标签 -->
-                                <div class="flex flex-wrap gap-1.5">
-                                    <template x-for="tag in project.tags" :key="tag">
-                                        <span class="px-2 py-0.5 bg-academic-100 dark:bg-academic-800 text-academic-600 dark:text-academic-400 rounded text-xs font-medium"
-                                              x-text="tag"></span>
-                                    </template>
-                                </div>
-                            </div>
+            <div class="space-y-6" x-data="{ research: portfolioData('zh').research }">
+                <template x-for="(item, idx) in research" :key="item.name">
+                    <article class="research-card reveal-up rounded-2xl bg-white/70 dark:bg-academic-900/50 border border-academic-200/60 dark:border-academic-700/40 p-6 md:p-8" :style="'--i: ' + (idx + 1)">
+                        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-5">
+                            <div><h3 class="text-lg font-semibold text-academic-950 dark:text-white leading-snug" x-text="item.name"></h3><p class="text-sm text-indigo-600 dark:text-indigo-400 mt-2" x-text="item.role"></p></div>
+                            <p class="font-geist-mono text-xs text-academic-500 dark:text-academic-400 whitespace-nowrap" x-text="item.date"></p>
                         </div>
-                    </template>
-                </div>
-
-                <!-- 空状态 -->
-                <div x-show="filteredProjects.length === 0" class="text-center py-16 text-academic-400 dark:text-academic-600">
-                    <i class="fas fa-inbox text-4xl mb-4"></i>
-                    <p class="text-sm">该分类下暂无项目</p>
-                </div>
+                        <p class="text-sm text-academic-700 dark:text-academic-300 leading-relaxed bg-academic-100/60 dark:bg-academic-800/40 rounded-xl p-4 mb-4" x-text="item.description"></p>
+                        <p class="text-sm text-academic-600 dark:text-academic-400 leading-relaxed mb-5" x-text="item.contribution"></p>
+                        <div class="flex flex-wrap gap-2"><template x-for="tag in item.tags" :key="tag"><span class="px-2.5 py-1 rounded-full text-xs bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300" x-text="tag"></span></template></div>
+                    </article>
+                </template>
             </div>
         </div>
     </section>
@@ -958,141 +817,20 @@
     <!-- ==================== Skills ==================== -->
     <section id="skills" class="py-20 md:py-28 bg-academic-50 dark:bg-academic-950/80">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
-
-            <div class="reveal-up mb-14" style="--i: 0">
+            <div class="reveal-up mb-12" style="--i: 0">
                 <div class="flex items-center gap-4">
-                    <span class="w-11 h-11 rounded-xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg flex-shrink-0">
-                        <i class="fas fa-layer-group"></i>
-                    </span>
-                    <div>
-                        <div class="font-geist-mono text-[11px] tracking-[0.25em] text-academic-400 dark:text-academic-500 uppercase">06 · Skills</div>
-                        <h2 class="text-2xl font-bold text-academic-950 dark:text-white leading-tight">技能特长</h2>
-                    </div>
+                    <span class="w-11 h-11 rounded-xl bg-indigo-600/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg flex-shrink-0"><i class="fas fa-layer-group"></i></span>
+                    <div><div class="font-geist-mono text-[11px] tracking-[0.25em] text-academic-400 dark:text-academic-500 uppercase">06 · Skills</div><h2 class="text-2xl font-bold text-academic-950 dark:text-white leading-tight">技术技能</h2></div>
                 </div>
             </div>
-
-            <!-- 技能三大分组 -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                <!-- Languages -->
-                <div class="skill-card reveal-up rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark"
-                     style="--i: 1">
-                    <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-5 flex items-center gap-2">
-                        <i class="fas fa-keyboard text-sm text-academic-400"></i>
-                        编程语言
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">Python</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">熟练</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="90"></div></div>
-
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">C / C++</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">熟练</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="80"></div></div>
-
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">JavaScript</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="65"></div></div>
-
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">MATLAB</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="70"></div></div>
-
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">LaTeX</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">熟练</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="85"></div></div>
-                    </div>
-                </div>
-
-                <!-- Frameworks & Tools -->
-                <div class="skill-card reveal-up rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark"
-                     style="--i: 2">
-                    <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-5 flex items-center gap-2">
-                        <i class="fas fa-tools text-sm text-academic-400"></i>
-                        框架与工具
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">PyTorch</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">熟练</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="88"></div></div>
-
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">TensorFlow</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="70"></div></div>
-
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">NumPy / Pandas</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">熟练</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="85"></div></div>
-
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">Git / Linux</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">熟练</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="80"></div></div>
-
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">React / Flask</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="60"></div></div>
-                    </div>
-                </div>
-
-                <!-- Domain Software -->
-                <div class="skill-card reveal-up rounded-2xl bg-white/70 dark:bg-academic-900/50 backdrop-blur-sm border border-academic-200/60 dark:border-academic-700/40 p-6 transition-all duration-300 hover:shadow-glass dark:hover:shadow-glass-dark"
-                     style="--i: 3">
-                    <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-5 flex items-center gap-2">
-                        <i class="fas fa-flask text-sm text-academic-400"></i>
-                        专业软件
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">MATLAB / Simulink</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="72"></div></div>
-
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">AutoCAD</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="60"></div></div>
-
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">Vivado</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">了解</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="45"></div></div>
-
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">Multisim</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">掌握</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="65"></div></div>
-
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-academic-700 dark:text-academic-300">Docker</span>
-                            <span class="text-xs text-academic-400 dark:text-academic-600 font-geist-mono">了解</span>
-                        </div>
-                        <div class="skill-progress"><div class="skill-progress-bar" data-width="50"></div></div>
-                    </div>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" x-data="{ skills: portfolioData('zh').skills }">
+                <template x-for="(skill, idx) in skills" :key="skill.name">
+                    <article class="skill-card reveal-up rounded-2xl bg-white/70 dark:bg-academic-900/50 border border-academic-200/60 dark:border-academic-700/40 p-6" :style="'--i: ' + (idx + 1)">
+                        <h3 class="text-base font-semibold text-academic-950 dark:text-white mb-3 flex items-center gap-2"><i :class="'fas ' + skill.icon + ' text-indigo-500'" aria-hidden="true"></i><span x-text="skill.name"></span></h3>
+                        <p class="text-sm text-academic-500 dark:text-academic-400 leading-relaxed mb-6" x-text="skill.description"></p>
+                        <ul class="space-y-3"><template x-for="item in skill.items" :key="item"><li class="text-sm text-academic-700 dark:text-academic-300 border-t border-academic-200/60 dark:border-academic-700/40 pt-3" x-text="item"></li></template></ul>
+                    </article>
+                </template>
             </div>
         </div>
     </section>
@@ -1346,9 +1084,9 @@
             return {
                 typed: '',
                 lines: [
-                    '正在精读：ReAct —— 推理与行动的交替范式',
-                    '正在复现：最小 Agent Loop · HotpotQA 20 条样本',
-                    '正在搭建：个人门户与科研日报体系'
+                    '构建：StudyClaw · 本地优先的学习助手',
+                    '构建：Research Radar · 个性化论文发现',
+                    '构建：ScholarFlow · 证据驱动的学术写作'
                 ],
                 li: 0, ci: 0, deleting: false,
                 start() {
